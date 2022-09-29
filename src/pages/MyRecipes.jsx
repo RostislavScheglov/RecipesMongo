@@ -1,19 +1,21 @@
 import axios from "../axios";
-import { useEffect } from "react";
-import { useDispatch, useSelector} from "react-redux";
-import { getMyRecipes } from '../redux/slices/recipes';
+import { useEffect, useState } from "react";
+import { useSelector} from "react-redux";
 import { Link, Navigate } from 'react-router-dom'
 import { isAuthUser } from "../redux/slices/users";
 
 
 export function MyRecipes(){
-    const dispatch = useDispatch();
+
     const isAuth = useSelector(isAuthUser);
-    const {items} = useSelector((state) => state.recipie);
-    
+    const [items, setItem] = useState();
+    const [isLoading, setLoading] = useState(true);
+
+
     const fetchMyRecipes = async () =>{
         const { data } = await axios.get('/recipes/myrecipes')
-        dispatch(getMyRecipes(data))
+        setItem(data)
+        setLoading(false)
     }
 
 
@@ -25,6 +27,10 @@ export function MyRecipes(){
         return <Navigate to='/auth/login'/>
     }
 
+    if(isLoading){
+        return <>Loading...</>
+    }
+    
     return(
         <div>
             <div>{items.map((item) =>

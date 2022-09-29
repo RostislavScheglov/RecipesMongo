@@ -1,5 +1,5 @@
 import axios from '../axios';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useState } from 'react'
 import { isAuthUser } from '../redux/slices/users';
 import { useForm } from 'react-hook-form'; 
@@ -9,24 +9,23 @@ import InputAdornment from '@mui/material/InputAdornment';
 import * as React from 'react';
 import Add from '@mui/icons-material/Add';
 import Delete from '@mui/icons-material/Delete';
-import { getNewRecipe } from '../redux/slices/recipes';
 
 
 export function NewRecipe(){
 
-    const dispatch = useDispatch();
     const isAuth = useSelector(isAuthUser);
     const [err, setErr] = useState();
     const [isErr, setIsErr] = useState(false);
+    const [isCreated, setIsCreated] = useState(false);
     const [ingredients, setIngredient] = useState([]);
 
    
     const createNewRecipe = async (params) =>{
             params.ingredients = ingredients;
             axios.post('/recipes', params).then((res) =>{
-            dispatch(getNewRecipe(res.data))
             reset();
             setIngredient([])
+            setIsCreated(true)
             }).catch((err) =>{
                 if('message' in err.response.data){
                     setErr([err.response.data.message])
@@ -46,7 +45,7 @@ export function NewRecipe(){
 
     
     const {register, handleSubmit, getValues, resetField, setError, reset,
-        formState:{errors, isValid}
+        formState:{errors}
     } = useForm({
         defaultValues:{
             title:'',
@@ -59,6 +58,11 @@ export function NewRecipe(){
     if(!isAuth){
         return <Navigate to='/auth/login'/>
     }
+
+    if(isCreated){
+        return <Navigate to='/recipes/myrecipes'/>
+    }
+
 
     return(
         <>

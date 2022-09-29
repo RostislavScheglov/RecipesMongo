@@ -1,10 +1,10 @@
-import recipieModel from '../models/Recipe.js';
+import recipeModel from '../models/Recipe.js';
 import mongoose from 'mongoose';
 import { validationResult } from 'express-validator';
 
 export const getAll = async (req, res) => {
     try{
-        const recipes = await recipieModel.find().populate('author').exec();
+        const recipes = await recipeModel.find().populate('author').exec();
         if(recipes !== null && recipes !== undefined){
            return res.send(recipes);
         }
@@ -19,7 +19,7 @@ export const getAll = async (req, res) => {
 
 export const getFavourite = async (req, res) => {
     try{
-        const recipes = await recipieModel.find({likedBy:{'$in':[req.userId]}}).populate('author').exec();
+        const recipes = await recipeModel.find({likedBy:{'$in':[req.userId]}}).populate('author').exec();
         if(recipes !== null && recipes !== undefined){
            return res.send(recipes);
         }
@@ -34,7 +34,7 @@ export const getFavourite = async (req, res) => {
 
 export const getBySearch = async (req, res) => {
     try{
-        const recipes = await recipieModel.find({title: {'$regex': req.body.search}}).populate('author').exec();
+        const recipes = await recipeModel.find({title: {'$regex': req.body.search}}).populate('author').exec();
         if(recipes !== null && recipes !== undefined){
            return res.send(recipes);
         }
@@ -50,7 +50,7 @@ export const getBySearch = async (req, res) => {
 export const getMyRecipes = async (req, res) => {
     try{
         const convertedId = mongoose.Types.ObjectId(req.userId);
-        const recipes = await recipieModel.find({author: convertedId});
+        const recipes = await recipeModel.find({author: convertedId});
         if(recipes !== null && recipes !== undefined){
            return res.send(recipes);
         }
@@ -66,7 +66,7 @@ export const getMyRecipes = async (req, res) => {
 
 export const getOne = async (req, res) => {
     try{
-        recipieModel.findOneAndUpdate({
+        recipeModel.findOneAndUpdate({
             _id: req.params.id
         },
         {
@@ -79,12 +79,12 @@ export const getOne = async (req, res) => {
             if(err){
                 console.log(err);
                 return res.status(400).json({
-                    message: 'Cant get recipie'
+                    message: 'Cant get recipe'
                 })
             }
             if(!doc){
                 return res.status(404).json({
-                    message: 'Cant find recipie'
+                    message: 'Cant find recipe'
                 })
             }
             res.send(doc);
@@ -92,7 +92,7 @@ export const getOne = async (req, res) => {
     }catch(err){
         console.log(err);
         res.status(500).json({
-            message: 'Cant get recipie'
+            message: 'Cant get recipe'
         })
     }
 }
@@ -103,13 +103,13 @@ export const create = async (req, res) => {
         if(!errors.isEmpty()){
             return res.status(400).json(errors);
         }
-        const recipeExists = await recipieModel.findOne({title:req.body.title})
+        const recipeExists = await recipeModel.findOne({title:req.body.title})
         if(recipeExists){
             return res.status(400).json({
                 message: "Recipe with this title exists"
             })
         }
-        const doc = new recipieModel({
+        const doc = new recipeModel({
             title: req.body.title,
             recipeImage: req.body.recipeImage,
             ingredients: req.body.ingredients,
@@ -128,32 +128,32 @@ export const create = async (req, res) => {
 
 export const remove = async (req, res) => {
     try{
-        recipieModel.findOneAndDelete({_id: req.params.id},
+        recipeModel.findOneAndDelete({_id: req.params.id},
             (err, doc) => {
                 if(err){
                     console.log(err);
                     return res.status(400).json({
-                        message: 'Cant delete recipie'
+                        message: 'Cant delete recipe'
                     })
                 }
                 if(!doc){
                     return res.status(404).json({
-                        message: 'Cant find recipie'
+                        message: 'Cant find recipe'
                     })
                 }
             })
-        res.send('Recipie was successfully deleted');
+        res.send('Recipe was successfully deleted');
     }catch(err){
         console.log(err);
         res.status(400).json({
-            message: 'Cant delete recipie'
+            message: 'Cant delete recipe'
         })
     }
 }
 
 export const update = async (req, res) => {
     try{
-        recipieModel.findOneAndUpdate({_id: req.params.id},
+        recipeModel.findOneAndUpdate({_id: req.params.id},
             {
                 title: req.body.title,
                 recipeImage: req.body.recipeImage,
@@ -165,20 +165,20 @@ export const update = async (req, res) => {
                 if(err){
                     console.log(err);
                     return res.status(400).json({
-                        message: 'Cant update recipie'
+                        message: 'Cant update recipe'
                     })
                 }
                 if(!doc){
                     return res.status(404).json({
-                        message: 'Cant find recipie'
+                        message: 'Cant find recipe'
                     })
                 }
             })
-        res.send('Recipie was successfully Updated');
+        res.send('Recipe was successfully Updated');
     }catch(err){
         console.log(err);
         res.status(400).json({
-            message: 'Cant update recipie'
+            message: 'Cant update recipe'
         })
     }
 }

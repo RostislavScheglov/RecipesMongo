@@ -3,16 +3,19 @@ import { useEffect, useState } from "react";
 import axios from "../axios";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userId } from "../redux/slices/users";
 import { Box, Button, Modal, Typography } from '@mui/material';
 import { style } from "./Header";
-import { setRecipe } from "../redux/slices/recipes";
+import { isDeleted, setRecipe } from "../redux/slices/recipes";
 
 export function FullRecipe(){
 
-    const [item, setItem] = useState();
-    const [isLoading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+
+    const {items} = useSelector((state) => state.recipes);
+    const isDelete = useSelector(isDeleted);
+
     const [open, setOpen] = useState(false);
     const {id} = useParams();
     const userInfo = useSelector((userId))
@@ -21,9 +24,7 @@ export function FullRecipe(){
     
     useEffect(() =>{
          axios.get(`/recipes/${id}`).then((res) =>{
-            setItem(res.data)
-            setRecipe(res.data)
-            setLoading(false)
+            dispatch(setRecipe(res.data))
             }).catch((err) =>{
                 alert('Error while loading recipe')
                 console.warn(err)
@@ -33,27 +34,24 @@ export function FullRecipe(){
     
     const fetchDeleteRecipe = (id)=>{
         axios.delete(`/recipes/${id}`).then(()=>{
-            setItem([])
-        }).catch((err) =>{
-            alert('Error while deleting recipe')
-            console.warn(err)
-        })
+            dispatch(setRecipe([]))
+            }).catch((err) =>{
+                alert('Error while deleting recipe')
+                console.warn(err)
+            })
     }
+
     const handleDelete = (id) =>{
         fetchDeleteRecipe(id)
         setOpen(false)
     }
 
     const showState = ()=>{
-            console.log(item);
+            console.log(isDelete);
         }
     
 
-    if(isLoading){
-        return <div>Loading recipe...</div>
-    }
-
-    if(item.length===0){
+    if(!isDelete){
         return <Navigate to='/recipes/myrecipes' replace={true}/>
     }
 
@@ -61,26 +59,26 @@ export function FullRecipe(){
         <div>
             <div>
                 <div>
-                    { userInfo === item.author ? 
+                    { userInfo === items.author ? 
                         <EditOutlinedIcon 
                             onClick = {()=>showState()}
                         /> : null
                     }
-                    { userInfo === item.author ? 
+                    { userInfo === items.author ? 
                         <DeleteForeverIcon 
                             onClick = {()=>setOpen(true)}
                         /> : null
                     }
-                    <div id="Title">{item.title}</div> 
-                    <div id="img">{item.recipeImage}</div>
-                    <div id="Description">{item.description}</div>
-                    <div id="Ingredients">{item.ingredients.map((ingredient, index) =>
+                    <div id="Title">{items.title}</div> 
+                    <div id="img">{items.recipeImage}</div>
+                    <div id="Description">{items.description}</div>
+                    <div id="Ingredients">{items.ingredients?.map((ingredient, index) =>
                         <li key = {index}>{ingredient}</li>)}
                     </div>
-                    <div id="Author">{item.author.userName}</div>
-                    <div id="CreatedAt">{item.createdAt}</div>
-                    <div id="Views Count">{item.viewsCount}</div>
-                    <div id="Likes Count">{item.likesCount}</div> 
+                    <div id="Author">{items.author?.userName}</div>
+                    <div id="CreatedAt">{items.createdAt}</div>
+                    <div id="Views Count">{items.viewsCount}</div>
+                    <div id="Likes Count">{items.likesCount}</div> 
                 </div>
             </div>
             <Modal

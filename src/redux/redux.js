@@ -5,7 +5,7 @@ import { authReducer } from './slices/users';
 
 const store = configureStore({
     reducer:{
-        recipie: recipeReducer,
+        recipes: recipeReducer,
         auth: authReducer
     }
 })

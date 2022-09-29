@@ -1,20 +1,20 @@
 import axios from "../axios";
-import { useEffect } from "react";
-import { useDispatch, useSelector} from "react-redux";
-import { getFavRecipes } from '../redux/slices/recipes';
+import { useEffect, useState } from "react";
+import { useSelector} from "react-redux";
 import { Link, Navigate } from 'react-router-dom'
 import { isAuthUser } from "../redux/slices/users";
 
 
 export function Favourites(){
 
-    const dispatch = useDispatch();
     const isAuth = useSelector(isAuthUser);
-    const {items} = useSelector((state) => state.recipie);
-    
+    const [items, setItem] = useState();
+    const [isLoading, setLoading] = useState(true);
+
     const fetchFavourites = async () =>{
         const { data } = await axios.get('/recipes/favourites')
-        dispatch(getFavRecipes(data))
+        setItem(data)
+        setLoading(false)
     }
 
     useEffect(() =>{
@@ -25,6 +25,9 @@ export function Favourites(){
         return <Navigate to='/auth/login'/>
     }
 
+    if(isLoading){
+        return <>Loading...</>
+    }
     return(
         <div>
             <div>{items.map((item) =>

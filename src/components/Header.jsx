@@ -35,7 +35,7 @@ export function Header (){
         <div>
             <Link to='/'>Home</Link>
             <Link to='/recipes/favourites'>Favourites</Link>
-            <Link to='/recipes/myrecipes'>My recipies</Link>
+            <Link to='/recipes/myrecipes'>My recipes</Link>
             <Link to='/recipes/newrecipe'>New Recipe</Link>
             {isAuth ? 
                 null:
