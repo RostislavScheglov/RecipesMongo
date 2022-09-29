@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import axios from './axios';
 import { useDispatch } from 'react-redux';
 import { getMeInfo } from './redux/slices/users';
+import { EditRecipe } from './pages/EditRecipe';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
             <Route path="/recipes/myrecipes" element = {<MyRecipes/>} />
             <Route path="/recipes/newrecipe" element = {<NewRecipe/>} />
             <Route path="/recipes/:id" element = {<FullRecipe/>} />
+            <Route path="/recipes/edit/:id" element = {<EditRecipe/>} />
         </Routes>
     </div>
   );

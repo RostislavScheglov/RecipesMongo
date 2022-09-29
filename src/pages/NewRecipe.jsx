@@ -126,5 +126,5 @@ export function NewRecipe(){
             </form>
         </>
     )
-}                                    
+}
 

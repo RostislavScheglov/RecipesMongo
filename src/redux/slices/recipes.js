@@ -26,5 +26,5 @@ const recipeSlice = createSlice({
     }
 })
 export const getRecipeInfo = (state) => state.recipes.items
-export const isDeleted = (state) => Boolean(state.recipes.items)
+export const isDeleted = (state) => state.recipes.items
 export const recipeReducer = recipeSlice.reducer;

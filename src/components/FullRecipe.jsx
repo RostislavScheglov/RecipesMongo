@@ -12,47 +12,45 @@ import { isDeleted, setRecipe } from "../redux/slices/recipes";
 export function FullRecipe(){
 
     const dispatch = useDispatch();
-
     const {items} = useSelector((state) => state.recipes);
     const isDelete = useSelector(isDeleted);
-
     const [open, setOpen] = useState(false);
     const {id} = useParams();
-    const userInfo = useSelector((userId))
+    const userInfo = useSelector((userId));
+    const [isEdit, setIsEdit] = useState(false);
 
-
-    
-    useEffect(() =>{
-         axios.get(`/recipes/${id}`).then((res) =>{
-            dispatch(setRecipe(res.data))
-            }).catch((err) =>{
+    const getOneRecipe = async (id)=>{
+        const {data} = await axios.get(`/recipes/${id}`)
+            .catch((err) =>{
                 alert('Error while loading recipe')
                 console.warn(err)
             })
-    },[]);
-
+        dispatch(setRecipe(data))
+    }
     
-    const fetchDeleteRecipe = (id)=>{
-        axios.delete(`/recipes/${id}`).then(()=>{
-            dispatch(setRecipe([]))
-            }).catch((err) =>{
+    const fetchDeleteRecipe = async (id)=>{
+       await axios.delete(`/recipes/${id}`)
+            .catch((err) =>{
                 alert('Error while deleting recipe')
                 console.warn(err)
             })
-    }
-
-    const handleDelete = (id) =>{
-        fetchDeleteRecipe(id)
+        dispatch(setRecipe())
         setOpen(false)
     }
 
     const showState = ()=>{
             console.log(isDelete);
         }
-    
+
+    useEffect(() =>{
+        getOneRecipe(id)
+    },[]);
 
     if(!isDelete){
         return <Navigate to='/recipes/myrecipes' replace={true}/>
+    }
+    if(isEdit){
+        return <Navigate to= {`/recipes/edit/${id}`} replace={true}/>
     }
 
     return(
@@ -61,7 +59,7 @@ export function FullRecipe(){
                 <div>
                     { userInfo === items.author ? 
                         <EditOutlinedIcon 
-                            onClick = {()=>showState()}
+                            onClick = {()=>setIsEdit(true)}
                         /> : null
                     }
                     { userInfo === items.author ? 
@@ -88,7 +86,7 @@ export function FullRecipe(){
                 <Box sx={style}>
                     <Typography><h2>Are u sure you want to DELETE recipe?</h2></Typography>
                     <Button onClick={()=>setOpen(false)}>No</Button>
-                    <Button onClick={()=>handleDelete(id)}>Yes</Button>
+                    <Button onClick={()=>fetchDeleteRecipe(id)}>Yes</Button>
                 </Box>
             </Modal>
         </div>
