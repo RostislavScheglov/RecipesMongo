@@ -1,6 +1,6 @@
 import axios from '../axios';
 import { useSelector } from "react-redux";
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { isAuthUser } from '../redux/slices/users';
 import { useForm } from 'react-hook-form'; 
 import { Navigate } from 'react-router-dom'
@@ -18,6 +18,7 @@ export function NewRecipe(){
     const [isErr, setIsErr] = useState(false);
     const [isCreated, setIsCreated] = useState(false);
     const [ingredients, setIngredient] = useState([]);
+    const inputRef = useRef(null)
 
    
     const createNewRecipe = async (params) =>{
@@ -53,7 +54,9 @@ export function NewRecipe(){
             ingredients:'',
         },
     });
-
+    const fetchImg = async(event)=>{
+        console.log(event.target.files);
+    } 
 
     if(!isAuth){
         return <Navigate to='/auth/login'/>
@@ -69,6 +72,7 @@ export function NewRecipe(){
             <>
                 {isErr ? <div>{err.map((err, index) =><Alert key={index} severity="error">{err}</Alert>)}</div>:null}
             </>
+
             <form onSubmit={handleSubmit(createNewRecipe)}>
                 <TextField 
                     type='text' 
@@ -78,6 +82,15 @@ export function NewRecipe(){
                     helperText={errors.title?.message} 
                     {...register('title', {required:'Title required'})}
                 />
+
+                <input type="file" 
+                     id="myFile" 
+                     name="filename" 
+                     hidden='true' 
+                     ref={inputRef}
+                     onChange={fetchImg}
+                     />
+                <Button onClick={() => inputRef.current.click()} variant="outlined">Load Picture</Button>
                 <TextField 
                     type='text' 
                     variant='standard'

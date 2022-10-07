@@ -56,7 +56,7 @@ export function EditRecipe(){
     });
 
     if(isRedirect){
-        return <Navigate to='/recipes/myrecipes'/>
+        return <Navigate to={`/recipes/${id}`}/>
     }
 
     return(
@@ -118,13 +118,13 @@ export function EditRecipe(){
                         </Delete></li>)}
                     </ol>
                 </div>
-                {/* <Button 
+                <Button 
                     type='submit' 
                     variant="outlined"
                     onClick={()=>setIsRedirect(true)}
                 >    
                     Cancle
-                </Button> */}
+                </Button>
                 <Button type='submit' variant="outlined">Edit</Button>
             </form>
         </>
