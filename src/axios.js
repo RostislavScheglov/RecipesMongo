@@ -1,13 +1,12 @@
-import axios from 'axios';
+import axios from 'axios'
 
-
+export const domain = 'http://localhost:4000'
 const instance = axios.create({
-    baseURL: 'http://localhost:4000'
-});
-
-
-instance.interceptors.request.use((config)=>{
-    config.headers.Session = window.sessionStorage.getItem('token')
-    return config
+  baseURL: domain,
 })
-export default instance;
+
+instance.interceptors.request.use((config) => {
+  config.headers.Session = window.sessionStorage.getItem('token')
+  return config
+})
+export default instance
