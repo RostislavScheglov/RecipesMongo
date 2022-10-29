@@ -143,10 +143,9 @@ export const create = async (req, res) => {
         message: 'Recipe with this title exists',
       })
     }
-    const imgUrl = req.files.img[0].path.replace('\\', '/')
     const doc = new recipeModel({
       title: req.body.title,
-      recipeImage: imgUrl,
+      recipeImage: null,
       ingredients: req.body.ingredients,
       description: req.body.description,
       author: req.userId,
@@ -159,6 +158,29 @@ export const create = async (req, res) => {
       message: 'Cant create recipe',
     })
   }
+}
+
+export const uploadUrl = async (req, res) => {
+  const imgUrl = req.files.img[0].path.replace('\\', '/')
+  recipeModel.findOneAndUpdate(
+    { _id: req.body.id },
+    {
+      recipeImage: imgUrl,
+    },
+    (err, doc) => {
+      if (err) {
+        console.log(err)
+        return res.status(400).json({
+          message: 'Cant update imgUrl',
+        })
+      }
+      if (!doc) {
+        return res.status(404).json({
+          message: 'Cant find recipe',
+        })
+      }
+    }
+  )
 }
 
 export const remove = async (req, res) => {

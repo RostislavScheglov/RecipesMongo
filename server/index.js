@@ -18,10 +18,12 @@ import {
   getMyRecipes,
   getBySearch,
   deleteImg,
+  uploadUrl,
 } from './routes/recipesActions.js'
 import checkSession from './middleware/checkSession.js'
 import cors from 'cors'
 import multer from 'multer'
+import { validationResult } from 'express-validator'
 
 const app = express()
 const port = config.serverPort
@@ -41,7 +43,16 @@ const storage = multer.diskStorage({
   },
 })
 
-export const upload = multer({ storage })
+// const multerFilter = (req, file, cb) => {
+//   const errors = validationResult(req)
+//   if (!errors.isEmpty()) {
+//     cb(new Error(errors), false)
+//   } else {
+//     cb(null, true)
+//   }
+// }
+
+export const upload = multer({ storage: storage })
 
 app.use(express.json())
 app.use(cors())
@@ -54,14 +65,8 @@ app.post('/auth/me', checkSession, getMe)
 app.get('/recipes', getAll)
 app.get('/search', getBySearch)
 
-app.post(
-  '/recipes',
-  checkSession,
-  upload.fields([{ name: 'img', maxCount: 1 }]),
-  recipeValidation,
-  create
-)
-
+app.post('/recipes', checkSession, recipeValidation, create)
+app.post('/upload', upload.fields([{ name: 'img', maxCount: 1 }]), uploadUrl)
 app.get('/recipes/favourites', checkSession, getFavourite)
 app.get('/recipes/myrecipes', checkSession, getMyRecipes)
 app.get('/recipes/:id', getOne)

@@ -21,15 +21,14 @@ export function NewRecipe() {
   const inputRef = useRef(null)
 
   const createNewRecipe = async (params) => {
+    params.ingredients = ingredients
     const formData = new FormData()
-    formData.append('title', params.title)
-    formData.append('description', params.description)
     formData.append('img', params.img[0])
-    ingredients.forEach((ingr) => formData.append('ingredients', ingr))
-
-    axios
-      .post('/recipes', formData)
+    await axios
+      .post('/recipes', params)
       .then((res) => {
+        formData.append('id', res.data._id)
+        axios.post('/upload', formData)
         reset()
         setIngredient([])
         setIsCreated(true)
