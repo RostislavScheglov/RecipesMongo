@@ -37,7 +37,7 @@ export function MyRecipes() {
           >
             <br></br>
             <img
-              src={`${domain}/${item.recipeImage}`}
+              src={`${domain}${item.recipeImage}`}
               id="img"
             ></img>
             <Link

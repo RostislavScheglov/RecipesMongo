@@ -181,6 +181,7 @@ export const uploadUrl = async (req, res) => {
       }
     }
   )
+  res.send('Img Uploaded successfull')
 }
 
 export const remove = async (req, res) => {
@@ -209,11 +210,14 @@ export const remove = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors)
+    }
     recipeModel.findOneAndUpdate(
       { _id: req.params.id },
       {
         title: req.body.title,
-        recipeImage: req.body.recipeImage,
         ingredients: req.body.ingredients,
         description: req.body.description,
         $push: { likedBy: req.body.userId },
@@ -233,6 +237,36 @@ export const update = async (req, res) => {
       }
     )
     res.send('Recipe was successfully Updated')
+  } catch (err) {
+    console.log(err)
+    res.status(400).json({
+      message: 'Cant update recipe',
+    })
+  }
+}
+
+export const deleteLike = async (req, res) => {
+  try {
+    recipeModel.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $pull: { likedBy: req.body.userId },
+      },
+      (err, doc) => {
+        if (err) {
+          console.log(err)
+          return res.status(400).json({
+            message: 'Cant update recipe',
+          })
+        }
+        if (!doc) {
+          return res.status(404).json({
+            message: 'Cant find recipe',
+          })
+        }
+      }
+    )
+    res.send('Removed from favourite')
   } catch (err) {
     console.log(err)
     res.status(400).json({

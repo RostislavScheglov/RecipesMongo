@@ -19,6 +19,7 @@ import {
   getBySearch,
   deleteImg,
   uploadUrl,
+  deleteLike,
 } from './routes/recipesActions.js'
 import checkSession from './middleware/checkSession.js'
 import cors from 'cors'
@@ -72,6 +73,7 @@ app.get('/recipes/myrecipes', checkSession, getMyRecipes)
 app.get('/recipes/:id', getOne)
 app.delete('/recipes/:id', checkSession, remove)
 app.patch('/recipes/:id', checkSession, update)
+app.patch('/:id', checkSession, deleteLike)
 
 const start = async () => {
   mongoose

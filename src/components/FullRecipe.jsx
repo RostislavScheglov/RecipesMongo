@@ -3,16 +3,15 @@ import { useEffect, useState } from 'react'
 import axios, { domain } from '../axios'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { userId } from '../redux/slices/users'
 import { Box, Button, Modal, Typography } from '@mui/material'
 import { style } from './Header'
-import { isDeleted, setRecipe } from '../redux/slices/recipes'
 
 export function FullRecipe() {
-  const dispatch = useDispatch()
-  const { items } = useSelector((state) => state.recipes)
-  const isDelete = useSelector(isDeleted)
+  const [fileds, setFields] = useState([])
+  const [isDelete, setIsDeleted] = useState(false)
+
   const [open, setOpen] = useState(false)
   const { id } = useParams()
   const userInfo = useSelector(userId)
@@ -21,9 +20,8 @@ export function FullRecipe() {
   const getOneRecipe = async (id) => {
     const { data } = await axios.get(`/recipes/${id}`).catch((err) => {
       alert('Error while loading recipe')
-      console.warn(err)
     })
-    dispatch(setRecipe(data))
+    setFields(data)
   }
 
   const fetchDeleteRecipe = async (id) => {
@@ -31,19 +29,16 @@ export function FullRecipe() {
       alert('Error while deleting recipe')
       console.warn(err)
     })
-    dispatch(setRecipe())
     setOpen(false)
-  }
-
-  const showState = () => {
-    console.log(isDelete)
+    setIsDeleted(true)
   }
 
   useEffect(() => {
     getOneRecipe(id)
-  }, [])
+  }, [id])
 
-  if (!isDelete) {
+  //Redux
+  if (isDelete) {
     return (
       <Navigate
         to="/recipes/myrecipes"
@@ -65,27 +60,28 @@ export function FullRecipe() {
     <div>
       <div>
         <div>
-          {userInfo === items.author ? (
+          {userInfo === fileds.author ? (
             <EditOutlinedIcon onClick={() => setIsEdit(true)} />
           ) : null}
-          {userInfo === items.author ? (
+          {userInfo === fileds.author ? (
             <DeleteForeverIcon onClick={() => setOpen(true)} />
           ) : null}
-          <div id="Title">{items.title}</div>
+          <div id="Title">{fileds.title}</div>
           <img
-            src={`${domain}/${items.recipeImage}`}
+            src={`${domain}${fileds.recipeImage}`}
             id="img"
+            alt="Img"
           ></img>
-          <div id="Description">{items.description}</div>
+          <div id="Description">{fileds.description}</div>
           <div id="Ingredients">
-            {items.ingredients?.map((ingredient, index) => (
+            {fileds.ingredients?.map((ingredient, index) => (
               <li key={index}>{ingredient}</li>
             ))}
           </div>
-          <div id="Author">{items.author?.userName}</div>
-          <div id="CreatedAt">{items.createdAt}</div>
-          <div id="Views Count">{items.viewsCount}</div>
-          <div id="Likes Count">{items.likesCount}</div>
+          <div id="Author">{fileds.author?.userName}</div>
+          <div id="CreatedAt">{fileds.createdAt}</div>
+          <div id="Views Count">{fileds.viewsCount}</div>
+          <div id="Likes Count">{fileds.likesCount}</div>
         </div>
       </div>
       <Modal

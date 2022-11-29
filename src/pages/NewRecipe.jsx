@@ -15,20 +15,21 @@ export function NewRecipe() {
   const [err, setErr] = useState()
   const [isErr, setIsErr] = useState(false)
   const [isCreated, setIsCreated] = useState(false)
-  const [imgUrl, setImgUrl] = useState(false)
-  const [img, setImg] = useState()
+
   const [ingredients, setIngredient] = useState([])
-  const inputRef = useRef(null)
 
   const createNewRecipe = async (params) => {
     params.ingredients = ingredients
-    const formData = new FormData()
-    formData.append('img', params.img[0])
+
     await axios
       .post('/recipes', params)
       .then((res) => {
-        formData.append('id', res.data._id)
-        axios.post('/upload', formData)
+        if (params.img[0] !== undefined) {
+          const formData = new FormData()
+          formData.append('img', params.img[0])
+          formData.append('id', res.data._id)
+          axios.post('/upload', formData)
+        }
         reset()
         setIngredient([])
         setIsCreated(true)
@@ -65,31 +66,6 @@ export function NewRecipe() {
       ingredients: '',
     },
   })
-
-  // const fetchImg = async (event) => {
-  //   const formData = new FormData()
-  //   try {
-  //     const file = event.target.files[0]
-  //     setImg(file)
-  //     console.log(file)
-  //     // formData.append("img", file)
-  //     // const { data } = await axios.post("/upload", formData)
-  //     // setImgUrl(data.url)
-  //   } catch (err) {
-  //     setErr([err])
-  //     setIsErr(true)
-  //   }
-  // }
-
-  // const deleteImg = async (imgUrl) => {
-  //   try {
-  //     await axios.delete("./upload", imgUrl)
-  //     setImgUrl(false)
-  //   } catch (err) {
-  //     setErr([err])
-  //     setIsErr(true)
-  //   }
-  // }
 
   if (!isAuth) {
     return <Navigate to="/auth/login" />

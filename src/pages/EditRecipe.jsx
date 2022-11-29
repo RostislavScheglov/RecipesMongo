@@ -1,7 +1,5 @@
 import axios, { domain } from '../axios'
-import { useSelector } from 'react-redux'
 import { useState } from 'react'
-import { isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
 import { Navigate, useParams } from 'react-router-dom'
 import { Button, TextField, Alert, IconButton } from '@mui/material'
@@ -9,22 +7,29 @@ import InputAdornment from '@mui/material/InputAdornment'
 import * as React from 'react'
 import Add from '@mui/icons-material/Add'
 import Delete from '@mui/icons-material/Delete'
-import { getRecipeInfo } from '../redux/slices/recipes'
+import { useEffect } from 'react'
 
 export function EditRecipe() {
-  const isAuth = useSelector(isAuthUser)
-  const recipeInfo = useSelector(getRecipeInfo)
   const { id } = useParams()
   const [err, setErr] = useState()
+  const [isImg, setIsImg] = useState(true)
   const [isErr, setIsErr] = useState(false)
   const [isRedirect, setIsRedirect] = useState(false)
-  const [ingredients, setIngredient] = useState(recipeInfo.ingredients)
+  const [ingredients, setIngredient] = useState([])
+  const [fileds, setFields] = useState([])
 
   const editRecipe = async (params) => {
     params.ingredients = ingredients
-    axios
+
+    await axios
       .patch(`/recipes/${id}`, params)
-      .then((res) => {
+      .then(() => {
+        if (params.img[0] !== undefined) {
+          const formData = new FormData()
+          formData.append('img', params.img[0])
+          formData.append('id', id)
+          axios.post('/upload', formData)
+        }
         setIsRedirect(true)
       })
       .catch((err) => {
@@ -38,33 +43,49 @@ export function EditRecipe() {
       })
   }
 
+  const getOneRecipe = async (id) => {
+    const { data } = await axios.get(`/recipes/${id}`).catch((err) => {
+      alert('Error while loading recipe')
+    })
+    setFields(data)
+    setIngredient(data.ingredients)
+  }
+
+  useEffect(() => {
+    getOneRecipe(id)
+  }, [id])
+
+  //Refactor (same function in NewRecipe Page)
   const deleteIngredient = (ingredient) => {
     const index = ingredients.indexOf(ingredient)
-    ingredients.splice(index, 1)
-    setIngredient((ingredients) => [...ingredients])
+
+    setIngredient((ingredients) => {
+      const x = [...ingredients]
+      x.splice(index, 1)
+      console.log(ingredients)
+      return x
+    })
   }
-  const deleteImg = async (imgUrl) => {
+
+  const deleteImg = (imgUrl) => {
     console.log(imgUrl)
-    // try {
-    await axios.delete(imgUrl)
-    // setImgUrl(false)
-    // } catch (err) {
-    //   setErr([err])
-    //   setIsErr(true)
-    // }
+    axios
+      .delete(imgUrl)
+      .then(setIsImg(false))
+      .catch((err) => console.log(err))
   }
+
   const {
     register,
     handleSubmit,
     getValues,
     resetField,
     setError,
-    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: recipeInfo.title,
-      description: recipeInfo.description,
+      title: fileds.title,
+      description: fileds.description,
       ingredients: '',
     },
   })
@@ -100,10 +121,13 @@ export function EditRecipe() {
           {...register('title', { required: 'Title required' })}
         />
         <div>
-          <img
-            src={`${domain}/${recipeInfo.recipeImage}`}
-            id="img"
-          ></img>
+          {isImg ? (
+            <img
+              src={`${domain}${fileds.recipeImage}`}
+              id="img"
+              alt="Img"
+            ></img>
+          ) : null}
           <input
             type="file"
             name="img"
@@ -113,7 +137,7 @@ export function EditRecipe() {
           />
           <Button
             variant="outlined"
-            onClick={() => deleteImg(recipeInfo.recipeImage)}
+            onClick={() => deleteImg(fileds.recipeImage)}
           >
             Delete
           </Button>
