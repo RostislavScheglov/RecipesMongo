@@ -1,6 +1,6 @@
 import axios from '../axios'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { getRegistrInfo, isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
@@ -12,8 +12,9 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 export function Registration() {
   const dispatch = useDispatch()
   const isAuth = useSelector(isAuthUser)
-  const [err, setErr] = useState()
+  const [err, setErr] = useState([])
   const [isErr, setIsErr] = useState(false)
+  const [showPass, setShowPass] = useState(false)
 
   const fetchRegistr = async (params) => {
     axios
@@ -23,14 +24,9 @@ export function Registration() {
         window.sessionStorage.setItem('token', res.data.token)
       })
       .catch((err) => {
-        if (err.response.status === 400) {
-          const x = err.response.data.map((err) => err.msg)
-          setErr(x)
-          setIsErr(true)
-        } else {
-          setErr([err.response.data.message])
-          setIsErr(true)
-        }
+        const x = err.response.data.map((err) => err.msg)
+        setErr(x)
+        setIsErr(true)
       })
   }
 
@@ -46,8 +42,6 @@ export function Registration() {
     },
     mode: 'onChange',
   })
-
-  const [showPass, setShowPass] = useState(false)
 
   if (isAuth) {
     return <Navigate to="/" />

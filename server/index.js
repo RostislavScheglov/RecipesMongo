@@ -17,7 +17,7 @@ import {
   getFavourite,
   getMyRecipes,
   getBySearch,
-  deleteImg,
+  // deleteImg,
   uploadUrl,
   deleteLike,
 } from './routes/recipesActions.js'
@@ -58,22 +58,26 @@ export const upload = multer({ storage: storage })
 app.use(express.json())
 app.use(cors())
 
-app.delete('/:path/:id', deleteImg)
+// app.delete('img/:path/:id', deleteImg)
 app.use('/uploads', express.static('uploads'))
 app.post('/auth/registration', registrValidation, registration)
 app.post('/auth/login', loginValidation, login)
 app.post('/auth/me', checkSession, getMe)
 app.get('/recipes', getAll)
-app.get('/search', getBySearch)
+// app.get('/search', getBySearch)
 
 app.post('/recipes', checkSession, recipeValidation, create)
 app.post('/upload', upload.fields([{ name: 'img', maxCount: 1 }]), uploadUrl)
 app.get('/recipes/favourites', checkSession, getFavourite)
 app.get('/recipes/myrecipes', checkSession, getMyRecipes)
 app.get('/recipes/:id', getOne)
+
+//Make author cheking before recipe remove
 app.delete('/recipes/:id', checkSession, remove)
+
 app.patch('/recipes/:id', checkSession, update)
-app.patch('/:id', checkSession, deleteLike)
+
+app.patch('/recipes/likes/:id', checkSession, deleteLike)
 
 const start = async () => {
   mongoose

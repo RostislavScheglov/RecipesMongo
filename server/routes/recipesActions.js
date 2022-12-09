@@ -19,15 +19,15 @@ import { upload } from '../index.js'
 //   })
 // })
 
-export const deleteImg = async (req, res) => {
-  console.log(req.url)
-  fs.unlink(`.${req.url}`, (err) => {
-    console.log(err)
-  })
-  res.send({
-    url: 'Success',
-  })
-}
+// export const deleteImg = async (req, res) => {
+//   console.log(req.url)
+//   fs.unlink(`.${req.url}`, (err) => {
+//     console.log(err)
+//   })
+//   res.send({
+//     url: 'Success',
+//   })
+// }
 
 export const getAll = async (req, res) => {
   try {
@@ -37,7 +37,6 @@ export const getAll = async (req, res) => {
     }
     res.send('No recipes was found')
   } catch (err) {
-    console.log(err)
     res.status(400).json({
       message: 'Cant get recipes',
     })
@@ -124,7 +123,6 @@ export const getOne = async (req, res) => {
       }
     )
   } catch (err) {
-    console.log(err)
     res.status(500).json({
       message: 'Cant get recipe',
     })
@@ -184,15 +182,10 @@ export const uploadUrl = async (req, res) => {
   res.send('Img Uploaded successfull')
 }
 
+//refactore remove (we have c)
 export const remove = async (req, res) => {
   try {
-    recipeModel.findOneAndDelete({ _id: req.params.id }, (err, doc) => {
-      if (err) {
-        console.log(err)
-        return res.status(400).json({
-          message: 'Cant delete recipe',
-        })
-      }
+    recipeModel.findOneAndDelete({ _id: req.params.id }, (doc) => {
       if (!doc) {
         return res.status(404).json({
           message: 'Cant find recipe',
@@ -201,7 +194,6 @@ export const remove = async (req, res) => {
     })
     res.send('Recipe was successfully deleted')
   } catch (err) {
-    console.log(err)
     res.status(400).json({
       message: 'Cant delete recipe',
     })
@@ -212,7 +204,7 @@ export const update = async (req, res) => {
   try {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      return res.status(400).json(errors)
+      return res.status(400).json(errors.array())
     }
     recipeModel.findOneAndUpdate(
       { _id: req.params.id },
@@ -223,25 +215,22 @@ export const update = async (req, res) => {
         $push: { likedBy: req.body.userId },
       },
       (err, doc) => {
-        if (err) {
-          console.log(err)
-          return res.status(400).json({
-            message: 'Cant update recipe',
-          })
-        }
         if (!doc) {
-          return res.status(404).json({
-            message: 'Cant find recipe',
-          })
+          return res.status(404).json([
+            {
+              msg: 'Cant find recipe',
+            },
+          ])
         }
       }
     )
     res.send('Recipe was successfully Updated')
   } catch (err) {
-    console.log(err)
-    res.status(400).json({
-      message: 'Cant update recipe',
-    })
+    res.status(400).json([
+      {
+        message: 'Cant update recipe',
+      },
+    ])
   }
 }
 
@@ -253,12 +242,6 @@ export const deleteLike = async (req, res) => {
         $pull: { likedBy: req.body.userId },
       },
       (err, doc) => {
-        if (err) {
-          console.log(err)
-          return res.status(400).json({
-            message: 'Cant update recipe',
-          })
-        }
         if (!doc) {
           return res.status(404).json({
             message: 'Cant find recipe',
@@ -268,7 +251,6 @@ export const deleteLike = async (req, res) => {
     )
     res.send('Removed from favourite')
   } catch (err) {
-    console.log(err)
     res.status(400).json({
       message: 'Cant update recipe',
     })

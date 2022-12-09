@@ -8,20 +8,22 @@ import { userId } from '../redux/slices/users'
 import { Box, Button, Modal, Typography } from '@mui/material'
 import { style } from './Header'
 
-export function FullRecipe() {
-  const [fileds, setFields] = useState([])
-  const [isDelete, setIsDeleted] = useState(false)
+//Make checkBox near ingredient (to see what we have)
 
-  const [open, setOpen] = useState(false)
+export function FullRecipe() {
   const { id } = useParams()
   const userInfo = useSelector(userId)
+
+  const [fileds, setFields] = useState([])
+  const [isDelete, setIsDeleted] = useState(false)
+  const [open, setOpen] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
   const getOneRecipe = async (id) => {
-    const { data } = await axios.get(`/recipes/${id}`).catch((err) => {
-      alert('Error while loading recipe')
-    })
-    setFields(data)
+    console.log(id)
+    const data = await axios.get(`/recipes/${id}`)
+    console.log(data)
+    setFields(data.data)
   }
 
   const fetchDeleteRecipe = async (id) => {
@@ -35,7 +37,7 @@ export function FullRecipe() {
 
   useEffect(() => {
     getOneRecipe(id)
-  }, [id])
+  }, [])
 
   //Redux
   if (isDelete) {

@@ -1,14 +1,16 @@
-import axios, { domain } from '../axios'
+import axios from '../axios'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { isAuthUser } from '../redux/slices/users'
+import { ShortRecipesList } from '../components/ShortRecipesList'
 
 export function MyRecipes() {
   const isAuth = useSelector(isAuthUser)
   const [items, setItem] = useState()
   const [isLoading, setLoading] = useState(true)
 
+  //try catch
   const fetchMyRecipes = async () => {
     const { data } = await axios.get('/recipes/myrecipes')
     setItem(data)
@@ -28,29 +30,9 @@ export function MyRecipes() {
   }
 
   return (
-    <div>
-      <div>
-        {items.map((item) => (
-          <div
-            id="recipe"
-            key={item._id}
-          >
-            <br></br>
-            <img
-              src={`${domain}${item.recipeImage}`}
-              id="img"
-            ></img>
-            <Link
-              to={`/recipes/${item._id}`}
-              id="Title"
-            >
-              {item.title}
-            </Link>
-            <button>Delete recipe</button>
-            <br></br>
-          </div>
-        ))}
-      </div>
-    </div>
+    <ShortRecipesList
+      items={items}
+      isLoading={isLoading}
+    />
   )
 }

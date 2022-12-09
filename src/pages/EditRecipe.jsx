@@ -2,25 +2,25 @@ import axios, { domain } from '../axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Navigate, useParams } from 'react-router-dom'
-import { Button, TextField, Alert, IconButton } from '@mui/material'
+import { Button, TextField, IconButton } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import * as React from 'react'
 import Add from '@mui/icons-material/Add'
 import Delete from '@mui/icons-material/Delete'
 import { useEffect } from 'react'
+import { ErrorsList } from '../components/ErrorsList'
 
 export function EditRecipe() {
   const { id } = useParams()
-  const [err, setErr] = useState()
+  const [err, setErr] = useState([])
   const [isImg, setIsImg] = useState(true)
   const [isErr, setIsErr] = useState(false)
   const [isRedirect, setIsRedirect] = useState(false)
   const [ingredients, setIngredient] = useState([])
-  const [fileds, setFields] = useState([])
+  const [imgUrl, setImgUrl] = useState('')
 
   const editRecipe = async (params) => {
     params.ingredients = ingredients
-
     await axios
       .patch(`/recipes/${id}`, params)
       .then(() => {
@@ -33,32 +33,31 @@ export function EditRecipe() {
         setIsRedirect(true)
       })
       .catch((err) => {
-        if ('message' in err.response.data) {
-          setErr([err.response.data.message])
-          setIsErr(true)
-        }
-        const x = err.response.data.errors.map((err) => err.msg)
+        const x = err.response.data.map((err) => err.msg)
         setErr(x)
         setIsErr(true)
       })
   }
 
+  //try catch
   const getOneRecipe = async (id) => {
     const { data } = await axios.get(`/recipes/${id}`).catch((err) => {
-      alert('Error while loading recipe')
+      console.log('Edit trouble')
+      console.log(err)
     })
-    setFields(data)
+    setValue('title', data.title)
+    setValue('description', data.description)
+    setImgUrl(data.recipeImage)
     setIngredient(data.ingredients)
   }
 
   useEffect(() => {
     getOneRecipe(id)
-  }, [id])
+  }, [])
 
   //Refactor (same function in NewRecipe Page)
   const deleteIngredient = (ingredient) => {
     const index = ingredients.indexOf(ingredient)
-
     setIngredient((ingredients) => {
       const x = [...ingredients]
       x.splice(index, 1)
@@ -81,41 +80,32 @@ export function EditRecipe() {
     getValues,
     resetField,
     setError,
+    setValue,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      title: fileds.title,
-      description: fileds.description,
-      ingredients: '',
-    },
-  })
+  } = useForm({})
 
   if (isRedirect) {
-    return <Navigate to={`/recipes/${id}`} />
+    return (
+      <Navigate
+        replace={true}
+        to={`/recipes/myrecipes`}
+      />
+    )
   }
 
   return (
     <>
       Editttt
-      <>
-        {isErr ? (
-          <div>
-            {err.map((err, index) => (
-              <Alert
-                key={index}
-                severity="error"
-              >
-                {err}
-              </Alert>
-            ))}
-          </div>
-        ) : null}
-      </>
+      <ErrorsList
+        err={err}
+        isErr={isErr}
+      />
       <form onSubmit={handleSubmit(editRecipe)}>
         <TextField
           type="text"
           variant="standard"
           label="Title"
+          focused={true}
           error={Boolean(errors.title?.message)}
           helperText={errors.title?.message}
           {...register('title', { required: 'Title required' })}
@@ -123,7 +113,7 @@ export function EditRecipe() {
         <div>
           {isImg ? (
             <img
-              src={`${domain}${fileds.recipeImage}`}
+              src={`${domain}${imgUrl}`}
               id="img"
               alt="Img"
             ></img>
@@ -137,7 +127,7 @@ export function EditRecipe() {
           />
           <Button
             variant="outlined"
-            onClick={() => deleteImg(fileds.recipeImage)}
+            onClick={() => deleteImg(imgUrl)}
           >
             Delete
           </Button>
@@ -146,6 +136,7 @@ export function EditRecipe() {
           type="text"
           variant="standard"
           label="Description"
+          focused={true}
           error={Boolean(errors.description?.message)}
           helperText={errors.description?.message}
           {...register('description', { required: 'Description required' })}
