@@ -8,8 +8,8 @@ export function ShortRecipesList(props) {
   }
 
   return (
-    <div>
-      <div>
+    <div className="recipesContainer">
+      <div className="recipesPreview">
         {props.items.map((item) => (
           <div
             id="recipe"
@@ -19,7 +19,7 @@ export function ShortRecipesList(props) {
             {item.recipeImage ? (
               <img
                 src={`${domain}${item.recipeImage}`}
-                id="img"
+                id="recipeImg"
                 alt="Img"
               ></img>
             ) : null}

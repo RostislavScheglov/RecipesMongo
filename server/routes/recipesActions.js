@@ -80,13 +80,13 @@ export const getBySearch = async (req, res) => {
 }
 
 export const getMyRecipes = async (req, res) => {
+  // res.send('OK')
   try {
     const convertedId = mongoose.Types.ObjectId(req.userId)
     const recipes = await recipeModel.find({ author: convertedId })
     if (recipes !== null && recipes !== undefined) {
-      return res.send(recipes)
+      return res.status(200).send(recipes)
     }
-    res.send(recipes)
   } catch (err) {
     console.log(err)
     res.status(400).json({
@@ -185,7 +185,7 @@ export const uploadUrl = async (req, res) => {
 //refactore remove (we have c)
 export const remove = async (req, res) => {
   try {
-    recipeModel.findOneAndDelete({ _id: req.params.id }, (doc) => {
+    recipeModel.findOneAndDelete({ _id: req.params.id }, (err, doc) => {
       if (!doc) {
         return res.status(404).json({
           message: 'Cant find recipe',
@@ -234,22 +234,43 @@ export const update = async (req, res) => {
   }
 }
 
-export const deleteLike = async (req, res) => {
+export const likeDislike = async (req, res) => {
   try {
-    recipeModel.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        $pull: { likedBy: req.body.userId },
-      },
-      (err, doc) => {
-        if (!doc) {
-          return res.status(404).json({
-            message: 'Cant find recipe',
-          })
+    if (req.body.liked) {
+      recipeModel.updateOne(
+        { _id: req.params.id },
+        {
+          $push: { likedBy: req.body.userId },
+        },
+        (err, doc) => {
+          if (!doc) {
+            return res.status(404).json({
+              message: 'Cant find recipe',
+            })
+          }
         }
-      }
-    )
-    res.send('Removed from favourite')
+      )
+      res.status(200).json({
+        msg: 'Added to fav',
+      })
+    } else {
+      recipeModel.updateOne(
+        { _id: req.params.id },
+        {
+          $pull: { likedBy: req.body.userId },
+        },
+        (err, doc) => {
+          if (!doc) {
+            return res.status(404).json({
+              message: 'Cant find recipe',
+            })
+          }
+        }
+      )
+      res.status(200).json({
+        msg: 'Deleted from fav',
+      })
+    }
   } catch (err) {
     res.status(400).json({
       message: 'Cant update recipe',

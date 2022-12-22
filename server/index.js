@@ -19,7 +19,8 @@ import {
   getBySearch,
   // deleteImg,
   uploadUrl,
-  deleteLike,
+  // deleteLike,
+  likeDislike,
 } from './routes/recipesActions.js'
 import checkSession from './middleware/checkSession.js'
 import cors from 'cors'
@@ -73,11 +74,13 @@ app.get('/recipes/myrecipes', checkSession, getMyRecipes)
 app.get('/recipes/:id', getOne)
 
 //Make author cheking before recipe remove
+//Add photo delete on recipe remove
 app.delete('/recipes/:id', checkSession, remove)
 
 app.patch('/recipes/:id', checkSession, update)
 
-app.patch('/recipes/likes/:id', checkSession, deleteLike)
+// app.patch('/recipes/likes/:id', checkSession, deleteLike)
+app.patch('/recipes/likeDislike/:id', checkSession, likeDislike)
 
 const start = async () => {
   mongoose

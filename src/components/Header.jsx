@@ -1,19 +1,19 @@
-import { Link } from "react-router-dom"
-import Modal from "@mui/material/Modal"
-import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Button, Typography } from "@mui/material"
-import { isAuthUser, logout } from "../redux/slices/users"
-import { Box } from "@mui/system"
+import { Link } from 'react-router-dom'
+import Modal from '@mui/material/Modal'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button, Typography } from '@mui/material'
+import { isAuthUser, logout } from '../redux/slices/users'
+import { Box } from '@mui/system'
 
 export const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 }
@@ -25,12 +25,12 @@ export function Header() {
 
   const handleLogOut = () => {
     dispatch(logout())
-    window.sessionStorage.removeItem("token")
+    window.sessionStorage.removeItem('token')
     setOpen(false)
   }
 
   return (
-    <div>
+    <div className="HeaderContainer">
       <Link to="/">Home</Link>
       <Link to="/recipes/favourites">Favourites</Link>
       <Link to="/recipes/myrecipes">My recipes</Link>

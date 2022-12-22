@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom'
-import './App.css'
 import { Header } from './components/Header'
 import { Login } from './pages/Login'
 import { AllRecipes } from './pages/AllRecipes'
@@ -13,6 +12,7 @@ import axios from './axios'
 import { useDispatch } from 'react-redux'
 import { getMeInfo } from './redux/slices/users'
 import { EditRecipe } from './pages/EditRecipe'
+
 import { ErrorsList } from './components/ErrorsList'
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
+    <div className="AppContainer">
       {/* <ErrorsList /> */}
       <Header />
       <Routes>

@@ -1,0 +1,36 @@
+body {
+  box-sizing: border-box;
+}
+.AppContainer {
+  margin: 3em 16em;
+  display: flex;
+  flex-direction: column;
+}
+.HeaderContainer {
+  width: 27em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: flex-end;
+}
+.recipesContainer {
+  /* max-width: 100%; */
+}
+.recipesPreview {
+  display: grid;
+  grid-template-columns: repeat(3, 33.3%);
+  /* grid-template-rows: auto; */
+  /* max-width: 100%;
+  column-gap: 2%;
+  row-gap: 3%; */
+}
+.recipesPreview :first-child {
+  grid-column: span 3;
+  min-height: 25em;
+}
+#recipe {
+  /* max-width: fit-content; */
+}
+#recipeImg {
+  max-width: 80%;
+}

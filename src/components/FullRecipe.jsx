@@ -25,7 +25,7 @@ export function FullRecipe() {
     console.log(data)
     setFields(data.data)
   }
-
+  //Add remove recipe img after deleting recipe
   const fetchDeleteRecipe = async (id) => {
     await axios.delete(`/recipes/${id}`).catch((err) => {
       alert('Error while deleting recipe')
@@ -39,7 +39,7 @@ export function FullRecipe() {
     getOneRecipe(id)
   }, [])
 
-  //Redux
+  //Refactor
   if (isDelete) {
     return (
       <Navigate

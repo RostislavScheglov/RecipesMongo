@@ -9,17 +9,18 @@ export const LikeBtn = (props) => {
   const [isFavourite, setIsFavourite] = useState(props.likedBy.includes(user))
 
   const fetchLike = async (id) => {
-    const userObj = { userId: user }
+    const userObj = { userId: user, liked: true }
     await axios
-      .patch(`/recipes/${id}`, userObj)
+      // .patch(`/recipes/${id}`, userObj)
+      .patch(`/recipes/likeDislike/${id}`, userObj)
       .then(setIsFavourite(true))
       .catch((err) => console.log(err))
   }
 
   const fetchDisLike = async (id) => {
-    const userObj = { userId: user }
+    const userObj = { userId: user, liked: false }
     await axios
-      .patch(`recipes/likes/${id}`, userObj)
+      .patch(`/recipes/likeDislike/${id}`, userObj)
       .then(setIsFavourite(false))
       .catch((err) => console.log(err))
   }
