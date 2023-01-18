@@ -12,29 +12,31 @@ export function ShortRecipesList(props) {
       <div className="recipesPreview">
         {props.items.map((item) => (
           <div
-            id="recipe"
+            className="recipe"
             key={item._id}
           >
-            <br></br>
-            {item.recipeImage ? (
-              <img
-                src={`${domain}${item.recipeImage}`}
-                id="recipeImg"
-                alt="Img"
-              ></img>
-            ) : null}
             <Link
+              className="linkContainer"
               to={`/recipes/${item._id}`}
-              id="Title"
             >
-              {item.title}
+              {item.recipeImage ? (
+                <img
+                  src={`${domain}${item.recipeImage}`}
+                  className="recipeImg"
+                  alt="Img"
+                ></img>
+              ) : null}
+              <p id="Title"> {item.title}</p>
             </Link>
-
+            <p id="description">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Aspernatur praesentium beatae culpa nesciunt assumenda, quae
+              adipisci ut veritatis quas debitis placeat, suscipit na
+            </p>
             <LikeBtn
               likedBy={item.likedBy}
               id={item._id}
             />
-            <br></br>
           </div>
         ))}
       </div>

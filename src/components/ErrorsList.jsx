@@ -3,7 +3,7 @@ import { Alert } from '@mui/material'
 export function ErrorsList(props) {
   return (
     <>
-      {props.isErr ? (
+      {props.err?.length > 0 ? (
         <div>
           {props.err.map((err, index) => (
             <Alert
@@ -15,7 +15,6 @@ export function ErrorsList(props) {
           ))}
         </div>
       ) : null}
-      <button onClick={() => console.log(props)}></button>
     </>
   )
 }

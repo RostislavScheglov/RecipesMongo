@@ -9,11 +9,11 @@ import InputAdornment from '@mui/material/InputAdornment'
 import * as React from 'react'
 import Add from '@mui/icons-material/Add'
 import Delete from '@mui/icons-material/Delete'
+import { ErrorsList } from '../components/ErrorsList'
 
 export function NewRecipe() {
   const isAuth = useSelector(isAuthUser)
   const [err, setErr] = useState()
-  const [isErr, setIsErr] = useState(false)
   const [isCreated, setIsCreated] = useState(false)
 
   const [ingredients, setIngredient] = useState([])
@@ -37,11 +37,9 @@ export function NewRecipe() {
       .catch((err) => {
         if ('message' in err.response.data) {
           setErr([err.response.data.message])
-          setIsErr(true)
         }
         const x = err.response.data.errors.map((err) => err.msg)
         setErr(x)
-        setIsErr(true)
       })
   }
 
@@ -76,23 +74,11 @@ export function NewRecipe() {
   }
 
   return (
-    <>
-      <>
-        {isErr ? (
-          <div>
-            {err.map((err, index) => (
-              <Alert
-                key={index}
-                severity="error"
-              >
-                {err}
-              </Alert>
-            ))}
-          </div>
-        ) : null}
-      </>
+    <div className="recipeCreationFormContainer">
+      <ErrorsList err={err} />
 
       <form
+        className="recipeCreationForm"
         onSubmit={handleSubmit(createNewRecipe)}
         encType="multipart/form-data"
       >
@@ -179,6 +165,6 @@ export function NewRecipe() {
           Enter
         </Button>
       </form>
-    </>
+    </div>
   )
 }

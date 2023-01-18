@@ -8,12 +8,12 @@ import { Button, TextField, Alert, IconButton } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import { ErrorsList } from '../components/ErrorsList'
 
 export function Registration() {
   const dispatch = useDispatch()
   const isAuth = useSelector(isAuthUser)
   const [err, setErr] = useState([])
-  const [isErr, setIsErr] = useState(false)
   const [showPass, setShowPass] = useState(false)
 
   const fetchRegistr = async (params) => {
@@ -26,7 +26,6 @@ export function Registration() {
       .catch((err) => {
         const x = err.response.data.map((err) => err.msg)
         setErr(x)
-        setIsErr(true)
       })
   }
 
@@ -49,20 +48,7 @@ export function Registration() {
 
   return (
     <>
-      <>
-        {isErr ? (
-          <div>
-            {err.map((err, index) => (
-              <Alert
-                key={index}
-                severity="error"
-              >
-                {err}
-              </Alert>
-            ))}
-          </div>
-        ) : null}
-      </>
+      <ErrorsList err={err} />
       <form onSubmit={handleSubmit(fetchRegistr)}>
         <TextField
           type="text"

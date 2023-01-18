@@ -19,15 +19,16 @@ import { upload } from '../index.js'
 //   })
 // })
 
-// export const deleteImg = async (req, res) => {
-//   console.log(req.url)
-//   fs.unlink(`.${req.url}`, (err) => {
-//     console.log(err)
-//   })
-//   res.send({
-//     url: 'Success',
-//   })
-// }
+export const deleteImg = async (req, res) => {
+  const path = req.params.path
+  const id = req.params.id
+  fs.unlink(path + `/${id}`, (err) => {
+    console.log(err)
+  })
+  res.send({
+    url: 'Success',
+  })
+}
 
 export const getAll = async (req, res) => {
   try {
@@ -80,7 +81,6 @@ export const getBySearch = async (req, res) => {
 }
 
 export const getMyRecipes = async (req, res) => {
-  // res.send('OK')
   try {
     const convertedId = mongoose.Types.ObjectId(req.userId)
     const recipes = await recipeModel.find({ author: convertedId })

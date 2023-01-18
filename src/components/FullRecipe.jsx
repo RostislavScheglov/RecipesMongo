@@ -7,22 +7,23 @@ import { useSelector } from 'react-redux'
 import { userId } from '../redux/slices/users'
 import { Box, Button, Modal, Typography } from '@mui/material'
 import { style } from './Header'
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
+import { ErrorsList } from './ErrorsList'
 
 //Make checkBox near ingredient (to see what we have)
 
 export function FullRecipe() {
   const { id } = useParams()
   const userInfo = useSelector(userId)
-
+  const [err, setErr] = useState()
   const [fileds, setFields] = useState([])
   const [isDelete, setIsDeleted] = useState(false)
   const [open, setOpen] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
   const getOneRecipe = async (id) => {
-    console.log(id)
-    const data = await axios.get(`/recipes/${id}`)
-    console.log(data)
+    const data = await axios.get(`/recipes/${id}`).catch()
     setFields(data.data)
   }
   //Add remove recipe img after deleting recipe
@@ -57,33 +58,46 @@ export function FullRecipe() {
       />
     )
   }
-
   return (
-    <div>
-      <div>
-        <div>
-          {userInfo === fileds.author ? (
-            <EditOutlinedIcon onClick={() => setIsEdit(true)} />
-          ) : null}
-          {userInfo === fileds.author ? (
-            <DeleteForeverIcon onClick={() => setOpen(true)} />
-          ) : null}
-          <div id="Title">{fileds.title}</div>
-          <img
-            src={`${domain}${fileds.recipeImage}`}
-            id="img"
-            alt="Img"
-          ></img>
-          <div id="Description">{fileds.description}</div>
-          <div id="Ingredients">
-            {fileds.ingredients?.map((ingredient, index) => (
-              <li key={index}>{ingredient}</li>
-            ))}
-          </div>
-          <div id="Author">{fileds.author?.userName}</div>
-          <div id="CreatedAt">{fileds.createdAt}</div>
-          <div id="Views Count">{fileds.viewsCount}</div>
-          <div id="Likes Count">{fileds.likesCount}</div>
+    <div className="fullRecipeContainer">
+      <ErrorsList
+        err={err}
+        // isErr={isErr}
+      />
+      <div className="recipeActionsContainer">
+        {userInfo === fileds.author ? (
+          <EditOutlinedIcon onClick={() => setIsEdit(true)} />
+        ) : null}
+        {userInfo === fileds.author ? (
+          <DeleteForeverIcon onClick={() => setOpen(true)} />
+        ) : null}
+      </div>
+      <h3>Recipe title</h3>
+      <div id="Title">{fileds.title}</div>
+      <img
+        src={`${domain}${fileds.recipeImage}`}
+        id="img"
+        alt="Img"
+      ></img>
+      <p>Description:</p>
+      <div id="Description">{fileds.description}</div>
+      <p>Ingredients</p>
+      <div id="Ingredients">
+        {fileds.ingredients?.map((ingredient, index) => (
+          <li key={index}>{ingredient}</li>
+        ))}
+      </div>
+      {/* <p>Author</p>
+          <div id="Author">{fileds.author}</div> */}
+      {/* <div id="CreatedAt">{fileds.createdAt}</div> */}
+      <div className="statsContainer">
+        <div id="Views Count">
+          <VisibilityOutlinedIcon />
+          {fileds.viewsCount}
+        </div>
+        <div id="Likes Count">
+          <FavoriteBorderOutlinedIcon />
+          {fileds.likedBy?.length}
         </div>
       </div>
       <Modal

@@ -14,7 +14,6 @@ export function Login() {
   const dispatch = useDispatch()
   const isAuth = useSelector(isAuthUser)
   const [err, setErr] = useState()
-  const [isErr, setIsErr] = useState(false)
   const [showPass, setShowPass] = useState(false)
 
   const setTokenLocal = (data) => {
@@ -33,7 +32,6 @@ export function Login() {
       .catch((err) => {
         const x = err.response.data.map((err) => err.msg)
         setErr((e) => [...x])
-        setIsErr(true)
       })
   }
 
@@ -55,44 +53,46 @@ export function Login() {
 
   return (
     <>
-      <ErrorsList
-        err={err}
-        isErr={isErr}
-      />
-      <form onSubmit={handleSubmit(fetchLogin)}>
-        <TextField
-          type="email"
-          variant="standard"
-          label="Email"
-          error={Boolean(errors.userEmail?.message)}
-          helperText={errors.userEmail?.message}
-          {...register('userEmail', { required: 'Email required' })}
-        />
-        <TextField
-          type={showPass ? 'text' : 'password'}
-          variant="standard"
-          label="Password"
-          error={Boolean(errors.userPassword?.message)}
-          helperText={errors.userPassword?.message}
-          {...register('userPassword', { required: 'Password required' })}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPass(!showPass)}>
-                  {showPass ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <Button
-          type="submit"
-          disabled={!isValid}
-          variant="outlined"
+      <ErrorsList err={err} />
+      <div className="loginFormContainer">
+        <form
+          className="loginForm"
+          onSubmit={handleSubmit(fetchLogin)}
         >
-          Enter
-        </Button>
-      </form>
+          <TextField
+            type="email"
+            variant="standard"
+            label="Email"
+            error={Boolean(errors.userEmail?.message)}
+            helperText={errors.userEmail?.message}
+            {...register('userEmail', { required: 'Email required' })}
+          />
+          <TextField
+            type={showPass ? 'text' : 'password'}
+            variant="standard"
+            label="Password"
+            error={Boolean(errors.userPassword?.message)}
+            helperText={errors.userPassword?.message}
+            {...register('userPassword', { required: 'Password required' })}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPass(!showPass)}>
+                    {showPass ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Button
+            type="submit"
+            disabled={!isValid}
+            variant="outlined"
+          >
+            Enter
+          </Button>
+        </form>
+      </div>
     </>
   )
 }

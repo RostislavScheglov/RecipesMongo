@@ -17,7 +17,7 @@ import {
   getFavourite,
   getMyRecipes,
   getBySearch,
-  // deleteImg,
+  deleteImg,
   uploadUrl,
   // deleteLike,
   likeDislike,
@@ -59,14 +59,13 @@ export const upload = multer({ storage: storage })
 app.use(express.json())
 app.use(cors())
 
-// app.delete('img/:path/:id', deleteImg)
 app.use('/uploads', express.static('uploads'))
 app.post('/auth/registration', registrValidation, registration)
 app.post('/auth/login', loginValidation, login)
 app.post('/auth/me', checkSession, getMe)
 app.get('/recipes', getAll)
 // app.get('/search', getBySearch)
-
+app.delete('/img/:path/:id', deleteImg)
 app.post('/recipes', checkSession, recipeValidation, create)
 app.post('/upload', upload.fields([{ name: 'img', maxCount: 1 }]), uploadUrl)
 app.get('/recipes/favourites', checkSession, getFavourite)
@@ -77,7 +76,7 @@ app.get('/recipes/:id', getOne)
 //Add photo delete on recipe remove
 app.delete('/recipes/:id', checkSession, remove)
 
-app.patch('/recipes/:id', checkSession, update)
+app.patch('/recipes/:id', checkSession, recipeValidation, update)
 
 // app.patch('/recipes/likes/:id', checkSession, deleteLike)
 app.patch('/recipes/likeDislike/:id', checkSession, likeDislike)

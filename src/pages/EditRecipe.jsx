@@ -14,7 +14,6 @@ export function EditRecipe() {
   const { id } = useParams()
   const [err, setErr] = useState([])
   const [isImg, setIsImg] = useState(true)
-  const [isErr, setIsErr] = useState(false)
   const [isRedirect, setIsRedirect] = useState(false)
   const [ingredients, setIngredient] = useState([])
   const [imgUrl, setImgUrl] = useState('')
@@ -35,7 +34,6 @@ export function EditRecipe() {
       .catch((err) => {
         const x = err.response.data.map((err) => err.msg)
         setErr(x)
-        setIsErr(true)
       })
   }
 
@@ -69,7 +67,7 @@ export function EditRecipe() {
   const deleteImg = (imgUrl) => {
     console.log(imgUrl)
     axios
-      .delete(imgUrl)
+      .delete(`img/${imgUrl}`)
       .then(setIsImg(false))
       .catch((err) => console.log(err))
   }
@@ -95,12 +93,11 @@ export function EditRecipe() {
 
   return (
     <>
-      Editttt
-      <ErrorsList
-        err={err}
-        isErr={isErr}
-      />
-      <form onSubmit={handleSubmit(editRecipe)}>
+      <ErrorsList err={err} />
+      <form
+        className="editRecipeForm"
+        onSubmit={handleSubmit(editRecipe)}
+      >
         <TextField
           type="text"
           variant="standard"
@@ -110,7 +107,7 @@ export function EditRecipe() {
           helperText={errors.title?.message}
           {...register('title', { required: 'Title required' })}
         />
-        <div>
+        <div className="imgActionContainer">
           {isImg ? (
             <img
               src={`${domain}${imgUrl}`}
