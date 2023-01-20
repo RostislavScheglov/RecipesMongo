@@ -74,7 +74,7 @@ app.get('/recipes/:id', getOne)
 
 //Make author cheking before recipe remove
 //Add photo delete on recipe remove
-app.delete('/recipes/:id', checkSession, remove)
+app.delete('/recipes/:id/:userId', checkSession, remove)
 
 app.patch('/recipes/:id', checkSession, recipeValidation, update)
 

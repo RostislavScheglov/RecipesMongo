@@ -28,12 +28,18 @@ export function FullRecipe() {
   }
   //Add remove recipe img after deleting recipe
   const fetchDeleteRecipe = async (id) => {
-    await axios.delete(`/recipes/${id}`).catch((err) => {
-      alert('Error while deleting recipe')
-      console.warn(err)
-    })
-    setOpen(false)
-    setIsDeleted(true)
+    axios
+      .delete(`/recipes/${id}/${userInfo}`)
+      .then(() => {
+        setIsDeleted(true)
+      })
+      .catch((err) => {
+        setErr([err.response.data.message])
+        console.log([err.response.data.message])
+        // alert('Error while deleting recipe')
+        console.warn(err)
+      })
+      .finally(setOpen(false))
   }
 
   useEffect(() => {
@@ -65,12 +71,12 @@ export function FullRecipe() {
         // isErr={isErr}
       />
       <div className="recipeActionsContainer">
-        {userInfo === fileds.author ? (
-          <EditOutlinedIcon onClick={() => setIsEdit(true)} />
-        ) : null}
-        {userInfo === fileds.author ? (
-          <DeleteForeverIcon onClick={() => setOpen(true)} />
-        ) : null}
+        {/* {userInfo === fileds.author ? ( */}
+        <EditOutlinedIcon onClick={() => setIsEdit(true)} />
+        {/* ) : null} */}
+        {/* {userInfo === fileds.author ? ( */}
+        <DeleteForeverIcon onClick={() => setOpen(true)} />
+        {/* ) : null} */}
       </div>
       <h3>Recipe title</h3>
       <div id="Title">{fileds.title}</div>

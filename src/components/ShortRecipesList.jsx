@@ -27,12 +27,12 @@ export function ShortRecipesList(props) {
                 ></img>
               ) : null}
               <p id="Title"> {item.title}</p>
+              <p id="description">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Aspernatur praesentium beatae culpa nesciunt assumenda, quae
+                adipisci ut veritatis quas debitis placeat, suscipit na
+              </p>
             </Link>
-            <p id="description">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Aspernatur praesentium beatae culpa nesciunt assumenda, quae
-              adipisci ut veritatis quas debitis placeat, suscipit na
-            </p>
             <LikeBtn
               likedBy={item.likedBy}
               id={item._id}
