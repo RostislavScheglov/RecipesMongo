@@ -9,9 +9,12 @@ import Add from '@mui/icons-material/Add'
 import Delete from '@mui/icons-material/Delete'
 import { useEffect } from 'react'
 import { ErrorsList } from '../components/ErrorsList'
+import { useSelector } from 'react-redux'
+import { userId } from '../redux/slices/users'
 
 export function EditRecipe() {
   const { id } = useParams()
+  const userInfo = useSelector(userId)
   const [err, setErr] = useState([])
   const [isImg, setIsImg] = useState(true)
   const [isRedirect, setIsRedirect] = useState(false)
@@ -21,7 +24,7 @@ export function EditRecipe() {
   const editRecipe = async (params) => {
     params.ingredients = ingredients
     await axios
-      .patch(`/recipes/${id}`, params)
+      .patch(`/recipes/edit/${id}/${userInfo}`, params)
       .then(() => {
         if (params.img[0] !== undefined) {
           const formData = new FormData()

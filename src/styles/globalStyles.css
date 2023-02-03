@@ -2,17 +2,27 @@ body {
   box-sizing: border-box;
 }
 .AppContainer {
-  margin: 3em 23em;
+  margin: 3em 20%;
   display: flex;
   flex-direction: column;
 }
 .HeaderContainer {
-  width: 27em;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  align-self: flex-end;
   margin-bottom: 5em;
+}
+#userInfoContainer {
+  /* align-self: start; */
+}
+#userInfoContainer > * {
+  margin: 0;
+}
+#headerLinkContainer {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  width: 28em;
 }
 .recipesContainer {
   /* max-width: 100%; */
@@ -34,12 +44,15 @@ a {
 }
 .recipesPreview > *:first-child > a > img {
   height: 23em;
-  width: 100%;
+  width: 60%;
 }
 .recipesPreview > *:first-child > a {
   display: flex;
   flex-direction: row;
-  width: 70%;
+  width: 100%;
+}
+.recipesPreview > *:first-child > a > .textContainer {
+  margin-left: 5em;
 }
 .recipesPreview > *:first-child > #description {
   /* display: block;
@@ -113,6 +126,7 @@ a {
   min-height: 18%; */
   text-align: left;
   word-wrap: break-word;
+  text-transform: uppercase;
 }
 .svgContainer {
   position: absolute;

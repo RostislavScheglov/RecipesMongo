@@ -34,10 +34,8 @@ export function FullRecipe() {
         setIsDeleted(true)
       })
       .catch((err) => {
-        setErr([err.response.data.message])
-        console.log([err.response.data.message])
-        // alert('Error while deleting recipe')
-        console.warn(err)
+        const x = err.response.data.map((err) => err.msg)
+        setErr(x)
       })
       .finally(setOpen(false))
   }

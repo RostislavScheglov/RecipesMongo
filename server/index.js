@@ -22,7 +22,8 @@ import {
   // deleteLike,
   likeDislike,
 } from './routes/recipesActions.js'
-import checkSession from './middleware/checkSession.js'
+import { checkSession, checkAuthor } from './middleware/checkers.js'
+
 import cors from 'cors'
 import multer from 'multer'
 import { validationResult } from 'express-validator'
@@ -31,6 +32,7 @@ const app = express()
 const port = config.serverPort
 const dbUrl = config.dbURL
 
+//Only jpg, enb img formats
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads')
@@ -72,11 +74,16 @@ app.get('/recipes/favourites', checkSession, getFavourite)
 app.get('/recipes/myrecipes', checkSession, getMyRecipes)
 app.get('/recipes/:id', getOne)
 
-//Make author cheking before recipe remove
 //Add photo delete on recipe remove
-app.delete('/recipes/:id/:userId', checkSession, remove)
+app.delete('/recipes/:id/:userId', checkSession, checkAuthor, remove)
 
-app.patch('/recipes/:id', checkSession, recipeValidation, update)
+app.patch(
+  '/recipes/edit/:id/:userId',
+  checkSession,
+  checkAuthor,
+  recipeValidation,
+  update
+)
 
 // app.patch('/recipes/likes/:id', checkSession, deleteLike)
 app.patch('/recipes/likeDislike/:id', checkSession, likeDislike)

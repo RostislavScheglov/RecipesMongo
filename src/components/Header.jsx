@@ -3,7 +3,7 @@ import Modal from '@mui/material/Modal'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Typography } from '@mui/material'
-import { isAuthUser, logout } from '../redux/slices/users'
+import { isAuthUser, logout, userData } from '../redux/slices/users'
 import { Box } from '@mui/system'
 
 export const style = {
@@ -22,6 +22,7 @@ export function Header() {
   const [open, setOpen] = useState(false)
   const isAuth = useSelector(isAuthUser)
   const dispatch = useDispatch()
+  const userInfo = useSelector(userData)
 
   const handleLogOut = () => {
     dispatch(logout())
@@ -31,16 +32,22 @@ export function Header() {
 
   return (
     <div className="HeaderContainer">
-      <Link to="/">Home</Link>
-      <Link to="/recipes/favourites">Favourites</Link>
-      <Link to="/recipes/myrecipes">My recipes</Link>
-      <Link to="/recipes/newrecipe">New Recipe</Link>
-      {isAuth ? null : <Link to="/auth/registration">Registration</Link>}
-      {isAuth ? (
-        <Button onClick={() => setOpen(true)}>LogOut</Button>
-      ) : (
-        <Link to="/auth/login">Login</Link>
-      )}
+      <div id="userInfoContainer">
+        <p>{userInfo?.userName}</p>
+        <p>{userInfo?.userEmail}</p>
+      </div>
+      <div id="headerLinkContainer">
+        <Link to="/">Home</Link>
+        <Link to="/recipes/favourites">Favourites</Link>
+        <Link to="/recipes/myrecipes">My recipes</Link>
+        <Link to="/recipes/newrecipe">New Recipe</Link>
+        {isAuth ? null : <Link to="/auth/registration">Registration</Link>}
+        {isAuth ? (
+          <Button onClick={() => setOpen(true)}>LogOut</Button>
+        ) : (
+          <Link to="/auth/login">Login</Link>
+        )}
+      </div>
       <Modal
         open={open}
         onClose={() => setOpen(false)}

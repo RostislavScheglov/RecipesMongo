@@ -26,12 +26,14 @@ export function ShortRecipesList(props) {
                   alt="Img"
                 ></img>
               ) : null}
-              <p id="Title"> {item.title}</p>
-              <p id="description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Aspernatur praesentium beatae culpa nesciunt assumenda, quae
-                adipisci ut veritatis quas debitis placeat, suscipit na
-              </p>
+              <div className="textContainer">
+                <p id="Title"> {item.title}</p>
+                <p id="description">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Aspernatur praesentium beatae culpa nesciunt assumenda, quae
+                  adipisci ut veritatis quas debitis placeat, suscipit na
+                </p>
+              </div>
             </Link>
             <LikeBtn
               likedBy={item.likedBy}

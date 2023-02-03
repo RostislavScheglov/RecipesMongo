@@ -184,17 +184,7 @@ export const uploadUrl = async (req, res) => {
 
 //refactore remove (we have c)
 export const remove = async (req, res) => {
-  console.log(req.params)
   try {
-    const checkedAuthor = await recipeModel.findOne({
-      _id: req.params.id,
-      author: req.params.userId,
-    })
-    if (checkedAuthor === null || checkedAuthor === undefined) {
-      return res.status(404).json({
-        message: 'Not permitted action',
-      })
-    }
     recipeModel.findOneAndDelete({ _id: req.params.id }, (err, doc) => {
       if (!doc) {
         return res.status(404).json({
