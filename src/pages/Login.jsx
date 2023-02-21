@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import { getLoginInfo, isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
-import { Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { Button, TextField, Alert, IconButton } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { ErrorsList } from '../components/ErrorsList'
+import { CustomTextField } from '../styles/customMuiStyles'
 
 export function Login() {
   const dispatch = useDispatch()
@@ -52,24 +53,25 @@ export function Login() {
   }
 
   return (
-    <>
+    <div id="loginContainer">
+      <h1 className="pageTitle">Login</h1>
       <ErrorsList err={err} />
       <div className="loginFormContainer">
         <form
-          className="loginForm"
+          id="loginForm"
           onSubmit={handleSubmit(fetchLogin)}
         >
-          <TextField
+          <CustomTextField
             type="email"
-            variant="standard"
+            variant="outlined"
             label="Email"
             error={Boolean(errors.userEmail?.message)}
             helperText={errors.userEmail?.message}
             {...register('userEmail', { required: 'Email required' })}
           />
-          <TextField
+          <CustomTextField
             type={showPass ? 'text' : 'password'}
-            variant="standard"
+            variant="outlined"
             label="Password"
             error={Boolean(errors.userPassword?.message)}
             helperText={errors.userPassword?.message}
@@ -84,15 +86,20 @@ export function Login() {
               ),
             }}
           />
-          <Button
-            type="submit"
-            disabled={!isValid}
-            variant="outlined"
+          <Link
+            className="littleBtns"
+            to="/forgotPassword"
           >
-            Enter
-          </Button>
+            Forgot Password?
+          </Link>
+          <button
+            className="submitBtn"
+            type="submit"
+          >
+            Log in
+          </button>
         </form>
       </div>
-    </>
+    </div>
   )
 }

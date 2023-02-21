@@ -32,7 +32,8 @@ export const deleteImg = async (req, res) => {
 
 export const getAll = async (req, res) => {
   try {
-    const recipes = await recipeModel.find().populate('author').exec()
+    // const recipes = await recipeModel.find().populate('author').exec()
+    const recipes = await recipeModel.find()
     if (recipes !== null && recipes !== undefined) {
       return res.send(recipes)
     }
@@ -62,23 +63,23 @@ export const getFavourite = async (req, res) => {
   }
 }
 
-export const getBySearch = async (req, res) => {
-  try {
-    const recipes = await recipeModel
-      .find({ title: { $regex: req.body.search } })
-      .populate('author')
-      .exec()
-    if (recipes !== null && recipes !== undefined) {
-      return res.send(recipes)
-    }
-    res.send('No recipes was found')
-  } catch (err) {
-    console.log(err)
-    res.status(400).json({
-      message: 'Cant get favourite recipes',
-    })
-  }
-}
+// export const getBySearch = async (req, res) => {
+//   try {
+//     const recipes = await recipeModel
+//       .find({ title: { $regex: req.body.search } })
+//       .populate('author')
+//       .exec()
+//     if (recipes !== null && recipes !== undefined) {
+//       return res.send(recipes)
+//     }
+//     res.send('No recipes was found')
+//   } catch (err) {
+//     console.log(err)
+//     res.status(400).json({
+//       message: 'Cant get favourite recipes',
+//     })
+//   }
+// }
 
 export const getMyRecipes = async (req, res) => {
   try {

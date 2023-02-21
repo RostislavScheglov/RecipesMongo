@@ -15,6 +15,9 @@ export const loginValidation = [
     min: 4,
   }),
 ]
+export const forgotPasswordValidation = [
+  body('userEmail', 'Bad email format').isEmail(),
+]
 export const recipeValidation = [
   body('title', 'Title length should be minimum 3 symbols').isLength({
     min: 3,

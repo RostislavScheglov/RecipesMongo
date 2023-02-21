@@ -3,6 +3,15 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { validationResult } from 'express-validator'
 import userModel from '../models/User.js'
+import nodemailer from 'nodemailer'
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'rostislav7333@gmail.com',
+    pass: 'ziabooupfzvhruov',
+  },
+})
 
 export const registration = async (req, res) => {
   try {
@@ -102,6 +111,45 @@ export const login = async (req, res) => {
     console.log(err)
     res.status(500).json({
       message: 'Unable to log in',
+    })
+  }
+}
+export const forgotPassword = async (req, res) => {
+  try {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors.array())
+    }
+    const user = await userModel.findOne({ userEmail: req.body.userEmail })
+    if (!user) {
+      return res.status(404).json([
+        {
+          msg: 'User not found',
+        },
+      ])
+    }
+    const mail_configs = {
+      from: 'rostislav7333@gmail.com',
+      to: req.body.userEmail,
+      subject: 'No-reply',
+      text: 'You can reset your password by',
+    }
+    transporter.sendMail(mail_configs, function (error, info) {
+      if (error) {
+        return res.status(500).json([
+          {
+            msg: 'Unable to send reset password link',
+          },
+        ])
+      }
+    })
+    res
+      .status(200)
+      .json({ msg: `reset password link was sent to ${req.body.userEmail}` })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      message: 'Unable reset password',
     })
   }
 }

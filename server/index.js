@@ -6,8 +6,14 @@ import {
   registrValidation,
   loginValidation,
   recipeValidation,
+  forgotPasswordValidation,
 } from './validators/authValidator.js'
-import { registration, login, getMe } from './routes/userActions.js'
+import {
+  registration,
+  login,
+  getMe,
+  forgotPassword,
+} from './routes/userActions.js'
 import {
   create,
   getAll,
@@ -16,7 +22,7 @@ import {
   update,
   getFavourite,
   getMyRecipes,
-  getBySearch,
+  // getBySearch,
   deleteImg,
   uploadUrl,
   // deleteLike,
@@ -62,6 +68,7 @@ app.use(express.json())
 app.use(cors())
 
 app.use('/uploads', express.static('uploads'))
+app.post('/forgotPassword', forgotPasswordValidation, forgotPassword)
 app.post('/auth/registration', registrValidation, registration)
 app.post('/auth/login', loginValidation, login)
 app.post('/auth/me', checkSession, getMe)

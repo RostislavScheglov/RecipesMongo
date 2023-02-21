@@ -11,6 +11,8 @@ import { useEffect } from 'react'
 import { ErrorsList } from '../components/ErrorsList'
 import { useSelector } from 'react-redux'
 import { userId } from '../redux/slices/users'
+import { CustomTextField } from '../styles/customMuiStyles'
+import ClearSharpIcon from '@mui/icons-material/ClearSharp'
 
 export function EditRecipe() {
   const { id } = useParams()
@@ -82,6 +84,7 @@ export function EditRecipe() {
     resetField,
     setError,
     setValue,
+    setFocus,
     formState: { errors },
   } = useForm({})
 
@@ -95,29 +98,14 @@ export function EditRecipe() {
   }
 
   return (
-    <>
+    <div className="recipeFormContainer">
+      <h1 className="pageTitle">Edit recipe</h1>
       <ErrorsList err={err} />
       <form
-        className="editRecipeForm"
+        id="recipeForm"
         onSubmit={handleSubmit(editRecipe)}
       >
-        <TextField
-          type="text"
-          variant="standard"
-          label="Title"
-          focused={true}
-          error={Boolean(errors.title?.message)}
-          helperText={errors.title?.message}
-          {...register('title', { required: 'Title required' })}
-        />
         <div className="imgActionContainer">
-          {isImg ? (
-            <img
-              src={`${domain}${imgUrl}`}
-              id="img"
-              alt="Img"
-            ></img>
-          ) : null}
           <input
             type="file"
             name="img"
@@ -125,26 +113,45 @@ export function EditRecipe() {
             // ref={inputRef}
             // onChange={fetchImg}
           />
-          <Button
+          <button
+            className="littleBtns"
             variant="outlined"
             onClick={() => deleteImg(imgUrl)}
           >
             Delete
-          </Button>
+          </button>
+          {isImg ? (
+            <img
+              className="uploadedImg"
+              src={`${domain}${imgUrl}`}
+              id="img"
+              alt="Img"
+            ></img>
+          ) : null}
         </div>
-        <TextField
+        <CustomTextField
           type="text"
-          variant="standard"
+          variant="outlined"
+          label="Title"
+          focused={true}
+          error={Boolean(errors.title?.message)}
+          helperText={errors.title?.message}
+          {...register('title', { required: 'Title required' })}
+        />
+        <CustomTextField
+          type="text"
+          variant="outlined"
           label="Description"
           focused={true}
           error={Boolean(errors.description?.message)}
           helperText={errors.description?.message}
           {...register('description', { required: 'Description required' })}
         />
-        <TextField
+        <CustomTextField
           type="text"
-          variant="standard"
+          variant="outlined"
           label="Ingredient"
+          focused={true}
           error={Boolean(errors.ingredients?.message)}
           helperText={errors.ingredients?.message}
           {...register('ingredients')}
@@ -174,20 +181,21 @@ export function EditRecipe() {
             ),
           }}
         />
-        <div>
-          <ol>
-            {ingredients.map((ingredient, index) => (
-              <li key={index}>
-                {ingredient}
-                <Delete
-                  onClick={() => {
-                    deleteIngredient(ingredient)
-                  }}
-                ></Delete>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <ul className="ingredientsList">
+          {ingredients.map((ingredient, index) => (
+            <li
+              className="ingredientContainer"
+              key={index}
+            >
+              {ingredient}
+              <ClearSharpIcon
+                onClick={() => {
+                  deleteIngredient(ingredient)
+                }}
+              ></ClearSharpIcon>
+            </li>
+          ))}
+        </ul>
         <Button
           type="submit"
           variant="outlined"
@@ -202,6 +210,6 @@ export function EditRecipe() {
           Edit
         </Button>
       </form>
-    </>
+    </div>
   )
 }

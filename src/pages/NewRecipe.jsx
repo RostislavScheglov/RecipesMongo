@@ -1,15 +1,17 @@
 import axios from '../axios'
 import { useSelector } from 'react-redux'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
-import { Button, TextField, Alert, IconButton } from '@mui/material'
+import { Button, TextField, IconButton } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import * as React from 'react'
 import Add from '@mui/icons-material/Add'
 import Delete from '@mui/icons-material/Delete'
 import { ErrorsList } from '../components/ErrorsList'
+import ClearSharpIcon from '@mui/icons-material/ClearSharp'
+import { CustomTextField } from '../styles/customMuiStyles'
 
 export function NewRecipe() {
   const isAuth = useSelector(isAuthUser)
@@ -74,23 +76,14 @@ export function NewRecipe() {
   }
 
   return (
-    <div className="recipeCreationFormContainer">
+    <div className="recipeFormContainer">
       <ErrorsList err={err} />
-
+      <h1 className="pageTitle">Create a new recipe </h1>
       <form
-        className="recipeCreationForm"
+        id="recipeForm"
         onSubmit={handleSubmit(createNewRecipe)}
         encType="multipart/form-data"
       >
-        <TextField
-          type="text"
-          variant="standard"
-          label="Title"
-          error={Boolean(errors.title?.message)}
-          helperText={errors.title?.message}
-          {...register('title', { required: 'Title required' })}
-        />
-
         <input
           type="file"
           name="img"
@@ -98,10 +91,18 @@ export function NewRecipe() {
           // ref={inputRef}
           // onChange={fetchImg}
         />
-
-        <TextField
+        <CustomTextField
           type="text"
-          variant="standard"
+          variant="outlined"
+          label="Title"
+          error={Boolean(errors.title?.message)}
+          helperText={errors.title?.message}
+          {...register('title', { required: 'Title required' })}
+        />
+
+        <CustomTextField
+          type="text"
+          variant="outlined"
           label="Description"
           error={Boolean(errors.description?.message)}
           helperText={errors.description?.message}
@@ -110,9 +111,9 @@ export function NewRecipe() {
           })}
         />
 
-        <TextField
+        <CustomTextField
           type="text"
-          variant="standard"
+          variant="outlined"
           label="Ingredient"
           error={Boolean(errors.ingredients?.message)}
           helperText={errors.ingredients?.message}
@@ -144,26 +145,28 @@ export function NewRecipe() {
           }}
         />
 
-        <div>
-          <ol>
-            {ingredients.map((ingredient, index) => (
-              <li key={index}>
-                {ingredient}
-                <Delete
-                  onClick={() => {
-                    deleteIngredient(ingredient)
-                  }}
-                ></Delete>
-              </li>
-            ))}
-          </ol>
-        </div>
-        <Button
+        <ul className="ingredientsList">
+          {ingredients.map((ingredient, index) => (
+            <li
+              className="ingredientContainer"
+              key={index}
+            >
+              {ingredient}
+              <ClearSharpIcon
+                onClick={() => {
+                  deleteIngredient(ingredient)
+                }}
+              ></ClearSharpIcon>
+            </li>
+          ))}
+        </ul>
+
+        <button
+          className="submitBtn"
           type="submit"
-          variant="outlined"
         >
-          Enter
-        </Button>
+          Save
+        </button>
       </form>
     </div>
   )

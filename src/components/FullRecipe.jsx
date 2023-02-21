@@ -68,6 +68,13 @@ export function FullRecipe() {
         err={err}
         // isErr={isErr}
       />
+      <div id="fullRecipeImgContainer">
+        <img
+          src={`${domain}${fileds.recipeImage}`}
+          className="recipeImg"
+          alt="Img"
+        ></img>
+      </div>
       <div className="recipeActionsContainer">
         {/* {userInfo === fileds.author ? ( */}
         <EditOutlinedIcon onClick={() => setIsEdit(true)} />
@@ -76,13 +83,7 @@ export function FullRecipe() {
         <DeleteForeverIcon onClick={() => setOpen(true)} />
         {/* ) : null} */}
       </div>
-      <h3>Recipe title</h3>
       <div id="Title">{fileds.title}</div>
-      <img
-        src={`${domain}${fileds.recipeImage}`}
-        id="img"
-        alt="Img"
-      ></img>
       <p>Description:</p>
       <div id="Description">{fileds.description}</div>
       <p>Ingredients</p>
@@ -108,7 +109,7 @@ export function FullRecipe() {
         open={open}
         onClose={() => setOpen(false)}
       >
-        <Box sx={style}>
+        <Box id="modalWindow">
           <Typography>
             <h2>Are u sure you want to DELETE recipe?</h2>
           </Typography>

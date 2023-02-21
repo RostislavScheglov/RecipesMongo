@@ -9,6 +9,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { ErrorsList } from '../components/ErrorsList'
+import { CustomTextField } from '../styles/customMuiStyles'
 
 export function Registration() {
   const dispatch = useDispatch()
@@ -47,50 +48,56 @@ export function Registration() {
   }
 
   return (
-    <>
+    <div id="loginContainer">
+      <h1 className="pageTitle">Registartion</h1>
       <ErrorsList err={err} />
-      <form onSubmit={handleSubmit(fetchRegistr)}>
-        <TextField
-          type="text"
-          variant="standard"
-          label="Full Name"
-          error={Boolean(errors.userName?.message)}
-          helperText={errors.userName?.message}
-          {...register('userName', { required: 'Full Name required' })}
-        />
-        <TextField
-          type="email"
-          variant="standard"
-          label="Email"
-          error={Boolean(errors.userEmail?.message)}
-          helperText={errors.userEmail?.message}
-          {...register('userEmail', { required: 'Email required' })}
-        />
-        <TextField
-          type={showPass ? 'text' : 'password'}
-          variant="standard"
-          label="Password"
-          error={Boolean(errors.userPassword?.message)}
-          helperText={errors.userPassword?.message}
-          {...register('userPassword', { required: 'Password required' })}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPass(!showPass)}>
-                  {showPass ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <Button
-          type="submit"
-          disabled={!isValid}
-          variant="outlined"
+      <div className="loginFormContainer">
+        <form
+          id="loginForm"
+          onSubmit={handleSubmit(fetchRegistr)}
         >
-          Enter
-        </Button>
-      </form>
-    </>
+          <CustomTextField
+            type="text"
+            variant="outlined"
+            label="Full Name"
+            error={Boolean(errors.userName?.message)}
+            helperText={errors.userName?.message}
+            {...register('userName', { required: 'Full Name required' })}
+          />
+          <CustomTextField
+            type="email"
+            variant="outlined"
+            label="Email"
+            error={Boolean(errors.userEmail?.message)}
+            helperText={errors.userEmail?.message}
+            {...register('userEmail', { required: 'Email required' })}
+          />
+          <CustomTextField
+            type={showPass ? 'text' : 'password'}
+            variant="outlined"
+            label="Password"
+            error={Boolean(errors.userPassword?.message)}
+            helperText={errors.userPassword?.message}
+            {...register('userPassword', { required: 'Password required' })}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPass(!showPass)}>
+                    {showPass ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Button
+            type="submit"
+            disabled={!isValid}
+            variant="outlined"
+          >
+            Enter
+          </Button>
+        </form>
+      </div>
+    </div>
   )
 }

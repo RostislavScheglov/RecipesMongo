@@ -14,6 +14,7 @@ import { getMeInfo } from './redux/slices/users'
 import { EditRecipe } from './pages/EditRecipe'
 
 import { ErrorsList } from './components/ErrorsList'
+import { ForgotPassword } from './pages/ForgotPassowrd'
 
 function App() {
   const dispatch = useDispatch()
@@ -43,6 +44,10 @@ function App() {
         <Route
           path="/"
           element={<AllRecipes />}
+        />
+        <Route
+          path="/forgotPassword"
+          element={<ForgotPassword />}
         />
         <Route
           path="/auth/registration"

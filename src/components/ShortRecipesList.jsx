@@ -19,13 +19,15 @@ export function ShortRecipesList(props) {
               className="linkContainer"
               to={`/recipes/${item._id}`}
             >
-              {item.recipeImage ? (
-                <img
-                  src={`${domain}${item.recipeImage}`}
-                  className="recipeImg"
-                  alt="Img"
-                ></img>
-              ) : null}
+              <div className="shortRecipeImgContainer">
+                {item.recipeImage ? (
+                  <img
+                    src={`${domain}${item.recipeImage}`}
+                    className="recipeImg"
+                    alt="Img"
+                  ></img>
+                ) : null}
+              </div>
               <div className="textContainer">
                 <p id="Title"> {item.title}</p>
                 <p id="description">
