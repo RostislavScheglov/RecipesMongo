@@ -2,32 +2,69 @@ import recipeModel from '../models/Recipe.js'
 import mongoose from 'mongoose'
 import { validationResult } from 'express-validator'
 import fs from 'fs'
-import { upload } from '../index.js'
+import multer from 'multer'
 
-// app.post('/upload', upload.single('img'), (req, res)=>{
-//     res.json({
-//         url: `/uploads/${req.file.filename}`
-//     })
-// })
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads')
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      Math.floor(Math.random() * 999) +
+        Date.now() +
+        file.mimetype.replace('/', '.')
+    )
+  },
+})
+// const multerFilter = (req, file, cb) => {
+//   const errors = validationResult(req)
+//   if (!errors.isEmpty()) {
+//     cb(new Error(errors), false)
+//   } else {
+//     cb(null, true)
+//   }
+// }
 
-// app.delete('/upload', (req, res) => {
-//   fs.unlink(`./${req}`, (err) => {
-//     console.log(err)
-//   })
-//   res.json({
-//     url: 'successss',
-//   })
-// })
+export const upload = multer({ storage: storage })
 
 export const deleteImg = async (req, res) => {
-  const path = req.params.path
-  const id = req.params.id
-  fs.unlink(path + `/${id}`, (err) => {
+  try {
+    const imgPath = req.params.path
+    const imgid = req.params.id
+    recipeModel.findOneAndUpdate(
+      { recipeImage: imgid },
+      {
+        recipeImage: null,
+      },
+      (err, doc) => {
+        if (err) {
+          return res.status(400).json({
+            message: 'Cant delete img url',
+          })
+        }
+        if (!doc) {
+          return res.status(404).json({
+            message: 'Cant find recipe',
+          })
+        }
+      }
+    )
+    fs.unlink(imgPath + `/${imgid}`, (err) => {
+      console.log(err)
+      return res.status(400).json({
+        message: 'Cant delete img from fs',
+      })
+    })
+    res.status(200).json({
+      url: 'Img deleted ',
+    })
+  } catch (err) {
     console.log(err)
-  })
-  res.send({
-    url: 'Success',
-  })
+    return res.status(400).json({
+      message: 'Problem while deleting img',
+    })
+  }
 }
 
 export const getAll = async (req, res) => {
@@ -235,6 +272,7 @@ export const update = async (req, res) => {
   }
 }
 
+//can make all in update ^
 export const likeDislike = async (req, res) => {
   try {
     if (req.body.liked) {

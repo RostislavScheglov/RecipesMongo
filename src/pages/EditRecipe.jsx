@@ -2,17 +2,17 @@ import axios, { domain } from '../axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Navigate, useParams } from 'react-router-dom'
-import { Button, TextField, IconButton } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import * as React from 'react'
 import Add from '@mui/icons-material/Add'
-import Delete from '@mui/icons-material/Delete'
 import { useEffect } from 'react'
 import { ErrorsList } from '../components/ErrorsList'
 import { useSelector } from 'react-redux'
 import { userId } from '../redux/slices/users'
 import { CustomTextField } from '../styles/customMuiStyles'
 import ClearSharpIcon from '@mui/icons-material/ClearSharp'
+import { useRef } from 'react'
 
 export function EditRecipe() {
   const { id } = useParams()
@@ -22,24 +22,28 @@ export function EditRecipe() {
   const [isRedirect, setIsRedirect] = useState(false)
   const [ingredients, setIngredient] = useState([])
   const [imgUrl, setImgUrl] = useState('')
+  const [selectedImage, setSelectedImage] = useState()
+
+  const uploadImgRef = useRef()
 
   const editRecipe = async (params) => {
     params.ingredients = ingredients
-    await axios
-      .patch(`/recipes/edit/${id}/${userInfo}`, params)
-      .then(() => {
-        if (params.img[0] !== undefined) {
-          const formData = new FormData()
-          formData.append('img', params.img[0])
-          formData.append('id', id)
-          axios.post('/upload', formData)
-        }
-        setIsRedirect(true)
-      })
-      .catch((err) => {
-        const x = err.response.data.map((err) => err.msg)
-        setErr(x)
-      })
+    console.log(params)
+    // await axios
+    //   .patch(`/recipes/edit/${id}/${userInfo}`, params)
+    //   .then(() => {
+    //     if (params.img[0] !== undefined) {
+    //       const formData = new FormData()
+    //       formData.append('img', params.img[0])
+    //       formData.append('id', id)
+    //       axios.post('/recipes/upload', formData)
+    //     }
+    //     setIsRedirect(true)
+    //   })
+    //   .catch((err) => {
+    //     const x = err.response.data.map((err) => err.msg)
+    //     setErr(x)
+    //   })
   }
 
   //try catch
@@ -68,11 +72,18 @@ export function EditRecipe() {
       return x
     })
   }
-
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(URL.createObjectURL(e.target.files[0]))
+    }
+  }
+  const clickUploadInput = () => {
+    uploadImgRef.current.click()
+  }
   const deleteImg = (imgUrl) => {
     console.log(imgUrl)
     axios
-      .delete(`img/${imgUrl}`)
+      .delete(`recipes/img/${imgUrl}`)
       .then(setIsImg(false))
       .catch((err) => console.log(err))
   }
@@ -84,7 +95,6 @@ export function EditRecipe() {
     resetField,
     setError,
     setValue,
-    setFocus,
     formState: { errors },
   } = useForm({})
 
@@ -106,29 +116,56 @@ export function EditRecipe() {
         onSubmit={handleSubmit(editRecipe)}
       >
         <div className="imgActionContainer">
-          <input
-            type="file"
-            name="img"
-            {...register('img')}
-            // ref={inputRef}
-            // onChange={fetchImg}
-          />
           <button
             className="littleBtns"
             variant="outlined"
+            type="button"
             onClick={() => deleteImg(imgUrl)}
+            // onClick={() => console.log(imgUrl)}
           >
             Delete
           </button>
+          <input
+            type="file"
+            name="img"
+            className="uploadImgInput"
+            {...register('img')}
+            ref={uploadImgRef}
+            onChange={imageChange}
+          />
+
           {isImg ? (
+            <div className="bigImgContainer">
+              <img
+                className="uploadedImg"
+                src={`${domain}${imgUrl}`}
+                alt="Img"
+              />
+            </div>
+          ) : (
+            <div
+              onClick={clickUploadInput}
+              className="uploadImgContainer"
+            >
+              <img
+                id="img"
+                alt="Img"
+                className="uploadedImg"
+                src={selectedImage}
+              />
+            </div>
+          )}
+
+          {/* {isImg ? (
             <img
               className="uploadedImg"
               src={`${domain}${imgUrl}`}
               id="img"
               alt="Img"
             ></img>
-          ) : null}
+          ) : null} */}
         </div>
+
         <CustomTextField
           type="text"
           variant="outlined"
@@ -196,19 +233,22 @@ export function EditRecipe() {
             </li>
           ))}
         </ul>
-        <Button
+        <button
+          className="submitBtn"
+          id="submitCancleBtn"
           type="submit"
           variant="outlined"
           onClick={() => setIsRedirect(true)}
         >
           Cancle
-        </Button>
-        <Button
+        </button>
+        <button
+          className="submitBtn"
           type="submit"
           variant="outlined"
         >
           Edit
-        </Button>
+        </button>
       </form>
     </div>
   )

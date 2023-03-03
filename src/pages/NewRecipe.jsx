@@ -12,37 +12,49 @@ import Delete from '@mui/icons-material/Delete'
 import { ErrorsList } from '../components/ErrorsList'
 import ClearSharpIcon from '@mui/icons-material/ClearSharp'
 import { CustomTextField } from '../styles/customMuiStyles'
+import { createRef } from 'react'
 
 export function NewRecipe() {
   const isAuth = useSelector(isAuthUser)
   const [err, setErr] = useState()
   const [isCreated, setIsCreated] = useState(false)
-
   const [ingredients, setIngredient] = useState([])
+  const [selectedImage, setSelectedImage] = useState()
+  const uploadImgRef = createRef()
+
+  const clickUploadInput = () => {
+    uploadImgRef.current.click()
+  }
 
   const createNewRecipe = async (params) => {
     params.ingredients = ingredients
+    console.log(params)
+    // await axios
+    //   .post('/recipes', params)
+    //   .then((res) => {
+    //     if (params.img[0] !== undefined) {
+    //       const formData = new FormData()
+    //       formData.append('img', params.img[0])
+    //       formData.append('id', res.data._id)
+    //       axios.post('/recipes/upload', formData)
+    //     }
+    //     reset()
+    //     setIngredient([])
+    //     setIsCreated(true)
+    //   })
+    //   .catch((err) => {
+    //     if ('message' in err.response.data) {
+    //       setErr([err.response.data.message])
+    //     }
+    //     const x = err.response.data.errors.map((err) => err.msg)
+    //     setErr(x)
+    //   })
+  }
 
-    await axios
-      .post('/recipes', params)
-      .then((res) => {
-        if (params.img[0] !== undefined) {
-          const formData = new FormData()
-          formData.append('img', params.img[0])
-          formData.append('id', res.data._id)
-          axios.post('/upload', formData)
-        }
-        reset()
-        setIngredient([])
-        setIsCreated(true)
-      })
-      .catch((err) => {
-        if ('message' in err.response.data) {
-          setErr([err.response.data.message])
-        }
-        const x = err.response.data.errors.map((err) => err.msg)
-        setErr(x)
-      })
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(URL.createObjectURL(e.target.files[0]))
+    }
   }
 
   const deleteIngredient = (ingredient) => {
@@ -64,6 +76,7 @@ export function NewRecipe() {
       title: '',
       description: '',
       ingredients: '',
+      img: '',
     },
   })
 
@@ -88,9 +101,23 @@ export function NewRecipe() {
           type="file"
           name="img"
           {...register('img')}
-          // ref={inputRef}
-          // onChange={fetchImg}
+          // className="uploadImgInput"
+          // inputRef={uploadImgRef}
+          onChange={imageChange}
         />
+
+        <div
+          onClick={clickUploadInput}
+          className="uploadImgContainer"
+        >
+          {selectedImage !== undefined && selectedImage !== null ? (
+            <img
+              className="uploadedImg"
+              src={selectedImage}
+              alt=""
+            />
+          ) : null}
+        </div>
         <CustomTextField
           type="text"
           variant="outlined"

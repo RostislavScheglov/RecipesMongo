@@ -1,99 +1,19 @@
 import express from 'express'
-import bodyParser from 'body-parser'
 import { config } from './config/config.js'
 import mongoose from 'mongoose'
-import {
-  registrValidation,
-  loginValidation,
-  recipeValidation,
-  forgotPasswordValidation,
-} from './validators/authValidator.js'
-import {
-  registration,
-  login,
-  getMe,
-  forgotPassword,
-} from './routes/userActions.js'
-import {
-  create,
-  getAll,
-  getOne,
-  remove,
-  update,
-  getFavourite,
-  getMyRecipes,
-  // getBySearch,
-  deleteImg,
-  uploadUrl,
-  // deleteLike,
-  likeDislike,
-} from './routes/recipesActions.js'
-import { checkSession, checkAuthor } from './middleware/checkers.js'
-
 import cors from 'cors'
-import multer from 'multer'
-import { validationResult } from 'express-validator'
-
+import recipesRouter from './routes/recipesRoutes.js'
+import userRouter from './routes/usersRoutes.js'
 const app = express()
 const port = config.serverPort
 const dbUrl = config.dbURL
-
-//Only jpg, enb img formats
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads')
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      Math.floor(Math.random() * 999) +
-        Date.now() +
-        file.mimetype.replace('/', '.')
-    )
-  },
-})
-
-// const multerFilter = (req, file, cb) => {
-//   const errors = validationResult(req)
-//   if (!errors.isEmpty()) {
-//     cb(new Error(errors), false)
-//   } else {
-//     cb(null, true)
-//   }
-// }
-
-export const upload = multer({ storage: storage })
 
 app.use(express.json())
 app.use(cors())
 
 app.use('/uploads', express.static('uploads'))
-app.post('/forgotPassword', forgotPasswordValidation, forgotPassword)
-app.post('/auth/registration', registrValidation, registration)
-app.post('/auth/login', loginValidation, login)
-app.post('/auth/me', checkSession, getMe)
-app.get('/recipes', getAll)
-// app.get('/search', getBySearch)
-app.delete('/img/:path/:id', deleteImg)
-app.post('/recipes', checkSession, recipeValidation, create)
-app.post('/upload', upload.fields([{ name: 'img', maxCount: 1 }]), uploadUrl)
-app.get('/recipes/favourites', checkSession, getFavourite)
-app.get('/recipes/myrecipes', checkSession, getMyRecipes)
-app.get('/recipes/:id', getOne)
-
-//Add photo delete on recipe remove
-app.delete('/recipes/:id/:userId', checkSession, checkAuthor, remove)
-
-app.patch(
-  '/recipes/edit/:id/:userId',
-  checkSession,
-  checkAuthor,
-  recipeValidation,
-  update
-)
-
-// app.patch('/recipes/likes/:id', checkSession, deleteLike)
-app.patch('/recipes/likeDislike/:id', checkSession, likeDislike)
+app.use('/recipes', recipesRouter)
+app.use('/auth', userRouter)
 
 const start = async () => {
   mongoose

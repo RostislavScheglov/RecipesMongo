@@ -1,14 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import Modal from '@mui/material/Modal'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Typography } from '@mui/material'
 import { isAuthUser, logout, userData } from '../redux/slices/users'
 import { Box } from '@mui/system'
-
-// export const style = {
-
-// }
 
 export function Header() {
   const [open, setOpen] = useState(false)
@@ -25,12 +21,12 @@ export function Header() {
   return (
     <div className="HeaderContainer">
       <div id="logo"></div>
-      <div id="headerLinkContainer">
-        <Link to="/">Feed</Link>
-        <Link to="/recipes/favourites">Favourites</Link>
-        <Link to="/recipes/myrecipes">My recipes</Link>
-        <Link to="/recipes/newrecipe">New Recipe</Link>
-        {isAuth ? null : <Link to="/auth/registration">Registration</Link>}{' '}
+      <nav id="headerLinkContainer">
+        <NavLink to="/">Feed</NavLink>
+        <NavLink to="/recipes/favourites">Favourites</NavLink>
+        <NavLink to="/recipes/myrecipes">My recipes</NavLink>
+        <NavLink to="/recipes/newrecipe">New Recipe</NavLink>
+
         {isAuth ? (
           <div id="userInfoContainer">
             <p>{userInfo?.userName}</p>
@@ -38,11 +34,24 @@ export function Header() {
           </div>
         ) : null}
         {isAuth ? (
-          <Button onClick={() => setOpen(true)}>LogOut</Button>
+          <button
+            id="logOutBtn"
+            onClick={() => setOpen(true)}
+          >
+            Log out
+          </button>
         ) : (
-          <Link to="/auth/login">Login</Link>
+          <NavLink to="/auth/login">Login</NavLink>
         )}
-      </div>
+        {isAuth ? null : (
+          <Link
+            id="registrBtn"
+            to="/auth/registration"
+          >
+            Registration
+          </Link>
+        )}
+      </nav>
       <Modal
         open={open}
         onClose={() => setOpen(false)}

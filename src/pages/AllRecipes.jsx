@@ -34,10 +34,10 @@ export function AllRecipes() {
   }
 
   return (
-    <>
+    <div className="feedContainer">
       {/* <ErrorsList err={err} /> */}
       <div className="randomRecip">
-        <h2 className="pageTitle">Feel coky today, try random recipe!</h2>
+        <h2 id="randomRecipeTitle">Feel coky today, try random recipe!</h2>
         <button
           className="littleBtns"
           onClick={() => randomRecipe(items)}
@@ -49,6 +49,6 @@ export function AllRecipes() {
         items={items}
         isLoading={isLoading}
       />
-    </>
+    </div>
   )
 }

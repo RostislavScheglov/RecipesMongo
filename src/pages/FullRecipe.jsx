@@ -6,10 +6,9 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useSelector } from 'react-redux'
 import { userId } from '../redux/slices/users'
 import { Box, Button, Modal, Typography } from '@mui/material'
-import { style } from './Header'
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
-import { ErrorsList } from './ErrorsList'
+import { ErrorsList } from '../components/ErrorsList'
 
 //Make checkBox near ingredient (to see what we have)
 
@@ -21,6 +20,7 @@ export function FullRecipe() {
   const [isDelete, setIsDeleted] = useState(false)
   const [open, setOpen] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
+  const imgId = fileds?.recipeImage
 
   const getOneRecipe = async (id) => {
     const data = await axios.get(`/recipes/${id}`).catch()
@@ -31,8 +31,9 @@ export function FullRecipe() {
     axios
       .delete(`/recipes/${id}/${userInfo}`)
       .then(() => {
-        setIsDeleted(true)
+        axios.delete(`recipes/img/${imgId}`)
       })
+      .then(() => setIsDeleted(true))
       .catch((err) => {
         const x = err.response.data.map((err) => err.msg)
         setErr(x)
