@@ -14,36 +14,38 @@ import { CustomTextField } from '../styles/customMuiStyles'
 import ClearSharpIcon from '@mui/icons-material/ClearSharp'
 import { useRef } from 'react'
 
+export const checker = (el) => el !== undefined && el !== null && el !== ''
+
 export function EditRecipe() {
   const { id } = useParams()
   const userInfo = useSelector(userId)
   const [err, setErr] = useState([])
-  const [isImg, setIsImg] = useState(true)
   const [isRedirect, setIsRedirect] = useState(false)
   const [ingredients, setIngredient] = useState([])
   const [imgUrl, setImgUrl] = useState('')
-  const [selectedImage, setSelectedImage] = useState()
+  const [selectedImage, setSelectedImage] = useState('')
+  const [img, setImg] = useState([])
 
   const uploadImgRef = useRef()
 
   const editRecipe = async (params) => {
     params.ingredients = ingredients
     console.log(params)
-    // await axios
-    //   .patch(`/recipes/edit/${id}/${userInfo}`, params)
-    //   .then(() => {
-    //     if (params.img[0] !== undefined) {
-    //       const formData = new FormData()
-    //       formData.append('img', params.img[0])
-    //       formData.append('id', id)
-    //       axios.post('/recipes/upload', formData)
-    //     }
-    //     setIsRedirect(true)
-    //   })
-    //   .catch((err) => {
-    //     const x = err.response.data.map((err) => err.msg)
-    //     setErr(x)
-    //   })
+    await axios
+      .patch(`/recipes/edit/${id}/${userInfo}`, params)
+      .then(() => {
+        if (img !== undefined) {
+          const formData = new FormData()
+          formData.append('img', img)
+          formData.append('id', id)
+          axios.post('/recipes/upload', formData)
+        }
+        setIsRedirect(true)
+      })
+      .catch((err) => {
+        const x = err.response.data.map((err) => err.msg)
+        setErr(x)
+      })
   }
 
   //try catch
@@ -73,18 +75,26 @@ export function EditRecipe() {
     })
   }
   const imageChange = (e) => {
+    console.log(e.target.files)
+    const file = e.target.files[0]
     if (e.target.files && e.target.files.length > 0) {
-      setSelectedImage(URL.createObjectURL(e.target.files[0]))
+      setImg(file)
+      setSelectedImage(URL.createObjectURL(file))
     }
   }
   const clickUploadInput = () => {
     uploadImgRef.current.click()
   }
+
   const deleteImg = (imgUrl) => {
     console.log(imgUrl)
     axios
-      .delete(`recipes/img/${imgUrl}`)
-      .then(setIsImg(false))
+      .delete(`recipes/img`, {
+        headers: {
+          'Img-Url': imgUrl,
+        },
+      })
+      .then(setImgUrl(''))
       .catch((err) => console.log(err))
   }
 
@@ -116,26 +126,16 @@ export function EditRecipe() {
         onSubmit={handleSubmit(editRecipe)}
       >
         <div className="imgActionContainer">
-          <button
-            className="littleBtns"
-            variant="outlined"
-            type="button"
-            onClick={() => deleteImg(imgUrl)}
-            // onClick={() => console.log(imgUrl)}
-          >
-            Delete
-          </button>
-          <input
-            type="file"
-            name="img"
-            className="uploadImgInput"
-            {...register('img')}
-            ref={uploadImgRef}
-            onChange={imageChange}
-          />
-
-          {isImg ? (
+          {checker(imgUrl) ? (
             <div className="bigImgContainer">
+              <button
+                className="littleBtns"
+                variant="outlined"
+                type="button"
+                onClick={() => deleteImg(imgUrl)}
+              >
+                Delete
+              </button>
               <img
                 className="uploadedImg"
                 src={`${domain}${imgUrl}`}
@@ -143,27 +143,30 @@ export function EditRecipe() {
               />
             </div>
           ) : (
-            <div
-              onClick={clickUploadInput}
-              className="uploadImgContainer"
-            >
-              <img
-                id="img"
-                alt="Img"
-                className="uploadedImg"
-                src={selectedImage}
-              />
+            <div>
+              {checker(selectedImage) ? (
+                <img
+                  id="img"
+                  alt="Img"
+                  className="uploadedImg"
+                  src={selectedImage}
+                />
+              ) : (
+                <div
+                  onClick={clickUploadInput}
+                  className="uploadImgContainer"
+                >
+                  <input
+                    type="file"
+                    name="img"
+                    className="uploadImgInput"
+                    ref={uploadImgRef}
+                    onChange={imageChange}
+                  />
+                </div>
+              )}
             </div>
           )}
-
-          {/* {isImg ? (
-            <img
-              className="uploadedImg"
-              src={`${domain}${imgUrl}`}
-              id="img"
-              alt="Img"
-            ></img>
-          ) : null} */}
         </div>
 
         <CustomTextField

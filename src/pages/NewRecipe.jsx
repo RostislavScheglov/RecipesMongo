@@ -13,47 +13,55 @@ import { ErrorsList } from '../components/ErrorsList'
 import ClearSharpIcon from '@mui/icons-material/ClearSharp'
 import { CustomTextField } from '../styles/customMuiStyles'
 import { createRef } from 'react'
+import { checker } from './EditRecipe'
 
 export function NewRecipe() {
   const isAuth = useSelector(isAuthUser)
   const [err, setErr] = useState()
   const [isCreated, setIsCreated] = useState(false)
   const [ingredients, setIngredient] = useState([])
+  const [img, setImg] = useState([])
   const [selectedImage, setSelectedImage] = useState()
   const uploadImgRef = createRef()
 
+  //NEW recipe did`t load after creation on main page(need to refresh page)
+
   const clickUploadInput = () => {
+    // console.log(uploadImgRef)
     uploadImgRef.current.click()
   }
 
   const createNewRecipe = async (params) => {
     params.ingredients = ingredients
-    console.log(params)
-    // await axios
-    //   .post('/recipes', params)
-    //   .then((res) => {
-    //     if (params.img[0] !== undefined) {
-    //       const formData = new FormData()
-    //       formData.append('img', params.img[0])
-    //       formData.append('id', res.data._id)
-    //       axios.post('/recipes/upload', formData)
-    //     }
-    //     reset()
-    //     setIngredient([])
-    //     setIsCreated(true)
-    //   })
-    //   .catch((err) => {
-    //     if ('message' in err.response.data) {
-    //       setErr([err.response.data.message])
-    //     }
-    //     const x = err.response.data.errors.map((err) => err.msg)
-    //     setErr(x)
-    //   })
+    // console.log(params)
+    await axios
+      .post('/recipes', params)
+      .then((res) => {
+        if (img !== []) {
+          const formData = new FormData()
+          formData.append('img', img)
+          formData.append('id', res.data._id)
+          axios.post('/recipes/upload', formData)
+        }
+        reset()
+        setIngredient([])
+        setIsCreated(true)
+      })
+      .catch((err) => {
+        if ('message' in err.response.data) {
+          setErr([err.response.data.message])
+        }
+        const x = err.response.data.errors.map((err) => err.msg)
+        setErr(x)
+      })
   }
 
   const imageChange = (e) => {
+    console.log(e.target.files)
+    const file = e.target.files[0]
     if (e.target.files && e.target.files.length > 0) {
-      setSelectedImage(URL.createObjectURL(e.target.files[0]))
+      setImg(file)
+      setSelectedImage(URL.createObjectURL(file))
     }
   }
 
@@ -76,13 +84,12 @@ export function NewRecipe() {
       title: '',
       description: '',
       ingredients: '',
-      img: '',
     },
   })
 
-  if (!isAuth) {
-    return <Navigate to="/auth/login" />
-  }
+  // if (!isAuth) {
+  //   return <Navigate to="/auth/login" />
+  // }
 
   if (isCreated) {
     return <Navigate to="/recipes/myrecipes" />
@@ -97,12 +104,34 @@ export function NewRecipe() {
         onSubmit={handleSubmit(createNewRecipe)}
         encType="multipart/form-data"
       >
-        <input
+        <div>
+          <input
+            type="file"
+            name="img"
+            className="uploadImgInput"
+            ref={uploadImgRef}
+            onChange={imageChange}
+          />
+          {checker(selectedImage) ? (
+            <img
+              id="img"
+              alt="Img"
+              className="uploadedImg"
+              onClick={clickUploadInput}
+              src={selectedImage}
+            />
+          ) : (
+            <div
+              onClick={clickUploadInput}
+              className="uploadImgContainer"
+            ></div>
+          )}
+        </div>
+        {/* <input
           type="file"
           name="img"
-          {...register('img')}
-          // className="uploadImgInput"
-          // inputRef={uploadImgRef}
+          className="uploadImgInput"
+          ref={uploadImgRef}
           onChange={imageChange}
         />
 
@@ -117,7 +146,7 @@ export function NewRecipe() {
               alt=""
             />
           ) : null}
-        </div>
+        </div> */}
         <CustomTextField
           type="text"
           variant="outlined"

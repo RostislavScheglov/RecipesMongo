@@ -13,7 +13,11 @@ export function Favourites() {
 
   //try catch
   const fetchFavourites = async () => {
-    const { data } = await axios.get('/recipes/favourites')
+    const { data } = await axios.get('/recipes', {
+      headers: {
+        'Recipes-Filter': 'Favourite',
+      },
+    })
     setItem(data)
     setLoading(false)
   }

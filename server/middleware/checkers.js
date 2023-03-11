@@ -2,17 +2,20 @@ import jwt from 'jsonwebtoken'
 import recipeModel from '../models/Recipe.js'
 
 export function checkSession(req, res, next) {
-  const token = req.headers.session
-  if (token) {
-    try {
+  if (req.headers['recipes-filter'] === 'All') {
+    return next()
+  }
+  try {
+    const token = req.headers.session
+    if (token) {
       const decoded = jwt.verify(token, 'a1b2c')
       req.userId = decoded._id
       next()
-    } catch (err) {
-      return res.status(403).json({ message: 'Bad session' })
+    } else {
+      return res.status(403).json({ message: 'No token' })
     }
-  } else {
-    return res.status(403).json({ message: 'No token' })
+  } catch (err) {
+    return res.status(403).json({ message: 'Bad session' })
   }
 }
 

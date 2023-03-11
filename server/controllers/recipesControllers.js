@@ -4,6 +4,24 @@ import { validationResult } from 'express-validator'
 import fs from 'fs'
 import multer from 'multer'
 
+// export const getBySearch = async (req, res) => {
+//   try {
+//     const recipes = await recipeModel
+//       .find({ title: { $regex: req.body.search } })
+//       .populate('author')
+//       .exec()
+//     if (recipes !== null && recipes !== undefined) {
+//       return res.send(recipes)
+//     }
+//     res.send('No recipes was found')
+//   } catch (err) {
+//     console.log(err)
+//     res.status(400).json({
+//       message: 'Cant get favourite recipes',
+//     })
+//   }
+// }
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads')
@@ -26,16 +44,47 @@ const storage = multer.diskStorage({
 //   }
 // }
 
+const findByFilter = async (res, errMsg, search) => {
+  try {
+    const recipes = await recipeModel.find(search)
+    if (recipes !== null && recipes !== undefined) {
+      return res.send(recipes)
+    }
+    res.send('No recipes was found')
+  } catch (err) {
+    console.log(err)
+    res.status(400).json({
+      message: errMsg,
+    })
+  }
+}
+
+const getAll = async (req, res) => {
+  const errMsg = 'Cant get recipes'
+  findByFilter(res, errMsg)
+}
+
+const getFavourite = async (req, res) => {
+  const errMsg = 'Cant get favourite recipes'
+  const searchParam = { likedBy: { $in: [req.userId] } }
+  findByFilter(res, errMsg, searchParam)
+}
+
+const getMyRecipes = async (req, res) => {
+  const errMsg = 'Cant get my recipes'
+  const searchParam = { author: req.userId }
+  findByFilter(res, errMsg, searchParam)
+}
+
 export const upload = multer({ storage: storage })
 
 export const deleteImg = async (req, res) => {
   try {
-    const imgPath = req.params.path
-    const imgid = req.params.id
+    const imgUrl = req.headers['img-url']
     recipeModel.findOneAndUpdate(
-      { recipeImage: imgid },
+      { recipeImage: imgUrl },
       {
-        recipeImage: null,
+        recipeImage: '',
       },
       (err, doc) => {
         if (err) {
@@ -50,11 +99,13 @@ export const deleteImg = async (req, res) => {
         }
       }
     )
-    fs.unlink(imgPath + `/${imgid}`, (err) => {
+    fs.unlink(imgUrl, (err) => {
       console.log(err)
-      return res.status(400).json({
-        message: 'Cant delete img from fs',
-      })
+      if (err) {
+        return res.status(400).json({
+          message: 'Cant delete img from fs',
+        })
+      }
     })
     res.status(200).json({
       url: 'Img deleted ',
@@ -67,72 +118,21 @@ export const deleteImg = async (req, res) => {
   }
 }
 
-export const getAll = async (req, res) => {
-  try {
-    // const recipes = await recipeModel.find().populate('author').exec()
-    const recipes = await recipeModel.find()
-    if (recipes !== null && recipes !== undefined) {
-      return res.send(recipes)
-    }
-    res.send('No recipes was found')
-  } catch (err) {
-    res.status(400).json({
-      message: 'Cant get recipes',
-    })
+export const findRecipes = (req, res) => {
+  const recipesFilter = req.headers['recipes-filter']
+
+  if (recipesFilter === 'All') {
+    getAll(req, res)
+  }
+  if (recipesFilter === 'Favourite') {
+    getFavourite(req, res)
+  }
+  if (recipesFilter === 'My') {
+    getMyRecipes(req, res)
   }
 }
 
-export const getFavourite = async (req, res) => {
-  try {
-    const recipes = await recipeModel
-      .find({ likedBy: { $in: [req.userId] } })
-      .populate('author')
-      .exec()
-    if (recipes !== null && recipes !== undefined) {
-      return res.send(recipes)
-    }
-    res.send('No recipes was found')
-  } catch (err) {
-    console.log(err)
-    res.status(400).json({
-      message: 'Cant get favourite recipes',
-    })
-  }
-}
-
-// export const getBySearch = async (req, res) => {
-//   try {
-//     const recipes = await recipeModel
-//       .find({ title: { $regex: req.body.search } })
-//       .populate('author')
-//       .exec()
-//     if (recipes !== null && recipes !== undefined) {
-//       return res.send(recipes)
-//     }
-//     res.send('No recipes was found')
-//   } catch (err) {
-//     console.log(err)
-//     res.status(400).json({
-//       message: 'Cant get favourite recipes',
-//     })
-//   }
-// }
-
-export const getMyRecipes = async (req, res) => {
-  try {
-    const convertedId = mongoose.Types.ObjectId(req.userId)
-    const recipes = await recipeModel.find({ author: convertedId })
-    if (recipes !== null && recipes !== undefined) {
-      return res.status(200).send(recipes)
-    }
-  } catch (err) {
-    console.log(err)
-    res.status(400).json({
-      message: 'Cant get my recipes',
-    })
-  }
-}
-
+//populate(author) to see author on fullrecipe
 export const getOne = async (req, res) => {
   try {
     recipeModel.findOneAndUpdate(
@@ -181,7 +181,7 @@ export const create = async (req, res) => {
     }
     const doc = new recipeModel({
       title: req.body.title,
-      recipeImage: null,
+      recipeImage: '',
       ingredients: req.body.ingredients,
       description: req.body.description,
       author: req.userId,

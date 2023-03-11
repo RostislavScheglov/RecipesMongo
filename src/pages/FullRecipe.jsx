@@ -9,6 +9,8 @@ import { Box, Button, Modal, Typography } from '@mui/material'
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
 import { ErrorsList } from '../components/ErrorsList'
+import stockImg from '../styles/assets/stockRecipe.png'
+import { checker } from './EditRecipe'
 
 //Make checkBox near ingredient (to see what we have)
 
@@ -69,13 +71,21 @@ export function FullRecipe() {
         err={err}
         // isErr={isErr}
       />
-      <div id="fullRecipeImgContainer">
+      {/* <div id="fullRecipeImgContainer"> */}
+      {checker(fileds.recipeImage) ? (
         <img
           src={`${domain}${fileds.recipeImage}`}
-          className="recipeImg"
+          className="uploadedImg"
           alt="Img"
         ></img>
-      </div>
+      ) : (
+        <img
+          className="uploadedImg"
+          src={stockImg}
+          alt="StockImg"
+        ></img>
+      )}
+      {/* </div> */}
       <div className="recipeActionsContainer">
         {/* {userInfo === fileds.author ? ( */}
         <EditOutlinedIcon onClick={() => setIsEdit(true)} />

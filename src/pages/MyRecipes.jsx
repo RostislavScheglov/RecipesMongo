@@ -12,7 +12,11 @@ export function MyRecipes() {
 
   //try catch
   const fetchMyRecipes = async () => {
-    const { data } = await axios.get('/recipes/myrecipes')
+    const { data } = await axios.get('/recipes', {
+      headers: {
+        'Recipes-Filter': 'My',
+      },
+    })
     setItem(data)
     setLoading(false)
   }

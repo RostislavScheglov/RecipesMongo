@@ -1,12 +1,13 @@
 import { domain } from '../axios'
 import { Link } from 'react-router-dom'
 import { LikeBtn } from '../components/LikeBtn'
+import stockImg from '../styles/assets/stockRecipe.png'
 
 export function ShortRecipesList(props) {
   if (props.isLoading) {
     return <>Loading...</>
   }
-
+  const checker = (el) => el !== undefined && el !== null && el !== ''
   return (
     <div className="recipesPreview">
       {props.items.map((item) => (
@@ -18,15 +19,20 @@ export function ShortRecipesList(props) {
             className="linkContainer"
             to={`/recipes/${item._id}`}
           >
-            <div className="shortRecipeImgContainer">
-              {item.recipeImage ? (
-                <img
-                  src={`${domain}${item.recipeImage}`}
-                  className="recipeImg"
-                  alt="Img"
-                ></img>
-              ) : null}
-            </div>
+            {checker(item.recipeImage) ? (
+              <img
+                src={`${domain}${item.recipeImage}`}
+                className="shortRecipeImg"
+                alt="Img"
+              ></img>
+            ) : (
+              <img
+                className="shortRecipeImg"
+                src={stockImg}
+                alt="StockImg"
+              ></img>
+            )}
+
             <div className="textContainer">
               <p id="Title"> {item.title}</p>
               <p id="description">

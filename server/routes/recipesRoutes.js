@@ -4,9 +4,7 @@ import { recipeValidation } from '../validators/recipesValidator.js'
 import {
   create,
   deleteImg,
-  getAll,
-  getFavourite,
-  getMyRecipes,
+  findRecipes,
   getOne,
   likeDislike,
   remove,
@@ -17,10 +15,9 @@ import {
 
 const recipesRouter = express.Router()
 
-recipesRouter.get('/', getAll)
 // app.get('/search', getBySearch)
-
-recipesRouter.delete('/img/:path/:id', deleteImg)
+recipesRouter.get('/', checkSession, findRecipes)
+recipesRouter.delete('/img', deleteImg)
 
 recipesRouter.post('/', checkSession, recipeValidation, create)
 
@@ -29,8 +26,7 @@ recipesRouter.post(
   upload.fields([{ name: 'img', maxCount: 1 }]),
   uploadUrl
 )
-recipesRouter.get('/favourites', checkSession, getFavourite)
-recipesRouter.get('/myrecipes', checkSession, getMyRecipes)
+
 recipesRouter.get('/:id', getOne)
 
 recipesRouter.delete('/:id/:userId', checkSession, checkAuthor, remove)

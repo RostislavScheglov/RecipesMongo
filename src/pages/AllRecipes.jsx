@@ -10,7 +10,11 @@ export function AllRecipes() {
   //try catch
   const fetchAllRecipes = async () => {
     try {
-      const { data } = await axios.get('/recipes')
+      const { data } = await axios.get('/recipes', {
+        headers: {
+          'Recipes-Filter': 'All',
+        },
+      })
       setItem(data)
       setLoading(false)
     } catch (err) {
@@ -40,7 +44,8 @@ export function AllRecipes() {
         <h2 id="randomRecipeTitle">Feel coky today, try random recipe!</h2>
         <button
           className="littleBtns"
-          onClick={() => randomRecipe(items)}
+          // onClick={() => randomRecipe(items)}
+          onClick={() => console.log(items)}
         >
           Go crazy
         </button>
