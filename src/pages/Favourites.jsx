@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import { isAuthUser } from '../redux/slices/users'
 import { ShortRecipesList } from '../components/ShortRecipesList'
+import styles from '../styles/shortRecipeListSyle.module.css'
 
 export function Favourites() {
   const isAuth = useSelector(isAuthUser)
@@ -13,11 +14,7 @@ export function Favourites() {
 
   //try catch
   const fetchFavourites = async () => {
-    const { data } = await axios.get('/recipes', {
-      headers: {
-        'Recipes-Filter': 'Favourite',
-      },
-    })
+    const { data } = await axios.get('/recipes/favourite')
     setItem(data)
     setLoading(false)
   }
@@ -37,6 +34,7 @@ export function Favourites() {
     <ShortRecipesList
       items={items}
       isLoading={isLoading}
+      styles={styles}
     />
   )
 }

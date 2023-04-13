@@ -16,9 +16,9 @@ import {
 const recipesRouter = express.Router()
 
 // app.get('/search', getBySearch)
-recipesRouter.get('/', checkSession, findRecipes)
-recipesRouter.delete('/img', deleteImg)
+recipesRouter.get('/:filter([a-z]+)/:id?', checkSession, findRecipes)
 
+recipesRouter.delete('/img', deleteImg)
 recipesRouter.post('/', checkSession, recipeValidation, create)
 
 recipesRouter.post(
@@ -28,6 +28,7 @@ recipesRouter.post(
 )
 
 recipesRouter.get('/:id', getOne)
+// recipesRouter.get('/author/:id', getOne)
 
 recipesRouter.delete('/:id/:userId', checkSession, checkAuthor, remove)
 

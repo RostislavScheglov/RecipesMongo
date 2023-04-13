@@ -15,6 +15,7 @@ import { EditRecipe } from './pages/EditRecipe'
 
 import { ErrorsList } from './components/ErrorsList'
 import { ForgotPassword } from './pages/ForgotPassowrd'
+import { AuthorRecipes } from './pages/AuthorRecipes'
 
 function App() {
   const dispatch = useDispatch()
@@ -76,6 +77,10 @@ function App() {
         <Route
           path="/recipes/edit/:id"
           element={<EditRecipe />}
+        />
+        <Route
+          path="/recipes/author/:id"
+          element={<AuthorRecipes />}
         />
       </Routes>
     </div>

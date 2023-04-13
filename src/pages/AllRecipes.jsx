@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { ShortRecipesList } from '../components/ShortRecipesList'
 import { ErrorsList } from '../components/ErrorsList'
 
+import styles from '../styles/shortRecipeListSyle.module.css'
+
 export function AllRecipes() {
   const [items, setItem] = useState()
   const [isLoading, setLoading] = useState(true)
@@ -10,7 +12,7 @@ export function AllRecipes() {
   //try catch
   const fetchAllRecipes = async () => {
     try {
-      const { data } = await axios.get('/recipes', {
+      const { data } = await axios.get('/recipes/all', {
         headers: {
           'Recipes-Filter': 'All',
         },
@@ -28,6 +30,7 @@ export function AllRecipes() {
     const randomId = allIds[Math.floor(Math.random() * items.length)]
     window.location.href = `http://localhost:3000/recipes/${randomId}`
   }
+
   //Make custom hook for getting data from server (incapsulate useEffect)
   useEffect(() => {
     fetchAllRecipes()
@@ -53,6 +56,7 @@ export function AllRecipes() {
       <ShortRecipesList
         items={items}
         isLoading={isLoading}
+        styles={styles}
       />
     </div>
   )

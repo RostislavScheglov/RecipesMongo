@@ -46,7 +46,9 @@ const storage = multer.diskStorage({
 
 const findByFilter = async (res, errMsg, search) => {
   try {
-    const recipes = await recipeModel.find(search)
+    const recipes = await recipeModel
+      .find(search)
+      .populate({ path: 'author', select: ['userName', 'userEmail'] })
     if (recipes !== null && recipes !== undefined) {
       return res.send(recipes)
     }
@@ -73,6 +75,12 @@ const getFavourite = async (req, res) => {
 const getMyRecipes = async (req, res) => {
   const errMsg = 'Cant get my recipes'
   const searchParam = { author: req.userId }
+  findByFilter(res, errMsg, searchParam)
+}
+const getAuthorRecipes = async (req, res) => {
+  console.log('here')
+  const errMsg = 'Cant get author recipes'
+  const searchParam = { author: req.params.id }
   findByFilter(res, errMsg, searchParam)
 }
 
@@ -119,47 +127,52 @@ export const deleteImg = async (req, res) => {
 }
 
 export const findRecipes = (req, res) => {
-  const recipesFilter = req.headers['recipes-filter']
-
-  if (recipesFilter === 'All') {
+  const recipesFilter = req.params.filter
+  console.log(req.params)
+  if (recipesFilter === 'all') {
     getAll(req, res)
   }
-  if (recipesFilter === 'Favourite') {
+  if (recipesFilter === 'favourite') {
     getFavourite(req, res)
   }
-  if (recipesFilter === 'My') {
+  if (recipesFilter === 'my') {
     getMyRecipes(req, res)
+  }
+  if (recipesFilter === 'author') {
+    getAuthorRecipes(req, res)
   }
 }
 
 //populate(author) to see author on fullrecipe
 export const getOne = async (req, res) => {
   try {
-    recipeModel.findOneAndUpdate(
-      {
-        _id: req.params.id,
-      },
-      {
-        $inc: { viewsCount: 1 },
-      },
-      {
-        returnDocument: 'after',
-      },
-      (err, doc) => {
-        if (err) {
-          console.log(err)
-          return res.status(400).json({
-            message: 'Cant get recipe',
-          })
+    recipeModel
+      .findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
+          $inc: { viewsCount: 1 },
+        },
+        {
+          returnDocument: 'after',
+        },
+        (err, doc) => {
+          if (err) {
+            console.log(err)
+            return res.status(400).json({
+              message: 'Cant get recipe',
+            })
+          }
+          if (!doc) {
+            return res.status(404).json({
+              message: 'Cant find recipe',
+            })
+          }
+          res.send(doc)
         }
-        if (!doc) {
-          return res.status(404).json({
-            message: 'Cant find recipe',
-          })
-        }
-        res.send(doc)
-      }
-    )
+      )
+      .populate({ path: 'author', select: ['userName', 'userEmail'] })
   } catch (err) {
     res.status(500).json({
       message: 'Cant get recipe',

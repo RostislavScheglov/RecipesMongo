@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import { isAuthUser } from '../redux/slices/users'
 import { ShortRecipesList } from '../components/ShortRecipesList'
-
+import styles from '../styles/shortRecipeListSyle.module.css'
 export function MyRecipes() {
   const isAuth = useSelector(isAuthUser)
   const [items, setItem] = useState()
@@ -12,7 +12,7 @@ export function MyRecipes() {
 
   //try catch
   const fetchMyRecipes = async () => {
-    const { data } = await axios.get('/recipes', {
+    const { data } = await axios.get('/recipes/my', {
       headers: {
         'Recipes-Filter': 'My',
       },
@@ -37,6 +37,7 @@ export function MyRecipes() {
     <ShortRecipesList
       items={items}
       isLoading={isLoading}
+      styles={styles}
     />
   )
 }
