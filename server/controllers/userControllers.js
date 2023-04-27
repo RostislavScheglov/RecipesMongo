@@ -131,7 +131,7 @@ export const forgotPassword = async (req, res) => {
     const mail_configs = {
       from: 'rostislav7333@gmail.com',
       to: req.body.userEmail,
-      subject: 'No-reply',
+      subject: 'No-reply pasword reset',
       text: 'You can reset your password by',
     }
     transporter.sendMail(mail_configs, function (error, info) {

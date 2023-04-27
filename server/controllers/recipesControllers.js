@@ -87,8 +87,9 @@ const getAuthorRecipes = async (req, res) => {
 export const upload = multer({ storage: storage })
 
 export const deleteImg = async (req, res) => {
+  console.log(req.params)
   try {
-    const imgUrl = req.headers['img-url']
+    const imgUrl = req.params.path + '/' + req.params.imgId
     recipeModel.findOneAndUpdate(
       { recipeImage: imgUrl },
       {

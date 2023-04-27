@@ -20,7 +20,7 @@ export function NewRecipe() {
   const [err, setErr] = useState()
   const [isCreated, setIsCreated] = useState(false)
   const [ingredients, setIngredient] = useState([])
-  const [img, setImg] = useState([])
+  const [img, setImg] = useState('')
   const [selectedImage, setSelectedImage] = useState()
   const uploadImgRef = createRef()
 
@@ -33,11 +33,13 @@ export function NewRecipe() {
 
   const createNewRecipe = async (params) => {
     params.ingredients = ingredients
-    // console.log(params)
+
+    // console.log(img)
+    // console.log(typeof img)
     await axios
       .post('/recipes', params)
       .then((res) => {
-        if (img !== []) {
+        if (img !== '') {
           const formData = new FormData()
           formData.append('img', img)
           formData.append('id', res.data._id)
@@ -57,7 +59,6 @@ export function NewRecipe() {
   }
 
   const imageChange = (e) => {
-    console.log(e.target.files)
     const file = e.target.files[0]
     if (e.target.files && e.target.files.length > 0) {
       setImg(file)

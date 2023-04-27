@@ -17,6 +17,7 @@ import EditIcon from '../styles/assets/Edit.svg'
 import DeleteIcon from '../styles/assets/Delete.svg'
 
 import styles from '../styles/shortRecipeList.module.css'
+import { RecipeAuthorInfo } from '../components/RecipeAuthorInfo'
 
 //Make checkBox near ingredient (to see what we have)
 
@@ -101,22 +102,8 @@ export function FullRecipe() {
             // isErr={isErr}
           />
           {/* <div id="fullRecipeImgContainer"> */}
-          <div id="userInfoContainer">
-            <NavLink to={`/recipes/author/${fileds?.author?._id}`}>
-              <p>{fileds?.author?.userName}</p>
-              <p>{fileds?.author?.userEmail}</p>
-            </NavLink>
-          </div>
-          <div className="statsContainer">
-            <div id="Views Count">
-              <VisibilityOutlinedIcon />
-              {fileds.viewsCount}
-            </div>
-            <div id="Likes Count">
-              <FavoriteBorderOutlinedIcon />
-              {fileds.likedBy?.length}
-            </div>
-          </div>
+          <RecipeAuthorInfo fileds={fileds} />
+
           <div id="Title">{fileds.title}</div>
           {checker(fileds.recipeImage) ? (
             <img
@@ -134,16 +121,7 @@ export function FullRecipe() {
           <div id="Description">{fileds.description}</div>
           <div className="recipeActionsContainer">
             {/* {userInfo === fileds.author ? ( */}
-            <button
-              className="editRecipeBtn"
-              onClick={() => setIsEdit(true)}
-            >
-              <img
-                src={EditIcon}
-                alt="Edit Icon"
-              />
-              Edit
-            </button>
+
             {/* <EditOutlinedIcon onClick={() => setIsEdit(true)} /> */}
             {/* ) : null} */}
             {/* {userInfo === fileds.author ? ( */}
@@ -151,11 +129,24 @@ export function FullRecipe() {
               className="deleteRecipeBtn"
               onClick={() => setOpen(true)}
             >
+              {/* <div className="test"> */}
               <img
+                className="svgIcon"
                 src={DeleteIcon}
                 alt="Delete Icon"
               />
               Delete
+            </button>
+            <button
+              className="editRecipeBtn"
+              onClick={() => setIsEdit(true)}
+            >
+              <img
+                className="svgIcon"
+                src={EditIcon}
+                alt="Edit Icon"
+              />
+              Edit
             </button>
             {/* ) : null} */}
           </div>
@@ -163,12 +154,17 @@ export function FullRecipe() {
           <div id="Author">{fileds.author}</div> */}
           {/* <div id="CreatedAt">{fileds.createdAt}</div> */}
         </div>
-        <div id="Ingredients">
+        <ul id="Ingredients">
           <p>Ingredients</p>
           {fileds.ingredients?.map((ingredient, index) => (
-            <li key={index}>{ingredient}</li>
+            <li
+              className="ingredient"
+              key={index}
+            >
+              {ingredient}
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
       <p>More of {fileds?.author?.userName}:</p>
       <ShortRecipesList

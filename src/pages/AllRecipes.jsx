@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { ShortRecipesList } from '../components/ShortRecipesList'
 import { ErrorsList } from '../components/ErrorsList'
 
-import styles from '../styles/shortRecipeListSyle.module.css'
+import styles from '../styles/shortRecipeBigOne.module.css'
 
 export function AllRecipes() {
   const [items, setItem] = useState()
@@ -46,9 +46,9 @@ export function AllRecipes() {
       <div className="randomRecip">
         <h2 id="randomRecipeTitle">Feel coky today, try random recipe!</h2>
         <button
-          className="littleBtns"
-          // onClick={() => randomRecipe(items)}
-          onClick={() => console.log(items)}
+          className="randomRecipeBtn"
+          onClick={() => randomRecipe(items)}
+          // onClick={() => console.log(items)}
         >
           Go crazy
         </button>

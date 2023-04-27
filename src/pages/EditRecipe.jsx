@@ -24,7 +24,7 @@ export function EditRecipe() {
   const [ingredients, setIngredient] = useState([])
   const [imgUrl, setImgUrl] = useState('')
   const [selectedImage, setSelectedImage] = useState('')
-  const [img, setImg] = useState([])
+  const [img, setImg] = useState('')
 
   const uploadImgRef = useRef()
 
@@ -34,7 +34,7 @@ export function EditRecipe() {
     await axios
       .patch(`/recipes/edit/${id}/${userInfo}`, params)
       .then(() => {
-        if (img !== undefined) {
+        if (img !== '') {
           const formData = new FormData()
           formData.append('img', img)
           formData.append('id', id)
@@ -88,14 +88,9 @@ export function EditRecipe() {
 
   const deleteImg = (imgUrl) => {
     console.log(imgUrl)
-    axios
-      .delete(`recipes/img`, {
-        headers: {
-          'Img-Url': imgUrl,
-        },
-      })
-      .then(setImgUrl(''))
-      .catch((err) => console.log(err))
+    axios.delete(`recipes/img/${imgUrl}`)
+    // .then(setImgUrl(''))
+    // .catch((err) => console.log(err))
   }
 
   const {
@@ -150,25 +145,24 @@ export function EditRecipe() {
                   alt="Img"
                   className="uploadedImg"
                   src={selectedImage}
+                  onClick={clickUploadInput}
                 />
               ) : (
                 <div
                   onClick={clickUploadInput}
                   className="uploadImgContainer"
-                >
-                  <input
-                    type="file"
-                    name="img"
-                    className="uploadImgInput"
-                    ref={uploadImgRef}
-                    onChange={imageChange}
-                  />
-                </div>
+                ></div>
               )}
             </div>
           )}
         </div>
-
+        <input
+          type="file"
+          name="img"
+          className="uploadImgInput"
+          ref={uploadImgRef}
+          onChange={imageChange}
+        />
         <CustomTextField
           type="text"
           variant="outlined"

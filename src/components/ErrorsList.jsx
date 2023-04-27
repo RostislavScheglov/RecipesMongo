@@ -4,7 +4,7 @@ export function ErrorsList(props) {
   return (
     <>
       {props.err?.length > 0 ? (
-        <div>
+        <div className="errorContainer">
           {props.err.map((err, index) => (
             <Alert
               key={index}

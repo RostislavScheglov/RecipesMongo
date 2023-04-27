@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import { isAuthUser } from '../redux/slices/users'
 import { ShortRecipesList } from '../components/ShortRecipesList'
-import styles from '../styles/shortRecipeListSyle.module.css'
+import styles from '../styles/shortRecipeBigOne.module.css'
 export function MyRecipes() {
   const isAuth = useSelector(isAuthUser)
   const [items, setItem] = useState()

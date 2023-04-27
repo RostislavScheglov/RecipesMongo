@@ -2,6 +2,7 @@ import { domain } from '../axios'
 import { Link } from 'react-router-dom'
 import { LikeBtn } from '../components/LikeBtn'
 import stockImg from '../styles/assets/stockRecipe.png'
+import { RecipeAuthorInfo } from './RecipeAuthorInfo'
 
 export function ShortRecipesList(props) {
   if (props.isLoading) {
@@ -40,8 +41,15 @@ export function ShortRecipesList(props) {
               <p id={styles.description}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Aspernatur praesentium beatae culpa nesciunt assumenda, quae
-                adipisci ut veritatis quas debitis placeat, suscipit na
+                adipisci ut veritatis quas debitis placeat, suscipit na Lorem
+                ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
+                praesentium beatae culpa nesciunt assumenda, quae adipisci ut
+                veritatis quas debitis placeat, suscipit na Lorem ipsum dolor
+                sit amet consectetur adipisicing elit. Aspernatur praesentium
+                beatae culpa nesciunt assumenda, quae adipisci ut veritatis quas
+                debitis placeat, suscipit na
               </p>
+              <RecipeAuthorInfo fileds={item} />
             </div>
           </Link>
           <LikeBtn

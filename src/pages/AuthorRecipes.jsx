@@ -38,13 +38,11 @@ export function AuthorRecipes() {
 
   return (
     <div className="feedContainer">
-      <div id="userInfoContainer">
-        <p>Author:</p>
-        <p>{items[0].author.userName}</p>
-        <p>{items[0].author.userEmail}</p>
+      <div id="authorInfoContainer">
+        <span className="authorName">{items[0].author.userName}</span>
+        <span>{items[0].author.userEmail}</span>
       </div>
       {/* <ErrorsList err={err} /> */}
-      <button onClick={console.log(items)}></button>
       <ShortRecipesList
         items={items}
         isLoading={isLoading}

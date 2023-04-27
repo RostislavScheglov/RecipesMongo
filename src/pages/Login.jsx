@@ -55,8 +55,9 @@ export function Login() {
   return (
     <div id="loginContainer">
       <h1 className="pageTitle">Login</h1>
-      <ErrorsList err={err} />
+
       <div className="loginFormContainer">
+        <ErrorsList err={err} />
         <form
           id="loginForm"
           onSubmit={handleSubmit(fetchLogin)}
