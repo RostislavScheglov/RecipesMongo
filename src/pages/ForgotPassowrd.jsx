@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
 import { Button, TextField } from '@mui/material'
 import { ErrorsList } from '../components/ErrorsList'
+import { CustomTextField } from '../styles/customMuiStyles'
 
 export function ForgotPassword() {
   const dispatch = useDispatch()
@@ -29,9 +30,6 @@ export function ForgotPassword() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    defaultValues: {
-      userEmail: '',
-    },
     mode: 'onChange',
   })
 
@@ -41,28 +39,28 @@ export function ForgotPassword() {
 
   return (
     <>
-      <ErrorsList err={err} />
       <div className="loginFormContainer">
+        <ErrorsList err={err} />
         <form
           id="loginForm"
           onSubmit={handleSubmit(fetchLogin)}
         >
-          <p id="loginHeader">reset password</p>
-          <TextField
+          <p id="loginHeader">send password to email</p>
+          <CustomTextField
             type="email"
-            variant="standard"
-            label="enter your email"
+            variant="outlined"
+            label="Email"
             error={Boolean(errors.userEmail?.message)}
             helperText={errors.userEmail?.message}
             {...register('userEmail', { required: 'Email required' })}
           />
-          <Button
+          <button
+            className="submitBtn"
             type="submit"
             disabled={!isValid}
-            variant="outlined"
           >
-            Submit
-          </Button>
+            Send
+          </button>
         </form>
       </div>
     </>

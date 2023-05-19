@@ -2,7 +2,6 @@ import { Link, NavLink } from 'react-router-dom'
 import Modal from '@mui/material/Modal'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, Typography } from '@mui/material'
 import { isAuthUser, logout, userData } from '../redux/slices/users'
 import { Box } from '@mui/system'
 
@@ -57,12 +56,20 @@ export function Header() {
         onClose={() => setOpen(false)}
       >
         <Box id="modalWindow">
-          <Typography>
-            <h2>Are u sure you want to log out?</h2>
-          </Typography>
+          <span className="modalTitle">Are u sure you want to log out?</span>
           <div id="btnContainer">
-            <Button onClick={() => setOpen(false)}>No</Button>
-            <Button onClick={() => handleLogOut()}>Yes</Button>
+            <button
+              className="modalCancelBtn"
+              onClick={() => setOpen(false)}
+            >
+              No
+            </button>
+            <button
+              className="modalSubmitBtn"
+              onClick={() => handleLogOut()}
+            >
+              Yes
+            </button>
           </div>
         </Box>
       </Modal>

@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import recipesRouter from './routes/recipesRoutes.js'
 import userRouter from './routes/usersRoutes.js'
+
 const app = express()
 const port = config.serverPort
 const dbUrl = config.dbURL

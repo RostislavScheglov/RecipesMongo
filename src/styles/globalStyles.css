@@ -82,24 +82,51 @@ nav a.active::after {
 
 .errorContainer {
   /* width: 24%; */
+  width: 100%;
   margin: 0 auto;
   border: 1px solid black;
   border-radius: 6px;
 }
 #modalWindow {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 2em;
-  width: 400;
+  padding: 3em;
+  /* width: 400; */
+  height: 13em;
   background-color: #f8f0e5;
-  border: 2px solid #000;
+  /* border: 2px solid #000; */
   border-radius: 6px;
+}
+.modalTitle {
+  font-size: 25;
 }
 #btnContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  /* margin-top: 2em; */
+}
+
+.modalCancelBtn {
+  height: 3em;
+  width: 47%;
+  background-color: #9ba5b4;
+  border: none;
+  color: #ffffff;
+  border-radius: 6px;
+}
+.modalSubmitBtn {
+  background-color: #121418;
+  height: 3em;
+  width: 47%;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
 }
 .randomRecip {
   width: 100%;
@@ -216,18 +243,18 @@ nav a.active::after {
   height: 95%;
   border-radius: 8px;
 }
-*/ #loginContainer {
-  /* width: 100vw;
+/* #loginContainer {
+  width: 100vw;
   background-image: url('./assets/LoginBackground.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;
-  height: 100vh; */
-}
+  height: 100vh;
+} */
 
 .loginFormContainer {
   width: 35%;
-  margin: 0 auto;
+  margin: 2.5em auto;
   border-radius: 30px;
   padding: 2em;
 }
@@ -235,18 +262,19 @@ nav a.active::after {
 #loginForm {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  /* width: 80%; */
   margin: 0 auto;
 }
 #loginForm > * {
-  margin-bottom: 1.3em;
+  margin-bottom: 2em;
 }
+
 #loginHeader {
   text-align: center;
   font-size: 25px;
   font-weight: 600;
   text-transform: uppercase;
-  margin: 0;
+  /* margin: 0; */
 }
 
 .recipeFormContainer {
@@ -290,6 +318,16 @@ nav a.active::after {
 .editRecipeForm {
   display: flex;
   flex-direction: column;
+}
+#imgActionTitle {
+  display: inline;
+}
+#imgTitleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 1em 0;
+  align-items: center;
 }
 
 #Title {
@@ -350,7 +388,7 @@ nav a.active::after {
 
 .uploadedImg {
   width: 100%;
-  height: 23em;
+  height: 23.1em;
   border-radius: 6px;
 }
 .uploadImgInput {
@@ -369,10 +407,13 @@ nav a.active::after {
   width: 100%;
   margin: 0px 0 6em;
 }
+.recipeAuthorInfoContainer {
+  width: 38%;
+}
 .statsContainer {
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
   color: #828998;
 }
 
@@ -383,20 +424,20 @@ nav a.active::after {
   display: flex;
 }
 #Ingredients {
-  width: 26em;
+  width: 34%;
   height: 23em;
   background-color: #fcf8f2;
   border: 1px solid black;
   border-radius: 6px;
   padding: 1em 1.5em 2em 2.5em;
-  margin: 9.9em 0 0 1.5em;
+  margin: 9.9em 0 0 1em;
 }
 .ingredient {
   word-wrap: break-word;
   margin: 0.5em 0;
 }
-#fullRecipeImgContainer {
-}
+/* #fullRecipeImgContainer {
+} */
 .mainRecipeInfoContainer {
   width: 70%;
 }
@@ -436,11 +477,11 @@ nav a.active::after {
 
 #likesCountContainer {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
 }
 #viewsCountContainer {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
 }
 #viewsCountContainer > * {
   margin: 0 0.1em;

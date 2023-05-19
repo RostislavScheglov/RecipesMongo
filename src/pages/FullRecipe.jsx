@@ -1,18 +1,13 @@
-import { Link, NavLink, Navigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios, { domain } from '../axios'
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useSelector } from 'react-redux'
 import { userId } from '../redux/slices/users'
 import { Box, Button, Modal, Typography } from '@mui/material'
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
 import { ErrorsList } from '../components/ErrorsList'
 import stockImg from '../styles/assets/stockRecipe.png'
 import { checker } from './EditRecipe'
 import { ShortRecipesList } from '../components/ShortRecipesList'
-import { fetchAuthorRecipes } from './AuthorRecipes'
 import EditIcon from '../styles/assets/Edit.svg'
 import DeleteIcon from '../styles/assets/Delete.svg'
 
@@ -39,7 +34,6 @@ export function FullRecipe() {
     const data = await axios.get(`/recipes/${id}`).catch()
     setRecipeState(data.data)
     return data.data
-    // fetchAuthorRecipes(setItem, setLoading, data.data.author)
   }
 
   const fetch3AuthorRecipes = async (setRecipes, setLoading, getAuthorInfo) => {
@@ -101,9 +95,9 @@ export function FullRecipe() {
             err={err}
             // isErr={isErr}
           />
-          {/* <div id="fullRecipeImgContainer"> */}
-          <RecipeAuthorInfo fileds={fileds} />
-
+          <div className="recipeAuthorInfoContainer">
+            <RecipeAuthorInfo fileds={fileds} />
+          </div>
           <div id="Title">{fileds.title}</div>
           {checker(fileds.recipeImage) ? (
             <img
@@ -119,40 +113,32 @@ export function FullRecipe() {
             ></img>
           )}
           <div id="Description">{fileds.description}</div>
-          <div className="recipeActionsContainer">
-            {/* {userInfo === fileds.author ? ( */}
-
-            {/* <EditOutlinedIcon onClick={() => setIsEdit(true)} /> */}
-            {/* ) : null} */}
-            {/* {userInfo === fileds.author ? ( */}
-            <button
-              className="deleteRecipeBtn"
-              onClick={() => setOpen(true)}
-            >
-              {/* <div className="test"> */}
-              <img
-                className="svgIcon"
-                src={DeleteIcon}
-                alt="Delete Icon"
-              />
-              Delete
-            </button>
-            <button
-              className="editRecipeBtn"
-              onClick={() => setIsEdit(true)}
-            >
-              <img
-                className="svgIcon"
-                src={EditIcon}
-                alt="Edit Icon"
-              />
-              Edit
-            </button>
-            {/* ) : null} */}
-          </div>
-          {/* <p>Author</p>
-          <div id="Author">{fileds.author}</div> */}
-          {/* <div id="CreatedAt">{fileds.createdAt}</div> */}
+          {userInfo === fileds.author?._id ? (
+            <div className="recipeActionsContainer">
+              <button
+                className="deleteRecipeBtn"
+                onClick={() => setOpen(true)}
+              >
+                <img
+                  className="svgIcon"
+                  src={DeleteIcon}
+                  alt="Delete Icon"
+                />
+                Delete
+              </button>
+              <button
+                className="editRecipeBtn"
+                onClick={() => setIsEdit(true)}
+              >
+                <img
+                  className="svgIcon"
+                  src={EditIcon}
+                  alt="Edit Icon"
+                />
+                Edit
+              </button>
+            </div>
+          ) : null}
         </div>
         <ul id="Ingredients">
           <p>Ingredients</p>

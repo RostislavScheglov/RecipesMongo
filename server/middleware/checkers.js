@@ -2,7 +2,8 @@ import jwt from 'jsonwebtoken'
 import recipeModel from '../models/Recipe.js'
 
 export function checkSession(req, res, next) {
-  if (req.headers['recipes-filter'] === 'All') {
+  const recipesFilter = req.params.filter
+  if (recipesFilter === 'all') {
     return next()
   }
   try {

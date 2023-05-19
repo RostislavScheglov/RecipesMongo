@@ -8,7 +8,8 @@
 .textContainer {
   align-self: end;
   padding: 1em 1em;
-  height: 12.5em;
+  height: 14em;
+  width: 28em;
 }
 
 .recipesPreview > *:first-child {
@@ -22,9 +23,13 @@
 .recipesPreview > *:first-child > a > .shortRecipeImg {
   position: static;
   height: 25em;
-  width: 100%;
+  width: 60%;
 }
-
+@media screen and (max-width: 1300px) {
+  .recipesPreview > *:first-child > a > .shortRecipeImg {
+    width: 50%;
+  }
+}
 .recipesPreview > *:first-child > a {
   display: flex;
   flex-direction: row;
@@ -34,6 +39,7 @@
   margin-left: 1em;
   margin-top: 3em;
   align-self: auto;
+  width: 33em;
 }
 .recipesPreview > *:first-child > a > div > #title {
   width: fit-content;
@@ -45,8 +51,10 @@
   font-weight: 500;
   font-size: 14px;
   text-align: left;
-  margin-bottom: 9.5em;
-  width: 75%;
+  margin-bottom: 4em;
+  width: 90%;
+  height: 10em;
+  overflow: hidden;
   /* align-self: center; */
 }
 
@@ -100,6 +108,6 @@
 .linkContainer {
   display: flex;
   position: relative;
-  height: 95%;
+  height: 100%;
   border-radius: 8px;
 }

@@ -4,23 +4,22 @@ import { ShortRecipesList } from '../components/ShortRecipesList'
 import { ErrorsList } from '../components/ErrorsList'
 
 import styles from '../styles/shortRecipeBigOne.module.css'
+import { useNavigate } from 'react-router-dom'
 
 export function AllRecipes() {
   const [items, setItem] = useState()
   const [isLoading, setLoading] = useState(true)
+  const [err, setErr] = useState([])
+  const navigate = useNavigate()
 
   //try catch
   const fetchAllRecipes = async () => {
     try {
-      const { data } = await axios.get('/recipes/all', {
-        headers: {
-          'Recipes-Filter': 'All',
-        },
-      })
+      const { data } = await axios.get('/recipes/all')
       setItem(data)
       setLoading(false)
     } catch (err) {
-      console.log(err)
+      setErr(err)
     }
   }
 
@@ -28,17 +27,13 @@ export function AllRecipes() {
   const randomRecipe = (allitems) => {
     const allIds = allitems.map((item) => item._id)
     const randomId = allIds[Math.floor(Math.random() * items.length)]
-    window.location.href = `http://localhost:3000/recipes/${randomId}`
+    navigate(`/recipes/${randomId}`)
   }
 
   //Make custom hook for getting data from server (incapsulate useEffect)
   useEffect(() => {
     fetchAllRecipes()
   }, [])
-
-  if (isLoading) {
-    return <>Loading...</>
-  }
 
   return (
     <div className="feedContainer">
@@ -57,6 +52,7 @@ export function AllRecipes() {
         items={items}
         isLoading={isLoading}
         styles={styles}
+        err={err}
       />
     </div>
   )
