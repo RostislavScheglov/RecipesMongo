@@ -45,9 +45,7 @@ export function FullRecipe() {
       )
       setRecipes(data.slice(0, 3))
       setLoading(false)
-    } catch (err) {
-      console.log(err)
-    }
+    } catch (err) {}
   }
 
   //Add remove recipe img after deleting recipe

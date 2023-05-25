@@ -18,11 +18,11 @@ const recipesRouter = express.Router()
 // app.get('/search', getBySearch)
 recipesRouter.get('/:filter([a-z]+)/:id?', checkSession, findRecipes)
 
-recipesRouter.delete('/img/:path/:imgId', deleteImg)
+recipesRouter.delete('/img/:mainDirectory/:path/:imgId', deleteImg)
 recipesRouter.post('/', checkSession, recipeValidation, create)
 
 recipesRouter.post(
-  '/upload',
+  '/upload/:path',
   upload.fields([{ name: 'img', maxCount: 1 }]),
   uploadUrl
 )

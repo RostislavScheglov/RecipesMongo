@@ -20,6 +20,7 @@ export function ForgotPassword() {
       //   dispatch(getLoginInfo(res.data))
       // })
       .catch((err) => {
+        console.log('yo')
         const x = err.response.data.map((err) => err.msg)
         setErr((e) => [...x])
       })

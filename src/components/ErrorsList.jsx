@@ -1,5 +1,9 @@
 import { Alert } from '@mui/material'
 
+export const errorsSetter = (err, setErr) => {
+  const errors = err.response.data.map((err) => err.msg)
+  setErr(errors)
+}
 export function ErrorsList(props) {
   return (
     <>

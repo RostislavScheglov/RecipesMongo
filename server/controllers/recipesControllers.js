@@ -17,14 +17,14 @@ import multer from 'multer'
 //   } catch (err) {
 //     console.log(err)
 //     res.status(400).json({
-//       message: 'Cant get favourite recipes',
+//       msg: 'Cant get favourite recipes',
 //     })
 //   }
 // }
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads')
+    cb(null, `uploads/${req.params.path}`)
   },
   filename: (req, file, cb) => {
     cb(
@@ -56,7 +56,7 @@ const findByFilter = async (res, errMsg, search) => {
   } catch (err) {
     console.log(err)
     res.status(400).json({
-      message: errMsg,
+      msg: errMsg,
     })
   }
 }
@@ -78,7 +78,6 @@ const getMyRecipes = async (req, res) => {
   findByFilter(res, errMsg, searchParam)
 }
 const getAuthorRecipes = async (req, res) => {
-  console.log('here')
   const errMsg = 'Cant get author recipes'
   const searchParam = { author: req.params.id }
   findByFilter(res, errMsg, searchParam)
@@ -88,8 +87,9 @@ export const upload = multer({ storage: storage })
 
 export const deleteImg = async (req, res) => {
   console.log(req.params)
+  const param = req.params
   try {
-    const imgUrl = req.params.path + '/' + req.params.imgId
+    const imgUrl = param.mainDirectory + '/' + param.path + '/' + param.imgId
     recipeModel.findOneAndUpdate(
       { recipeImage: imgUrl },
       {
@@ -98,12 +98,12 @@ export const deleteImg = async (req, res) => {
       (err, doc) => {
         if (err) {
           return res.status(400).json({
-            message: 'Cant delete img url',
+            msg: 'Cant delete img url',
           })
         }
         if (!doc) {
           return res.status(404).json({
-            message: 'Cant find recipe',
+            msg: 'Cant find recipe',
           })
         }
       }
@@ -112,7 +112,7 @@ export const deleteImg = async (req, res) => {
       console.log(err)
       if (err) {
         return res.status(400).json({
-          message: 'Cant delete img from fs',
+          msg: 'Cant delete img from fs',
         })
       }
     })
@@ -122,7 +122,7 @@ export const deleteImg = async (req, res) => {
   } catch (err) {
     console.log(err)
     return res.status(400).json({
-      message: 'Problem while deleting img',
+      msg: 'Problem while deleting img',
     })
   }
 }
@@ -162,12 +162,12 @@ export const getOne = async (req, res) => {
           if (err) {
             console.log(err)
             return res.status(400).json({
-              message: 'Cant get recipe',
+              msg: 'Cant get recipe',
             })
           }
           if (!doc) {
             return res.status(404).json({
-              message: 'Cant find recipe',
+              msg: 'Cant find recipe',
             })
           }
           res.send(doc)
@@ -175,9 +175,11 @@ export const getOne = async (req, res) => {
       )
       .populate({ path: 'author', select: ['userName', 'userEmail'] })
   } catch (err) {
-    res.status(500).json({
-      message: 'Cant get recipe',
-    })
+    res.status(500).json([
+      {
+        msg: 'Cant get recipe',
+      },
+    ])
   }
 }
 
@@ -185,13 +187,15 @@ export const create = async (req, res) => {
   try {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      return res.status(400).json(errors)
+      return res.status(400).json(errors.errors)
     }
     const recipeExists = await recipeModel.findOne({ title: req.body.title })
     if (recipeExists) {
-      return res.status(400).json({
-        message: 'Recipe with this title exists',
-      })
+      return res.status(400).json([
+        {
+          msg: 'Recipe with this title exists',
+        },
+      ])
     }
     const doc = new recipeModel({
       title: req.body.title,
@@ -204,14 +208,17 @@ export const create = async (req, res) => {
     res.send(post)
   } catch (err) {
     console.log(err)
-    res.status(400).json({
-      message: 'Cant create recipe',
-    })
+    res.status(400).json([
+      {
+        msg: 'Cant create recipe',
+      },
+    ])
   }
 }
 
 export const uploadUrl = async (req, res) => {
-  const imgUrl = req.files.img[0].path.replace('\\', '/')
+  const imgUrl = req.files.img[0].path.replaceAll('\\', '/')
+  console.log(imgUrl)
   recipeModel.findOneAndUpdate(
     { _id: req.body.id },
     {
@@ -220,14 +227,18 @@ export const uploadUrl = async (req, res) => {
     (err, doc) => {
       if (err) {
         console.log(err)
-        return res.status(400).json({
-          message: 'Cant update imgUrl',
-        })
+        return res.status(400).json([
+          {
+            msg: 'Cant update imgUrl',
+          },
+        ])
       }
       if (!doc) {
-        return res.status(404).json({
-          message: 'Cant find recipe',
-        })
+        return res.status(404).json([
+          {
+            msg: 'Cant find recipe',
+          },
+        ])
       }
     }
   )
@@ -239,16 +250,20 @@ export const remove = async (req, res) => {
   try {
     recipeModel.findOneAndDelete({ _id: req.params.id }, (err, doc) => {
       if (!doc) {
-        return res.status(404).json({
-          message: 'Cant find recipe',
-        })
+        return res.status(404).json([
+          {
+            msg: 'Cant find recipe',
+          },
+        ])
       }
     })
     res.send('Recipe was successfully deleted')
   } catch (err) {
-    res.status(400).json({
-      message: 'Cant delete recipe',
-    })
+    res.status(400).json([
+      {
+        msg: 'Cant delete recipe',
+      },
+    ])
   }
 }
 
@@ -256,7 +271,7 @@ export const update = async (req, res) => {
   try {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      return res.status(400).json(errors.array())
+      return res.status(400).json(errors.errors)
     }
     recipeModel.findOneAndUpdate(
       { _id: req.params.id },
@@ -280,7 +295,7 @@ export const update = async (req, res) => {
   } catch (err) {
     res.status(400).json([
       {
-        message: 'Cant update recipe',
+        msg: 'Cant update recipe',
       },
     ])
   }
@@ -297,15 +312,19 @@ export const likeDislike = async (req, res) => {
         },
         (err, doc) => {
           if (!doc) {
-            return res.status(404).json({
-              message: 'Cant find recipe',
-            })
+            return res.status(404).json([
+              {
+                msg: 'Cant find recipe',
+              },
+            ])
           }
         }
       )
-      res.status(200).json({
-        msg: 'Added to fav',
-      })
+      res.status(200).json([
+        {
+          msg: 'Added to fav',
+        },
+      ])
     } else {
       recipeModel.updateOne(
         { _id: req.params.id },
@@ -314,19 +333,25 @@ export const likeDislike = async (req, res) => {
         },
         (err, doc) => {
           if (!doc) {
-            return res.status(404).json({
-              message: 'Cant find recipe',
-            })
+            return res.status(404).json([
+              {
+                msg: 'Cant find recipe',
+              },
+            ])
           }
         }
       )
-      res.status(200).json({
-        msg: 'Deleted from fav',
-      })
+      res.status(200).json([
+        {
+          msg: 'Deleted from fav',
+        },
+      ])
     }
   } catch (err) {
-    res.status(400).json({
-      message: 'Cant update recipe',
-    })
+    res.status(400).json([
+      {
+        msg: 'Cant update recipe',
+      },
+    ])
   }
 }

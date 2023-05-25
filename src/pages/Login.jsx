@@ -8,7 +8,7 @@ import { Button, TextField, Alert, IconButton } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
-import { ErrorsList } from '../components/ErrorsList'
+import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 import { CustomTextField } from '../styles/customMuiStyles'
 
 export function Login() {
@@ -31,8 +31,10 @@ export function Login() {
         setTokenLocal(res.data)
       })
       .catch((err) => {
-        const x = err.response.data.map((err) => err.msg)
-        setErr((e) => [...x])
+        errorsSetter(err, setErr)
+        // const x = err.response.data.map((err) => err.msg)
+        // console.log(x)
+        // setErr(x)
       })
   }
 

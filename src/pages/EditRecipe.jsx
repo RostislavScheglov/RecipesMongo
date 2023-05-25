@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { userId } from '../redux/slices/users'
 import { RecipeMainFields } from '../components/RecipeMainFields'
+import { errorsSetter } from '../components/ErrorsList'
 
 export const checker = (el) => el !== undefined && el !== null && el !== ''
 
@@ -20,7 +21,6 @@ export function EditRecipe() {
 
   const editRecipe = async (params) => {
     params.ingredients = ingredients
-    console.log(params)
     await axios
       .patch(`/recipes/edit/${id}/${userInfo}`, params)
       .then(() => {
@@ -28,13 +28,14 @@ export function EditRecipe() {
           const formData = new FormData()
           formData.append('img', img)
           formData.append('id', id)
-          axios.post('/recipes/upload', formData)
+          axios.post('/recipes/upload/recipesImgs', formData)
         }
         setIsRedirect(true)
       })
       .catch((err) => {
-        const x = err.response.data.map((err) => err.msg)
-        setErr(x)
+        errorsSetter(err, setErr)
+        // const x = err.response.data.map((err) => err.msg)
+        // setErr(x)
       })
   }
 

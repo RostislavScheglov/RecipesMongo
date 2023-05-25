@@ -7,10 +7,20 @@ import { ErrorsList } from './ErrorsList'
 
 export function ShortRecipesList(props) {
   if (props.isLoading) {
-    return <>Loading...</>
+    return (
+      <div className="noRecipesContainer">
+        <ErrorsList err={props.err} />
+        <h2>Loading...</h2>
+      </div>
+    )
   }
   if (props.items.length === 0) {
-    return <h2>No recipes yet</h2>
+    return (
+      <div className="noRecipesContainer">
+        <ErrorsList err={props.err} />
+        <h2>No recipes yet</h2>
+      </div>
+    )
   }
   const styles = props.styles
   const checker = (el) => el !== undefined && el !== null && el !== ''

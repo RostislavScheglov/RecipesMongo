@@ -1,7 +1,7 @@
 import axios from '../axios'
 import { useEffect, useState } from 'react'
 import { ShortRecipesList } from '../components/ShortRecipesList'
-import { ErrorsList } from '../components/ErrorsList'
+import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 import { useParams } from 'react-router-dom'
 import styles from '../styles/shortRecipeList.module.css'
 
@@ -18,27 +18,25 @@ export function AuthorRecipes() {
       setRecipes(data)
       setLoading(false)
     } catch (err) {
-      setErr(err)
+      errorsSetter(err, setErr)
     }
   }
-  //try catch
 
   //Make custom hook for getting data from server (incapsulate useEffect)
   useEffect(() => {
     fetchAuthorRecipes(setItem, setLoading, id)
   }, [id])
 
-  if (isLoading) {
-    return <>Loading...</>
-  }
+  // if (isLoading) {
+  //   return <>Loading...</>
+  // }
 
   return (
     <div className="feedContainer">
       <div id="authorInfoContainer">
-        <span className="authorName">{items[0].author.userName}</span>
-        <span>{items[0].author.userEmail}</span>
+        <span className="authorName">{items[0]?.author.userName}</span>
+        <span>{items[0]?.author.userEmail}</span>
       </div>
-      {/* <ErrorsList err={err} /> */}
       <ShortRecipesList
         items={items}
         isLoading={isLoading}

@@ -4,12 +4,13 @@ import { useState } from 'react'
 import { getRegistrInfo, isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
-import { Button, TextField, Alert, IconButton } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { ErrorsList } from '../components/ErrorsList'
 import { CustomTextField } from '../styles/customMuiStyles'
+import { UploadImg } from '../components/UploadImg'
 
 export function Registration() {
   const dispatch = useDispatch()
@@ -35,11 +36,6 @@ export function Registration() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    defaultValues: {
-      userName: '',
-      userEmail: '',
-      userPassword: '',
-    },
     mode: 'onChange',
   })
 
@@ -50,12 +46,14 @@ export function Registration() {
   return (
     <div id="loginContainer">
       <h1 className="pageTitle">Registartion</h1>
-      <ErrorsList err={err} />
+
       <div className="loginFormContainer">
+        <ErrorsList err={err} />
         <form
           id="loginForm"
           onSubmit={handleSubmit(fetchRegistr)}
         >
+          <UploadImg />
           <CustomTextField
             type="text"
             variant="outlined"

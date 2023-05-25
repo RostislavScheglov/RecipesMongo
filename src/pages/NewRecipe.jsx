@@ -5,6 +5,7 @@ import { isAuthUser } from '../redux/slices/users'
 import { Navigate } from 'react-router-dom'
 import * as React from 'react'
 import { RecipeMainFields } from '../components/RecipeMainFields'
+import { errorsSetter } from '../components/ErrorsList'
 
 export function NewRecipe() {
   const isAuth = useSelector(isAuthUser)
@@ -25,27 +26,26 @@ export function NewRecipe() {
           const formData = new FormData()
           formData.append('img', img)
           formData.append('id', res.data._id)
-          axios.post('/recipes/upload', formData)
+          axios.post('/recipes/upload/recipesImgs', formData)
         }
         setIngredient([])
         setIsCreated(true)
       })
       .catch((err) => {
-        if ('message' in err.response.data) {
-          setErr([err.response.data.message])
-        }
-        const x = err.response.data.errors.map((err) => err.msg)
-        setErr(x)
+        console.log(err)
+        errorsSetter(err, setErr)
       })
+    // const x = err.response.data.errors.map((err) => err.msg)
+    // setErr(x)
   }
 
-  if (!isAuth) {
-    return <Navigate to="/auth/login" />
-  }
+  // if (!isAuth) {
+  //   return <Navigate to="/auth/login" />
+  // }
 
-  if (isCreated) {
-    return <Navigate to="/recipes/myrecipes" />
-  }
+  // if (isCreated) {
+  //   return <Navigate to="/recipes/myrecipes" />
+  // }
 
   return (
     <>

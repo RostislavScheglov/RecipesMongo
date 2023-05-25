@@ -6,6 +6,7 @@ import { isAuthUser } from '../redux/slices/users'
 import { ShortRecipesList } from '../components/ShortRecipesList'
 import styles from '../styles/shortRecipeBigOne.module.css'
 import { ErrorsList } from '../components/ErrorsList'
+
 export function MyRecipes() {
   const isAuth = useSelector(isAuthUser)
   const [items, setItem] = useState()
@@ -15,7 +16,8 @@ export function MyRecipes() {
   //try catch
   const fetchMyRecipes = async () => {
     const { data } = await axios.get('/recipes/my').catch((err) => {
-      setErr(err)
+      const x = err.response.data.map((err) => err.msg)
+      setErr(x)
     })
     setItem(data)
     setLoading(false)
@@ -25,21 +27,17 @@ export function MyRecipes() {
     fetchMyRecipes()
   }, [])
 
-  if (!isAuth) {
-    return <Navigate to="/auth/login" />
-  }
-
-  // if (isLoading) {
-  //   return <>Loading...</>
+  // if (!isAuth) {
+  //   return <Navigate to="/auth/login" />
   // }
 
   return (
     <>
-      <ErrorsList err={err} />
       <ShortRecipesList
         items={items}
         isLoading={isLoading}
         styles={styles}
+        err={err}
       />
     </>
   )

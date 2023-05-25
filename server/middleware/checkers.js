@@ -3,7 +3,7 @@ import recipeModel from '../models/Recipe.js'
 
 export function checkSession(req, res, next) {
   const recipesFilter = req.params.filter
-  if (recipesFilter === 'all') {
+  if (recipesFilter === 'all' || recipesFilter === 'author') {
     return next()
   }
   try {
@@ -13,10 +13,10 @@ export function checkSession(req, res, next) {
       req.userId = decoded._id
       next()
     } else {
-      return res.status(403).json({ message: 'No token' })
+      return res.status(403).json([{ msg: 'No token' }])
     }
   } catch (err) {
-    return res.status(403).json({ message: 'Bad session' })
+    return res.status(403).json([{ msg: 'Bad session' }])
   }
 }
 

@@ -29,7 +29,7 @@ function App() {
       .catch((err) => {
         const x = err.response.data.map((err) => err.msg)
         console.log(x)
-        console.log([err.response.data.message])
+        // console.log([err.response.data.message])
       })
   }
 

@@ -56,11 +56,6 @@ export const RecipeMainFields = (props) => {
 
   return (
     <div className="recipeFormContainer">
-      {/* <button
-        onClick={() => {
-          console.log(props.data)
-        }}
-      ></button> */}
       <ErrorsList err={props.err} />
       <form
         id="recipeForm"

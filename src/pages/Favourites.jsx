@@ -5,13 +5,14 @@ import { Navigate } from 'react-router-dom'
 import { isAuthUser } from '../redux/slices/users'
 import { ShortRecipesList } from '../components/ShortRecipesList'
 import styles from '../styles/shortRecipeBigOne.module.css'
-import { ErrorsList } from '../components/ErrorsList'
+import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 
 export function Favourites() {
   const isAuth = useSelector(isAuthUser)
 
   const [items, setItem] = useState([])
   const [isLoading, setLoading] = useState(true)
+  const [err, setErr] = useState([])
 
   //try catch
   const fetchFavourites = async () => {
@@ -20,24 +21,28 @@ export function Favourites() {
       console.log(data)
       setItem(data)
       setLoading(false)
-    } catch (err) {}
+    } catch (err) {
+      errorsSetter(err, setErr)
+      // const x = err.response.data.map((err) => err.msg)
+      // setErr(x)
+    }
   }
 
   useEffect(() => {
     fetchFavourites()
   }, [])
 
-  if (!isAuth) {
-    return <Navigate to="/auth/login" />
-  }
+  // if (!isAuth) {
+  //   return <Navigate to="/auth/login" />
+  // }
 
   return (
     <>
-      {/* <ErrorsList err={err} /> */}
       <ShortRecipesList
         items={items}
         isLoading={isLoading}
         styles={styles}
+        err={err}
       />
     </>
   )
