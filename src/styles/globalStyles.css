@@ -67,6 +67,11 @@ nav a.active::after {
   padding-left: 0.5em;
   font-size: 12px;
 }
+.userAvatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50px;
+}
 #userInfoContainer > * {
   margin: 0;
 }

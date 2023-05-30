@@ -1,4 +1,4 @@
-import axios from '../axios'
+import axios, { domain } from '../axios'
 import { useEffect, useState } from 'react'
 import { ShortRecipesList } from '../components/ShortRecipesList'
 import { ErrorsList, errorsSetter } from '../components/ErrorsList'
@@ -34,6 +34,11 @@ export function AuthorRecipes() {
   return (
     <div className="feedContainer">
       <div id="authorInfoContainer">
+        <img
+          src={`${domain}${items[0]?.author.userImage}`}
+          className="userAvatar"
+          alt="Avatar"
+        ></img>
         <span className="authorName">{items[0]?.author.userName}</span>
         <span>{items[0]?.author.userEmail}</span>
       </div>

@@ -8,7 +8,7 @@ import { Button, IconButton } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
-import { ErrorsList } from '../components/ErrorsList'
+import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 import { CustomTextField } from '../styles/customMuiStyles'
 import { UploadImg } from '../components/UploadImg'
 
@@ -17,17 +17,25 @@ export function Registration() {
   const isAuth = useSelector(isAuthUser)
   const [err, setErr] = useState([])
   const [showPass, setShowPass] = useState(false)
+  const [img, setImg] = useState('')
 
   const fetchRegistr = async (params) => {
     axios
       .post('/auth/registration', params)
       .then((res) => {
+        if (img !== '') {
+          const formData = new FormData()
+          formData.append('img', img)
+          formData.append('id', res.data._id)
+          axios.post('auth/uploads/usersImgs', formData)
+        }
+      })
+      .then((res) => {
         dispatch(getRegistrInfo(res.data))
         window.sessionStorage.setItem('token', res.data.token)
       })
       .catch((err) => {
-        const x = err.response.data.map((err) => err.msg)
-        setErr(x)
+        errorsSetter(err, setErr)
       })
   }
 
@@ -53,7 +61,7 @@ export function Registration() {
           id="loginForm"
           onSubmit={handleSubmit(fetchRegistr)}
         >
-          <UploadImg />
+          <UploadImg setImg={setImg} />
           <CustomTextField
             type="text"
             variant="outlined"
@@ -92,7 +100,7 @@ export function Registration() {
             disabled={!isValid}
             variant="outlined"
           >
-            Enter
+            Save
           </Button>
         </form>
       </div>

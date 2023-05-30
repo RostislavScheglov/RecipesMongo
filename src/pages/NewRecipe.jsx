@@ -26,7 +26,7 @@ export function NewRecipe() {
           const formData = new FormData()
           formData.append('img', img)
           formData.append('id', res.data._id)
-          axios.post('/recipes/upload/recipesImgs', formData)
+          axios.post('/recipes/uploads/recipesImgs', formData)
         }
         setIngredient([])
         setIsCreated(true)

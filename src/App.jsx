@@ -16,13 +16,14 @@ import { EditRecipe } from './pages/EditRecipe'
 import { ErrorsList } from './components/ErrorsList'
 import { ForgotPassword } from './pages/ForgotPassowrd'
 import { AuthorRecipes } from './pages/AuthorRecipes'
+import { EditPersonalInfo } from './pages/EditPersonalInfo'
 
 function App() {
   const dispatch = useDispatch()
 
   const authMe = () => {
     axios
-      .post('/auth/me')
+      .get('/auth/me')
       .then((res) => {
         dispatch(getMeInfo(res.data))
       })
@@ -53,6 +54,10 @@ function App() {
         <Route
           path="/auth/registration"
           element={<Registration />}
+        />
+        <Route
+          path="/auth/editPersonalInfo"
+          element={<EditPersonalInfo />}
         />
         <Route
           path="/auth/login"

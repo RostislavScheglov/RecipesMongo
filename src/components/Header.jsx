@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isAuthUser, logout, userData } from '../redux/slices/users'
 import { Box } from '@mui/system'
+import { domain } from '../axios'
 
 export function Header() {
   const [open, setOpen] = useState(false)
@@ -28,8 +29,14 @@ export function Header() {
 
         {isAuth ? (
           <div id="userInfoContainer">
+            <img
+              src={`${domain}${userInfo?.userImage}`}
+              className="userAvatar"
+              alt="Avatar"
+            ></img>
             <p>{userInfo?.userName}</p>
-            <p>{userInfo?.userEmail}</p>
+            {/* <p>{userInfo?.userEmail}</p> */}
+            <NavLink to="/auth/editPersonalInfo">Settings</NavLink>
           </div>
         ) : null}
         {isAuth ? (

@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import likesCountIcon from '../styles/assets/likesCountIcon.svg'
 import viewsCountIcon from '../styles/assets/viewsCountIcon.svg'
+import { domain } from '../axios'
 
 export function RecipeAuthorInfo(props) {
   // const styles = props.styles
@@ -13,6 +14,12 @@ export function RecipeAuthorInfo(props) {
         className="recipeStatsLink"
         to={`/recipes/author/${props.fileds?.author?._id}`}
       >
+        <button onClick={() => console.log(props?.fileds.author)}></button>
+        <img
+          src={`${domain}${props?.fileds.author?.userImage}`}
+          className="userAvatar"
+          alt="Avatar"
+        ></img>
         <span>{props?.fileds.author?.userName}</span>
         <span>{props?.fileds.author?.userEmail}</span>
         <span id="recipeDateCreation">Created {props?.fileds?.createdAt}</span>

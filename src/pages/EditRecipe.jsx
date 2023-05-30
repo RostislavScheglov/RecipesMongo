@@ -28,7 +28,7 @@ export function EditRecipe() {
           const formData = new FormData()
           formData.append('img', img)
           formData.append('id', id)
-          axios.post('/recipes/upload/recipesImgs', formData)
+          axios.post('/recipes/uploads/recipesImgs', formData)
         }
         setIsRedirect(true)
       })
@@ -42,8 +42,7 @@ export function EditRecipe() {
   //try catch
   const getOneRecipe = async (id) => {
     const { data } = await axios.get(`/recipes/${id}`).catch((err) => {
-      console.log('Edit trouble')
-      console.log(err)
+      errorsSetter(err, setErr)
     })
     setData(data)
   }
