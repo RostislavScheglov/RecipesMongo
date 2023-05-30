@@ -22,19 +22,6 @@ import multer from 'multer'
 //   }
 // }
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, `uploads/${req.params.path}`)
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      Math.floor(Math.random() * 999) +
-        Date.now() +
-        file.mimetype.replace('/', '.')
-    )
-  },
-})
 // const multerFilter = (req, file, cb) => {
 //   const errors = validationResult(req)
 //   if (!errors.isEmpty()) {
@@ -46,9 +33,10 @@ const storage = multer.diskStorage({
 
 const findByFilter = async (res, errMsg, search) => {
   try {
-    const recipes = await recipeModel
-      .find(search)
-      .populate({ path: 'author', select: ['userName', 'userEmail'] })
+    const recipes = await recipeModel.find(search).populate({
+      path: 'author',
+      select: ['userName', 'userEmail', 'userImage'],
+    })
     if (recipes !== null && recipes !== undefined) {
       return res.send(recipes)
     }
@@ -82,8 +70,6 @@ const getAuthorRecipes = async (req, res) => {
   const searchParam = { author: req.params.id }
   findByFilter(res, errMsg, searchParam)
 }
-
-export const upload = multer({ storage: storage })
 
 export const deleteImg = async (req, res) => {
   console.log(req.params)
@@ -173,7 +159,10 @@ export const getOne = async (req, res) => {
           res.send(doc)
         }
       )
-      .populate({ path: 'author', select: ['userName', 'userEmail'] })
+      .populate({
+        path: 'author',
+        select: ['userName', 'userEmail', 'userImage'],
+      })
   } catch (err) {
     res.status(500).json([
       {

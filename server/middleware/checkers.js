@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import recipeModel from '../models/Recipe.js'
+import userModel from '../models/User.js'
 
 export function checkSession(req, res, next) {
   const recipesFilter = req.params.filter
@@ -38,3 +39,51 @@ export async function checkAuthor(req, res, next) {
     return res.json({ msg: err })
   }
 }
+
+export async function uniqueEmail(req, res, next) {
+  const myEmailExist = await userModel.findOne({
+    _id: req.userId,
+    userEmail: req.body.userEmail,
+  })
+  if (myEmailExist) {
+    return next()
+  }
+  const userEmailExist = await userModel.findOne({
+    userEmail: req.body.userEmail,
+  })
+  if (userEmailExist) {
+    return res.status(500).json([
+      {
+        msg: 'User with this email already exists',
+      },
+    ])
+  }
+  next()
+}
+
+export async function uniqueName(req, res, next) {
+  const myNameExist = await userModel.findOne({
+    _id: req.userId,
+    userName: req.body.userName,
+  })
+  if (myNameExist) {
+    return next()
+  }
+
+  const userNameExist = await userModel.findOne({
+    userName: req.body.userName,
+  })
+  if (userNameExist) {
+    return res.status(500).json([
+      {
+        msg: 'User with this NickName already exists',
+      },
+    ])
+  }
+  next()
+}
+// export async function uniquePersonalInfo(req, res, next) {
+//   uniqueName(req, res, next)
+//   uniqueEmail(req, res, next)
+//   next()
+// }

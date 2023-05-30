@@ -9,9 +9,9 @@ import {
   likeDislike,
   remove,
   update,
-  upload,
   uploadUrl,
 } from '../controllers/recipesControllers.js'
+import { upload } from '../config/config.js'
 
 const recipesRouter = express.Router()
 
@@ -22,7 +22,7 @@ recipesRouter.delete('/img/:mainDirectory/:path/:imgId', deleteImg)
 recipesRouter.post('/', checkSession, recipeValidation, create)
 
 recipesRouter.post(
-  '/upload/:path',
+  '/uploads/:path',
   upload.fields([{ name: 'img', maxCount: 1 }]),
   uploadUrl
 )

@@ -9,14 +9,37 @@ import {
   getMe,
   login,
   registration,
+  updateUserInfo,
+  uploadUrl,
 } from '../controllers/userControllers.js'
-import { checkSession } from '../middleware/checkers.js'
+import {
+  checkSession,
+  uniqueEmail,
+  uniqueName,
+  // existInfo,
+  // uniquePersonalInfo,
+} from '../middleware/checkers.js'
+import { upload } from '../config/config.js'
 
 const userRouter = express.Router()
 
 userRouter.post('/forgotPassword', forgotPasswordValidation, forgotPassword)
+userRouter.post(
+  '/uploads/:path',
+  upload.fields([{ name: 'img', maxCount: 1 }]),
+  uploadUrl
+)
+userRouter.patch(
+  '/me/edit',
+  checkSession,
+  uniqueName,
+  uniqueEmail,
+  // registrValidation,
+  // uniquePersonalInfo,
+  updateUserInfo
+)
 userRouter.post('/registration', registrValidation, registration)
 userRouter.post('/login', loginValidation, login)
-userRouter.post('/me', checkSession, getMe)
+userRouter.get('/me', checkSession, getMe)
 
 export default userRouter

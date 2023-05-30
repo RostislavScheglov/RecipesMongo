@@ -64,12 +64,64 @@ export const registration = async (req, res) => {
     ])
   }
 }
+export const updateUserInfo = async (req, res) => {
+  try {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors.errors)
+    }
+    // const userEmailExist = await userModel.findOne({
+    //   userEmail: req.body.userEmail,
+    // })
+    // if (userEmailExist) {
+    //   return res.status(500).json([
+    //     {
+    //       msg: 'User with this email already exists',
+    //     },
+    //   ])
+    // }
+    // const userNameExist = await userModel.findOne({
+    //   userName: req.body.userName,
+    // })
+    // if (userNameExist) {
+    //   return res.status(500).json([
+    //     {
+    //       msg: 'User with this NickName already exists',
+    //     },
+    //   ])
+    // }
+    userModel.findOneAndUpdate(
+      { _id: req.userId },
+      {
+        userName: req.body.userName,
+        userEmail: req.body.userEmail,
+        // userPassword: req.body.userPassword,
+      },
+      (err, doc) => {
+        if (!doc) {
+          return res.status(404).json([
+            {
+              msg: 'Cant find user',
+            },
+          ])
+        }
+      }
+    )
+    res.send('User Info was successfully Updated')
+  } catch (err) {
+    res.status(400).json([
+      {
+        msg: 'Cant update user',
+      },
+    ])
+  }
+}
 
 export const login = async (req, res) => {
   try {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      return res.status(400).json(errors.array())
+      return res.status(400).json(errors.errors)
     }
     const user = await userModel.findOne({ userEmail: req.body.userEmail })
     if (!user) {
@@ -118,7 +170,7 @@ export const forgotPassword = async (req, res) => {
   try {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      return res.status(400).json(errors.array())
+      return res.status(400).json(errors.errors)
     }
     const user = await userModel.findOne({ userEmail: req.body.userEmail })
     if (!user) {
@@ -177,4 +229,33 @@ export const getMe = async (req, res) => {
       },
     ])
   }
+}
+
+export const uploadUrl = async (req, res) => {
+  const imgUrl = req.files.img[0].path.replaceAll('\\', '/')
+  console.log(imgUrl)
+  userModel.findOneAndUpdate(
+    { _id: req.body.id },
+    {
+      userImage: imgUrl,
+    },
+    (err, doc) => {
+      if (err) {
+        console.log(err)
+        return res.status(400).json([
+          {
+            msg: 'Cant update imgUrl',
+          },
+        ])
+      }
+      if (!doc) {
+        return res.status(404).json([
+          {
+            msg: 'Cant find user',
+          },
+        ])
+      }
+    }
+  )
+  res.send('Img Uploaded successfull')
 }
