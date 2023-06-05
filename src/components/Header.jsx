@@ -1,16 +1,18 @@
 import { Link, NavLink } from 'react-router-dom'
 import Modal from '@mui/material/Modal'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isAuthUser, logout, userData } from '../redux/slices/users'
 import { Box } from '@mui/system'
 import { domain } from '../axios'
+import axios from 'axios'
 
 export function Header() {
   const [open, setOpen] = useState(false)
   const isAuth = useSelector(isAuthUser)
   const dispatch = useDispatch()
   const userInfo = useSelector(userData)
+  // const [userInfo, setUserInfo] = useState([])
 
   const handleLogOut = () => {
     dispatch(logout())
@@ -18,6 +20,9 @@ export function Header() {
     setOpen(false)
   }
 
+  // useEffect(() => {
+  //   setUserInfo()
+  // }, [])
   return (
     <div className="HeaderContainer">
       <div id="logo"></div>
@@ -34,9 +39,16 @@ export function Header() {
               className="userAvatar"
               alt="Avatar"
             ></img>
-            <p>{userInfo?.userName}</p>
-            {/* <p>{userInfo?.userEmail}</p> */}
-            <NavLink to="/auth/editPersonalInfo">Settings</NavLink>
+            <div className="userInfoTextContainer">
+              <span id="userName">{userInfo?.userName}</span>
+              <span id="userEmail">{userInfo?.userEmail}</span>
+            </div>
+            <NavLink
+              id="settingsBtn"
+              to="/auth/editPersonalInfo"
+            >
+              Settings
+            </NavLink>
           </div>
         ) : null}
         {isAuth ? (

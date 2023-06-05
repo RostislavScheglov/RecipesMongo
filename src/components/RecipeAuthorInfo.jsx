@@ -14,15 +14,19 @@ export function RecipeAuthorInfo(props) {
         className="recipeStatsLink"
         to={`/recipes/author/${props.fileds?.author?._id}`}
       >
-        <button onClick={() => console.log(props?.fileds.author)}></button>
+        {/* <button onClick={() => console.log(props?.fileds.author)}></button> */}
         <img
           src={`${domain}${props?.fileds.author?.userImage}`}
           className="userAvatar"
           alt="Avatar"
         ></img>
-        <span>{props?.fileds.author?.userName}</span>
-        <span>{props?.fileds.author?.userEmail}</span>
-        <span id="recipeDateCreation">Created {props?.fileds?.createdAt}</span>
+        <div className="userInfoTextContainer">
+          <span>{props?.fileds.author?.userName}</span>
+          {/* <span>{props?.fileds.author?.userEmail}</span> */}
+          <span id="recipeDateCreation">
+            Created {props?.fileds?.createdAt}
+          </span>
+        </div>
       </NavLink>
       <div className="statsContainer">
         <div id="viewsCountContainer">

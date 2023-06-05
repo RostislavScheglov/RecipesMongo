@@ -1,9 +1,14 @@
 import axios from '../axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { getRegistrInfo, isAuthUser } from '../redux/slices/users'
+import {
+  getMeInfo,
+  getMyAvatar,
+  getRegistrInfo,
+  isAuthUser,
+} from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { Button, IconButton } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import VisibilityIcon from '@mui/icons-material/Visibility'
@@ -16,21 +21,29 @@ export function EditPersonalInfo() {
   const dispatch = useDispatch()
   const isAuth = useSelector(isAuthUser)
   const [err, setErr] = useState([])
+  const [isEdited, setIsEdited] = useState(false)
   const [showPass, setShowPass] = useState(false)
   const [img, setImg] = useState('')
   const [imgUrl, setImgUrl] = useState('')
+  const navigate = useNavigate()
 
   const editPersonalInfo = async (params) => {
     axios
       .patch('/auth/me/edit', params)
       .then((res) => {
+        console.log(res.data)
         if (img !== '') {
           const formData = new FormData()
           formData.append('img', img)
           formData.append('id', res.data._id)
-          axios.post('auth/uploads/usersImgs', formData)
+          axios.post('auth/uploads/usersImgs', formData).then((res) => {
+            console.log(res)
+            dispatch(getMyAvatar(res.data.imgUrl))
+          })
         }
+        dispatch(getMeInfo(res.data))
       })
+      .then(setIsEdited(true))
       .catch((err) => {
         errorsSetter(err, setErr)
       })
@@ -63,10 +76,16 @@ export function EditPersonalInfo() {
   } = useForm({
     mode: 'onChange',
   })
-
-  // if (isAuth) {
-  //   return <Navigate to="/" />
-  // }
+  const deleteImg = (imgUrl, setImgUrl) => {
+    console.log(imgUrl)
+    axios
+      .delete(`auth/img/${imgUrl}`)
+      .then(setImgUrl(''))
+      .catch((err) => console.log(err))
+  }
+  if (!isAuth || isEdited) {
+    return <Navigate to="/" />
+  }
 
   return (
     <div id="loginContainer">
@@ -82,7 +101,7 @@ export function EditPersonalInfo() {
             imgUrl={imgUrl}
             setImgUrl={setImgUrl}
             setImg={setImg}
-            // deleteImg={props.deleteImg}
+            deleteImg={deleteImg}
           />
           <CustomTextField
             type="text"

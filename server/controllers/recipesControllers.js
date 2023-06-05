@@ -72,7 +72,6 @@ const getAuthorRecipes = async (req, res) => {
 }
 
 export const deleteImg = async (req, res) => {
-  console.log(req.params)
   const param = req.params
   try {
     const imgUrl = param.mainDirectory + '/' + param.path + '/' + param.imgId

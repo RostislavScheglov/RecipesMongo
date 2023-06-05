@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 import { validationResult } from 'express-validator'
 import userModel from '../models/User.js'
 import nodemailer from 'nodemailer'
-
+import fs from 'fs'
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -70,47 +70,21 @@ export const updateUserInfo = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json(errors.errors)
     }
-    // const userEmailExist = await userModel.findOne({
-    //   userEmail: req.body.userEmail,
-    // })
-    // if (userEmailExist) {
-    //   return res.status(500).json([
-    //     {
-    //       msg: 'User with this email already exists',
-    //     },
-    //   ])
-    // }
-    // const userNameExist = await userModel.findOne({
-    //   userName: req.body.userName,
-    // })
-    // if (userNameExist) {
-    //   return res.status(500).json([
-    //     {
-    //       msg: 'User with this NickName already exists',
-    //     },
-    //   ])
-    // }
-    userModel.findOneAndUpdate(
+    const updatedUser = await userModel.findOneAndUpdate(
       { _id: req.userId },
       {
         userName: req.body.userName,
         userEmail: req.body.userEmail,
         // userPassword: req.body.userPassword,
       },
-      (err, doc) => {
-        if (!doc) {
-          return res.status(404).json([
-            {
-              msg: 'Cant find user',
-            },
-          ])
-        }
-      }
+      { new: true }
     )
-    res.send('User Info was successfully Updated')
+    const { userPassword, ...userData } = updatedUser._doc
+    res.send(userData)
   } catch (err) {
     res.status(400).json([
       {
+        err: err,
         msg: 'Cant update user',
       },
     ])
@@ -257,5 +231,48 @@ export const uploadUrl = async (req, res) => {
       }
     }
   )
-  res.send('Img Uploaded successfull')
+  res.send({
+    imgUrl: imgUrl,
+    msg: 'Img Uploaded successfull',
+  })
+}
+export const deleteImg = async (req, res) => {
+  const param = req.params
+  try {
+    const imgUrl = param.mainDirectory + '/' + param.path + '/' + param.imgId
+    userModel.findOneAndUpdate(
+      { userImage: imgUrl },
+      {
+        userImage: '',
+      },
+      (err, doc) => {
+        if (err) {
+          return res.status(400).json({
+            msg: 'Cant delete img url',
+          })
+        }
+        if (!doc) {
+          return res.status(404).json({
+            msg: 'Cant find recipe',
+          })
+        }
+      }
+    )
+    fs.unlink(imgUrl, (err) => {
+      console.log(err)
+      if (err) {
+        return res.status(400).json({
+          msg: 'Cant delete img from fs',
+        })
+      }
+    })
+    res.status(200).json({
+      url: 'Img deleted ',
+    })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json({
+      msg: 'Problem while deleting img',
+    })
+  }
 }

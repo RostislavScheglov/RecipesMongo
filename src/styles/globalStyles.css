@@ -63,26 +63,48 @@ nav a.active::after {
 }
 
 #userInfoContainer {
+  display: flex;
   border-left: 2px solid black;
   padding-left: 0.5em;
   font-size: 12px;
+  align-items: center;
+}
+.userInfoTextContainer {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
 }
 .userAvatar {
   width: 70px;
   height: 70px;
   border-radius: 50px;
 }
+#userName {
+  font-size: 14px;
+  font-weight: bold;
+}
+#userEmail {
+  /* font-size: 12px; */
+}
 #userInfoContainer > * {
-  margin: 0;
+  margin: 0 0.5em;
+}
+#settingsBtn {
+  border-bottom: 2px solid #d4aeff;
+  font-size: 12px;
+  font-weight: bold;
+  width: fit-content;
+  height: fit-content;
 }
 #headerLinkContainer {
   justify-content: space-between;
   display: flex;
   align-items: center;
-  width: 42em;
+  width: 60%;
 }
 #headerLinkContainer > a {
-  position: relative;
+  margin: 0 0.5em;
+  /* position: relative; */
 }
 
 .errorContainer {
@@ -420,7 +442,8 @@ nav a.active::after {
   margin-right: 1em;
   font-size: 14px;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
+  align-items: center;
 }
 .recipeStatsLink > * {
   margin: 0;

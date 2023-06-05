@@ -5,6 +5,7 @@ import {
   registrValidation,
 } from '../validators/authValidator.js'
 import {
+  deleteImg,
   forgotPassword,
   getMe,
   login,
@@ -39,6 +40,7 @@ userRouter.patch(
   updateUserInfo
 )
 userRouter.post('/registration', registrValidation, registration)
+userRouter.delete('/img/:mainDirectory/:path/:imgId', deleteImg)
 userRouter.post('/login', loginValidation, login)
 userRouter.get('/me', checkSession, getMe)
 
