@@ -1,10 +1,9 @@
 import axios from '../axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
-import { getLoginInfo, isAuthUser } from '../redux/slices/users'
+import { isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
-import { Button, TextField } from '@mui/material'
 import { ErrorsList } from '../components/ErrorsList'
 import { CustomTextField } from '../styles/customMuiStyles'
 
@@ -20,7 +19,6 @@ export function ForgotPassword() {
       //   dispatch(getLoginInfo(res.data))
       // })
       .catch((err) => {
-        console.log('yo')
         const x = err.response.data.map((err) => err.msg)
         setErr((e) => [...x])
       })

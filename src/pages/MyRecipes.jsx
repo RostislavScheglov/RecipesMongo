@@ -4,23 +4,24 @@ import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import { isAuthUser } from '../redux/slices/users'
 import { ShortRecipesList } from '../components/ShortRecipesList'
-import styles from '../styles/shortRecipeBigOne.module.css'
-import { ErrorsList } from '../components/ErrorsList'
+import styles from '../styles/shortRecipeList.module.css'
+import { errorsSetter } from '../components/ErrorsList'
 
 export function MyRecipes() {
   const isAuth = useSelector(isAuthUser)
   const [items, setItem] = useState()
   const [isLoading, setLoading] = useState(true)
-  const [err, setErr] = useState()
+  const [err, setErr] = useState([])
 
   //try catch
   const fetchMyRecipes = async () => {
-    const { data } = await axios.get('/recipes/my').catch((err) => {
-      const x = err.response.data.map((err) => err.msg)
-      setErr(x)
-    })
-    setItem(data)
-    setLoading(false)
+    try {
+      const { data } = await axios.get('/recipes/my')
+      setItem(data)
+      setLoading(false)
+    } catch (err) {
+      errorsSetter(err, setErr)
+    }
   }
 
   useEffect(() => {

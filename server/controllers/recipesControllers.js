@@ -114,19 +114,14 @@ export const deleteImg = async (req, res) => {
 
 export const findRecipes = (req, res) => {
   const recipesFilter = req.params.filter
-  console.log(req.params)
-  if (recipesFilter === 'all') {
-    getAll(req, res)
-  }
-  if (recipesFilter === 'favourite') {
-    getFavourite(req, res)
-  }
-  if (recipesFilter === 'my') {
-    getMyRecipes(req, res)
-  }
-  if (recipesFilter === 'author') {
-    getAuthorRecipes(req, res)
-  }
+
+  if (recipesFilter === 'all') getAll(req, res)
+
+  if (recipesFilter === 'favourite') getFavourite(req, res)
+
+  if (recipesFilter === 'my') getMyRecipes(req, res)
+
+  if (recipesFilter === 'author') getAuthorRecipes(req, res)
 }
 
 //populate(author) to see author on fullrecipe

@@ -16,7 +16,6 @@
   grid-column-start: 1;
   grid-column-end: 4;
   flex-direction: row;
-  /* border: 1px solid black; */
   border-radius: 6px;
   height: 25em;
 }
@@ -55,6 +54,7 @@
   width: 90%;
   height: 10em;
   overflow: hidden;
+  word-wrap: break-word;
   /* align-self: center; */
 }
 
@@ -82,6 +82,8 @@
   overflow: hidden;
   height: 4em;
   margin: 1.5em 0 2em 0;
+  word-wrap: break-word;
+  width: 90%;
   /* white-space: normal; */
 }
 .recipe {

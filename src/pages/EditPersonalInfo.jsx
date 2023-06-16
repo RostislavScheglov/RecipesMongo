@@ -1,18 +1,12 @@
 import axios from '../axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import {
-  getMeInfo,
-  getMyAvatar,
-  getRegistrInfo,
-  isAuthUser,
-} from '../redux/slices/users'
+import { getMeInfo, getMyAvatar, isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
-import { Navigate, useNavigate } from 'react-router-dom'
-import { Button, IconButton } from '@mui/material'
-import InputAdornment from '@mui/material/InputAdornment'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import { Navigate } from 'react-router-dom'
+// import InputAdornment from '@mui/material/InputAdornment'
+// import VisibilityIcon from '@mui/icons-material/Visibility'
+// import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 import { CustomTextField } from '../styles/customMuiStyles'
 import { UploadImg } from '../components/UploadImg'
@@ -22,28 +16,26 @@ export function EditPersonalInfo() {
   const isAuth = useSelector(isAuthUser)
   const [err, setErr] = useState([])
   const [isEdited, setIsEdited] = useState(false)
-  const [showPass, setShowPass] = useState(false)
+  const [isLoading, setLoading] = useState(true)
+  // const [showPass, setShowPass] = useState(false)
   const [img, setImg] = useState('')
   const [imgUrl, setImgUrl] = useState('')
-  const navigate = useNavigate()
 
   const editPersonalInfo = async (params) => {
     axios
       .patch('/auth/me/edit', params)
       .then((res) => {
-        console.log(res.data)
         if (img !== '') {
           const formData = new FormData()
           formData.append('img', img)
           formData.append('id', res.data._id)
           axios.post('auth/uploads/usersImgs', formData).then((res) => {
-            console.log(res)
             dispatch(getMyAvatar(res.data.imgUrl))
           })
         }
         dispatch(getMeInfo(res.data))
       })
-      .then(setIsEdited(true))
+      .then(() => setIsEdited(true))
       .catch((err) => {
         errorsSetter(err, setErr)
       })
@@ -57,11 +49,11 @@ export function EditPersonalInfo() {
         setValue('userEmail', res.data.userEmail)
         // setValue('userPassword', res.data.userPassword)
         setImgUrl(res.data.userImage)
+        setLoading(false)
       })
       .catch((err) => {
         const x = err.response.data.map((err) => err.msg)
         console.log(x)
-        // console.log([err.response.data.message])
       })
   }
   useEffect(() => {
@@ -73,11 +65,8 @@ export function EditPersonalInfo() {
     handleSubmit,
     setValue,
     formState: { errors, isValid },
-  } = useForm({
-    mode: 'onChange',
-  })
+  } = useForm({})
   const deleteImg = (imgUrl, setImgUrl) => {
-    console.log(imgUrl)
     axios
       .delete(`auth/img/${imgUrl}`)
       .then(setImgUrl(''))
@@ -92,7 +81,10 @@ export function EditPersonalInfo() {
       <h1 className="pageTitle">Edit Personal Info</h1>
 
       <div className="loginFormContainer">
-        <ErrorsList err={err} />
+        <ErrorsList
+          err={err}
+          isLoading={isLoading}
+        />
         <form
           id="loginForm"
           onSubmit={handleSubmit(editPersonalInfo)}
@@ -138,13 +130,22 @@ export function EditPersonalInfo() {
               ),
             }}
           /> */}
-          <Button
+          <button
+            className="submitBtn"
+            id="submitCancleBtn"
             type="submit"
-            disabled={!isValid}
+            variant="outlined"
+            onClick={() => setIsEdited(true)}
+          >
+            Cancle
+          </button>
+          <button
+            className="submitBtn"
+            type="submit"
             variant="outlined"
           >
             Save
-          </Button>
+          </button>
         </form>
       </div>
     </div>

@@ -15,6 +15,7 @@ export function EditRecipe() {
   const userInfo = useSelector(userId)
   const [err, setErr] = useState([])
   const [isRedirect, setIsRedirect] = useState(false)
+  const [isLoading, setLoading] = useState(true)
   const [data, setData] = useState([])
   const [ingredients, setIngredient] = useState([])
   const [img, setImg] = useState('')
@@ -28,23 +29,28 @@ export function EditRecipe() {
           const formData = new FormData()
           formData.append('img', img)
           formData.append('id', id)
-          axios.post('/recipes/uploads/recipesImgs', formData)
+          axios
+            .post('/recipes/uploads/recipesImgs', formData)
+            .then(() => setIsRedirect(true))
         }
-        setIsRedirect(true)
       })
+      .then(() => setIsRedirect(true))
       .catch((err) => {
         errorsSetter(err, setErr)
-        // const x = err.response.data.map((err) => err.msg)
-        // setErr(x)
       })
   }
 
   //try catch
   const getOneRecipe = async (id) => {
-    const { data } = await axios.get(`/recipes/${id}`).catch((err) => {
-      errorsSetter(err, setErr)
-    })
-    setData(data)
+    axios
+      .get(`/recipes/${id}`)
+      .then((res) => {
+        setData(res.data)
+        setLoading(false)
+      })
+      .catch((err) => {
+        errorsSetter(err, setErr)
+      })
   }
 
   useEffect(() => {
@@ -79,6 +85,7 @@ export function EditRecipe() {
         setIngredient={setIngredient}
         setImg={setImg}
         deleteImg={deleteImg}
+        isLoading={isLoading}
       />
     </>
   )

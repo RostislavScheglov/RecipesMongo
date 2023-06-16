@@ -16,6 +16,7 @@ export function Login() {
   const isAuth = useSelector(isAuthUser)
   const [err, setErr] = useState()
   const [showPass, setShowPass] = useState(false)
+  const [isLoading, setLoading] = useState(true)
 
   const setTokenLocal = (data) => {
     if ('token' in data) {
@@ -29,6 +30,7 @@ export function Login() {
       .then((res) => {
         dispatch(getLoginInfo(res.data))
         setTokenLocal(res.data)
+        setLoading(false)
       })
       .catch((err) => {
         errorsSetter(err, setErr)
@@ -59,7 +61,10 @@ export function Login() {
       <h1 className="pageTitle">Login</h1>
 
       <div className="loginFormContainer">
-        <ErrorsList err={err} />
+        <ErrorsList
+          err={err}
+          isLoading={isLoading}
+        />
         <form
           id="loginForm"
           onSubmit={handleSubmit(fetchLogin)}

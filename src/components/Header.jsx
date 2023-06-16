@@ -1,18 +1,17 @@
 import { Link, NavLink } from 'react-router-dom'
 import Modal from '@mui/material/Modal'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isAuthUser, logout, userData } from '../redux/slices/users'
 import { Box } from '@mui/system'
 import { domain } from '../axios'
-import axios from 'axios'
+import settings from '../styles/assets/settings.svg'
 
 export function Header() {
   const [open, setOpen] = useState(false)
   const isAuth = useSelector(isAuthUser)
   const dispatch = useDispatch()
   const userInfo = useSelector(userData)
-  // const [userInfo, setUserInfo] = useState([])
 
   const handleLogOut = () => {
     dispatch(logout())
@@ -20,9 +19,6 @@ export function Header() {
     setOpen(false)
   }
 
-  // useEffect(() => {
-  //   setUserInfo()
-  // }, [])
   return (
     <div className="HeaderContainer">
       <div id="logo"></div>
@@ -35,19 +31,22 @@ export function Header() {
         {isAuth ? (
           <div id="userInfoContainer">
             <img
-              src={`${domain}${userInfo?.userImage}`}
+              src={`${domain}${userInfo.userImage}`}
               className="userAvatar"
               alt="Avatar"
             ></img>
             <div className="userInfoTextContainer">
-              <span id="userName">{userInfo?.userName}</span>
-              <span id="userEmail">{userInfo?.userEmail}</span>
+              <span className="userName">{userInfo.userName}</span>
+              <span id="userEmail">{userInfo.userEmail}</span>
             </div>
             <NavLink
-              id="settingsBtn"
+              id="personalInfoSettingsBtn"
               to="/auth/editPersonalInfo"
             >
-              Settings
+              <img
+                src={settings}
+                alt="settings"
+              />
             </NavLink>
           </div>
         ) : null}

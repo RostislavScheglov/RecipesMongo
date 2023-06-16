@@ -5,20 +5,33 @@ export const errorsSetter = (err, setErr) => {
   setErr(errors)
 }
 export function ErrorsList(props) {
+  const scrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    })
+  }
+  if (props.isLoading) {
+    return null
+  }
   return (
     <>
-      {props.err?.length > 0 ? (
-        <div className="errorContainer">
-          {props.err.map((err, index) => (
-            <Alert
-              key={index}
-              severity="error"
-            >
-              {err}
-            </Alert>
-          ))}
-        </div>
-      ) : null}
+      {props.err.length > 0
+        ? (scrollTop(),
+          (
+            <div className="errorContainer">
+              {props.err.map((err, index) => (
+                <Alert
+                  key={index}
+                  severity="error"
+                >
+                  {err}
+                </Alert>
+              ))}
+            </div>
+          ))
+        : null}
     </>
   )
 }

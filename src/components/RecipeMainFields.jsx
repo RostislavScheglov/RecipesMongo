@@ -27,23 +27,21 @@ export const RecipeMainFields = (props) => {
     props.setIngredient((ingredients) => {
       const x = [...ingredients]
       x.splice(index, 1)
-      console.log(ingredients)
       return x
     })
   }
 
   const setValues = (data) => {
+    if (data.length === 0) return
     setValue('title', data.title)
     setValue('description', data.description)
     setImgUrl(data.recipeImage)
     props.setIngredient(data.ingredients)
   }
+
   useEffect(() => {
-    if (props.data !== undefined) {
-      setValues(props.data)
-    }
-    return
-  }, [props.data])
+    if (props.data !== undefined) setValues(props.data)
+  }, [props.isLoading])
 
   if (isRedirect) {
     return (
@@ -54,9 +52,21 @@ export const RecipeMainFields = (props) => {
     )
   }
 
+  if (props.isLoading) {
+    return (
+      <div className="noUserInfo">
+        {/* <ErrorsList err={props.err} /> */}
+        <h2>Loading...</h2>
+      </div>
+    )
+  }
+
   return (
     <div className="recipeFormContainer">
-      <ErrorsList err={props.err} />
+      <ErrorsList
+        err={props.err}
+        isLoading={props.isLoading}
+      />
       <form
         id="recipeForm"
         onSubmit={handleSubmit(props.submitForm)}
@@ -76,15 +86,7 @@ export const RecipeMainFields = (props) => {
           helperText={errors.title?.message}
           {...register('title', { required: 'Title required' })}
         />
-        <CustomTextField
-          type="text"
-          variant="outlined"
-          label="Description"
-          focused={true}
-          error={Boolean(errors.description?.message)}
-          helperText={errors.description?.message}
-          {...register('description', { required: 'Description required' })}
-        />
+        {console.log(errors)}
         <CustomTextField
           type="text"
           variant="outlined"
@@ -120,7 +122,7 @@ export const RecipeMainFields = (props) => {
           }}
         />
         <ul className="ingredientsList">
-          {props.ingredients?.map((ingredient, index) => (
+          {props.ingredients.map((ingredient, index) => (
             <li
               className="ingredientContainer"
               key={index}
@@ -134,6 +136,18 @@ export const RecipeMainFields = (props) => {
             </li>
           ))}
         </ul>
+        <CustomTextField
+          id="recipeDescription"
+          type="text"
+          variant="outlined"
+          label="Description"
+          multiline={true}
+          rows={4}
+          focused={true}
+          error={Boolean(errors.description?.message)}
+          helperText={errors.description?.message}
+          {...register('description', { required: 'Description required' })}
+        />
         <button
           className="submitBtn"
           id="submitCancleBtn"

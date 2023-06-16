@@ -36,7 +36,7 @@ export function UploadImg(props) {
             </div>
             <img
               className="uploadedImg"
-              src={`${domain}${props?.imgUrl}`}
+              src={`${domain}${props.imgUrl}`}
               alt="Img"
             />
           </div>

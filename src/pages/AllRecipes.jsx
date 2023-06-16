@@ -1,13 +1,13 @@
 import axios from '../axios'
 import { useEffect, useState } from 'react'
 import { ShortRecipesList } from '../components/ShortRecipesList'
-import { ErrorsList } from '../components/ErrorsList'
+import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 
 import styles from '../styles/shortRecipeBigOne.module.css'
 import { useNavigate } from 'react-router-dom'
 
 export function AllRecipes() {
-  const [items, setItem] = useState()
+  const [items, setItem] = useState([])
   const [isLoading, setLoading] = useState(true)
   const [err, setErr] = useState([])
   const navigate = useNavigate()
@@ -19,7 +19,7 @@ export function AllRecipes() {
       setItem(data)
       setLoading(false)
     } catch (err) {
-      setErr(err)
+      errorsSetter(err, setErr)
     }
   }
 
@@ -37,13 +37,11 @@ export function AllRecipes() {
 
   return (
     <div className="feedContainer">
-      {/* <ErrorsList err={err} /> */}
       <div className="randomRecip">
         <h2 id="randomRecipeTitle">Feel coky today, try random recipe!</h2>
         <button
           className="randomRecipeBtn"
           onClick={() => randomRecipe(items)}
-          // onClick={() => console.log(items)}
         >
           Go crazy
         </button>

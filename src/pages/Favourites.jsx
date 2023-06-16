@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import { isAuthUser } from '../redux/slices/users'
 import { ShortRecipesList } from '../components/ShortRecipesList'
-import styles from '../styles/shortRecipeBigOne.module.css'
+import styles from '../styles/shortRecipeList.module.css'
 import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 
 export function Favourites() {
@@ -23,8 +23,6 @@ export function Favourites() {
       setLoading(false)
     } catch (err) {
       errorsSetter(err, setErr)
-      // const x = err.response.data.map((err) => err.msg)
-      // setErr(x)
     }
   }
 

@@ -24,6 +24,7 @@ export const CustomTextField = withStyles({
         color: '#121418',
         fontSize: '14px',
         fontFamily: 'Montserrat',
+        textAlign: 'start',
       },
       '& fieldset': {
         // fontFamily: 'Montserrat',

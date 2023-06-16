@@ -9,7 +9,10 @@ export function ShortRecipesList(props) {
   if (props.isLoading) {
     return (
       <div className="noRecipesContainer">
-        <ErrorsList err={props.err} />
+        <ErrorsList
+          err={props.err}
+          isLoading={props.isLoading}
+        />
         <h2>Loading...</h2>
       </div>
     )
@@ -17,7 +20,10 @@ export function ShortRecipesList(props) {
   if (props.items.length === 0) {
     return (
       <div className="noRecipesContainer">
-        <ErrorsList err={props.err} />
+        <ErrorsList
+          err={props.err}
+          isLoading={props.isLoading}
+        />
         <h2>No recipes yet</h2>
       </div>
     )
@@ -27,7 +33,10 @@ export function ShortRecipesList(props) {
 
   return (
     <>
-      <ErrorsList err={props.err} />
+      <ErrorsList
+        err={props.err}
+        isLoading={props.isLoading}
+      />
       <div className={styles.recipesPreview}>
         {props.items.map((item) => (
           <div
@@ -75,7 +84,10 @@ export function ShortRecipesList(props) {
                 debitis placeat, suscipit na */}
                   {item.description}
                 </p>
-                <RecipeAuthorInfo fileds={item} />
+                <RecipeAuthorInfo
+                  isLoading={props.isLoading}
+                  fileds={item}
+                />
               </div>
             </Link>
             <LikeBtn

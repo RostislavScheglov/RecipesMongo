@@ -8,7 +8,7 @@ const RecipeSchema = new mongoose.Schema(
     description: { type: String, required: true },
     viewsCount: { type: Number, default: 0 },
     likesCount: { type: Number, default: 0 },
-    category: { type: String },
+    // category: { type: String },
     likedBy: { type: Array, default: [] },
     author: {
       type: mongoose.Schema.Types.ObjectId,
@@ -18,7 +18,6 @@ const RecipeSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    $currentDate: true,
   }
 )
 

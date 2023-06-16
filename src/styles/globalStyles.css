@@ -39,7 +39,13 @@ nav a.active::after {
   justify-content: space-between;
   margin-bottom: 5em;
 }
-
+#personalInfoSettingsBtn {
+  margin-left: 1.5em;
+  /* align-self: end; */
+}
+#personalInfoSettingsBtn::after {
+  display: none;
+}
 #logo {
   background-image: url('./assets/MainLogo.svg');
   width: 10em;
@@ -69,32 +75,40 @@ nav a.active::after {
   font-size: 12px;
   align-items: center;
 }
+/* #userInfoContainer > * {
+  margin-right: 1em;
+} */
 .userInfoTextContainer {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  /* align-self: end; */
+  justify-content: space-between;
+  height: 100%;
+  margin-left: 1em;
 }
 .userAvatar {
-  width: 70px;
-  height: 70px;
+  width: 42px;
+  height: 42px;
   border-radius: 50px;
 }
-#userName {
+.userName {
   font-size: 14px;
   font-weight: bold;
 }
 #userEmail {
   /* font-size: 12px; */
 }
-#userInfoContainer > * {
+/* #userInfoContainer > * {
   margin: 0 0.5em;
-}
-#settingsBtn {
-  border-bottom: 2px solid #d4aeff;
+} */
+#personalInfoSettingsBtn {
+  /* border-bottom: 2px solid #d4aeff; */
   font-size: 12px;
   font-weight: bold;
   width: fit-content;
   height: fit-content;
+  position: relative;
+  margin-left: 1.5em;
 }
 #headerLinkContainer {
   justify-content: space-between;
@@ -104,7 +118,7 @@ nav a.active::after {
 }
 #headerLinkContainer > a {
   margin: 0 0.5em;
-  /* position: relative; */
+  position: relative;
 }
 
 .errorContainer {
@@ -343,6 +357,10 @@ nav a.active::after {
   display: contents;
   height: 15em;
 }
+#recipeDescription {
+  /* height: 8em; */
+  /* text-align: end; */
+}
 
 /* FullRecipe */
 .fullRecipeContainer {
@@ -352,7 +370,7 @@ nav a.active::after {
   margin: 0px 0 6em;
 }
 .recipeAuthorInfoContainer {
-  width: 38%;
+  width: fit-content;
 }
 .statsContainer {
   display: flex;
@@ -366,6 +384,12 @@ nav a.active::after {
 }
 .recipeActionsContainer {
   display: flex;
+  margin-top: 5em;
+}
+#ingredientsTittle {
+  font-size: 24;
+  font-weight: bold;
+  margin-left: -1.5em;
 }
 #Ingredients {
   width: 34%;
@@ -373,8 +397,9 @@ nav a.active::after {
   background-color: #fcf8f2;
   border: 1px solid black;
   border-radius: 6px;
-  padding: 1em 1.5em 2em 2.5em;
-  margin: 9.9em 0 0 1em;
+  padding: 0 1.5em 2em 3.5em;
+  margin: 9.3em 0 0 1em;
+  overflow: auto;
 }
 .ingredient {
   word-wrap: break-word;
@@ -387,6 +412,7 @@ nav a.active::after {
 #Description {
   font-size: 14px;
   margin: 2em 0;
+  word-wrap: break-word;
 }
 .editRecipeBtn {
   background-color: #121418;
@@ -445,9 +471,9 @@ nav a.active::after {
   /* flex-direction: column; */
   align-items: center;
 }
-.recipeStatsLink > * {
+/* .recipeStatsLink > * {
   margin: 0;
-}
+} */
 #recipeDateCreation {
   font-size: 12px;
   color: #828998;

@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import axios, { domain } from '../axios'
 import { useSelector } from 'react-redux'
 import { userId } from '../redux/slices/users'
-import { Box, Button, Modal, Typography } from '@mui/material'
-import { ErrorsList } from '../components/ErrorsList'
+import { Box, Modal } from '@mui/material'
+import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 import stockImg from '../styles/assets/stockRecipe.png'
 import { checker } from './EditRecipe'
 import { ShortRecipesList } from '../components/ShortRecipesList'
@@ -19,7 +19,7 @@ import { RecipeAuthorInfo } from '../components/RecipeAuthorInfo'
 export function FullRecipe() {
   const { id } = useParams()
   const userInfo = useSelector(userId)
-  const [err, setErr] = useState()
+  const [err, setErr] = useState([])
   const [fileds, setFields] = useState([])
   const [items, setItem] = useState([])
   const [isLoading, setLoading] = useState(true)
@@ -31,21 +31,26 @@ export function FullRecipe() {
   // const authorInfo = fileds.author
 
   const getOneRecipe = async (id, setRecipeState) => {
-    const data = await axios.get(`/recipes/${id}`).catch()
-    setRecipeState(data.data)
-    return data.data
+    try {
+      const data = await axios.get(`/recipes/${id}`)
+      setRecipeState(data.data)
+      return data.data
+    } catch (err) {
+      errorsSetter(err, setErr)
+    }
   }
 
   const fetch3AuthorRecipes = async (setRecipes, setLoading, getAuthorInfo) => {
     try {
       const resolvedAthorInfo = await getAuthorInfo
-      console.log(resolvedAthorInfo)
       const { data } = await axios.get(
-        `/recipes/author/${resolvedAthorInfo.author?._id}`
+        `/recipes/author/${resolvedAthorInfo.author._id}`
       )
       setRecipes(data.slice(0, 3))
       setLoading(false)
-    } catch (err) {}
+    } catch (err) {
+      errorsSetter(err, setErr)
+    }
   }
 
   //Add remove recipe img after deleting recipe
@@ -57,8 +62,7 @@ export function FullRecipe() {
       })
       .then(() => setIsDeleted(true))
       .catch((err) => {
-        const x = err.response.data.map((err) => err.msg)
-        setErr(x)
+        errorsSetter(err, setErr)
       })
       .finally(setOpen(false))
   }
@@ -71,7 +75,7 @@ export function FullRecipe() {
   if (isDelete) {
     return (
       <Navigate
-        to="/recipes/myrecipes"
+        to="/recipes"
         replace={true}
       />
     )
@@ -87,86 +91,108 @@ export function FullRecipe() {
   }
   return (
     <>
-      <div className="fullRecipeContainer">
-        <div className="mainRecipeInfoContainer">
-          <ErrorsList
-            err={err}
-            // isErr={isErr}
-          />
-          <div className="recipeAuthorInfoContainer">
-            <RecipeAuthorInfo fileds={fileds} />
-          </div>
-          <div id="Title">{fileds.title}</div>
-          {checker(fileds.recipeImage) ? (
-            <img
-              src={`${domain}${fileds.recipeImage}`}
-              className="uploadedImg"
-              alt="Img"
-            ></img>
-          ) : (
-            <img
-              className="uploadedImg"
-              src={stockImg}
-              alt="StockImg"
-            ></img>
-          )}
-          <div id="Description">{fileds.description}</div>
-          {userInfo === fileds.author?._id ? (
-            <div className="recipeActionsContainer">
-              <button
-                className="deleteRecipeBtn"
-                onClick={() => setOpen(true)}
-              >
-                <img
-                  className="svgIcon"
-                  src={DeleteIcon}
-                  alt="Delete Icon"
+      {isLoading ? (
+        <h2>Loading...</h2>
+      ) : (
+        <>
+          <div className="fullRecipeContainer">
+            <div className="mainRecipeInfoContainer">
+              <ErrorsList
+                err={err}
+                isLoading={isLoading}
+              />
+              <div className="recipeAuthorInfoContainer">
+                <RecipeAuthorInfo
+                  isLoading={isLoading}
+                  fileds={fileds}
                 />
-                Delete
-              </button>
-              <button
-                className="editRecipeBtn"
-                onClick={() => setIsEdit(true)}
-              >
+              </div>
+              <div id="Title">{fileds.title}</div>
+              {checker(fileds.recipeImage) ? (
                 <img
-                  className="svgIcon"
-                  src={EditIcon}
-                  alt="Edit Icon"
-                />
-                Edit
-              </button>
+                  src={`${domain}${fileds.recipeImage}`}
+                  className="uploadedImg"
+                  alt="Img"
+                ></img>
+              ) : (
+                <img
+                  className="uploadedImg"
+                  src={stockImg}
+                  alt="StockImg"
+                ></img>
+              )}
+              <div id="Description">{fileds.description}</div>
+              {userInfo === fileds.author._id ? (
+                <div className="recipeActionsContainer">
+                  <button
+                    className="deleteRecipeBtn"
+                    onClick={() => setOpen(true)}
+                  >
+                    <img
+                      className="svgIcon"
+                      src={DeleteIcon}
+                      alt="Delete Icon"
+                    />
+                    Delete
+                  </button>
+                  <button
+                    className="editRecipeBtn"
+                    onClick={() => setIsEdit(true)}
+                  >
+                    <img
+                      className="svgIcon"
+                      src={EditIcon}
+                      alt="Edit Icon"
+                    />
+                    Edit
+                  </button>
+                </div>
+              ) : null}
             </div>
-          ) : null}
-        </div>
-        <ul id="Ingredients">
-          <p>Ingredients</p>
-          {fileds.ingredients?.map((ingredient, index) => (
-            <li
-              className="ingredient"
-              key={index}
-            >
-              {ingredient}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <p>More of {fileds?.author?.userName}:</p>
+            <ul id="Ingredients">
+              <p id="ingredientsTittle">Ingredients:</p>
+              {fileds.ingredients.map((ingredient, index) => (
+                <li
+                  className="ingredient"
+                  key={index}
+                >
+                  {ingredient}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <p>More of {fileds.author.userName}:</p>
+        </>
+      )}
+
       <ShortRecipesList
         items={items}
         isLoading={isLoading}
         styles={styles}
+        err={err}
       />
-
       <Modal
         open={open}
         onClose={() => setOpen(false)}
       >
         <Box id="modalWindow">
-          <Typography>
-            <h2>Are u sure you want to DELETE recipe?</h2>
-          </Typography>
-          <Button onClick={() => setOpen(false)}>No</Button>
-          <Button onClick={() => fetchDeleteRecipe(id)}>Yes</Button>
+          <span className="modalTitle">
+            Are u sure you want to DELETE recipe?
+          </span>
+          <div id="btnContainer">
+            <button
+              className="modalCancelBtn"
+              onClick={() => setOpen(false)}
+            >
+              No
+            </button>
+            <button
+              className="modalSubmitBtn"
+              onClick={() => fetchDeleteRecipe(id)}
+            >
+              Yes
+            </button>
+          </div>
         </Box>
       </Modal>
     </>
