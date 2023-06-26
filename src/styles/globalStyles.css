@@ -200,7 +200,7 @@ nav a.active::after {
 }
 .pageTitle {
   text-align: center;
-  /* margin-bottom: 1em; */
+  margin-bottom: 1em;
 }
 .recipesContainer {
   width: 100%;
@@ -234,6 +234,7 @@ nav a.active::after {
   font-size: 25px;
   font-weight: 600;
   text-transform: uppercase;
+  margin-bottom: 1.5em;
 }
 
 .recipeFormContainer {
@@ -489,4 +490,15 @@ nav a.active::after {
 .authorName {
   font-size: 48px;
   font-weight: 700;
+}
+
+#sentLinkConfirm {
+  align-self: center;
+  border-bottom: 2px solid #d4aeff;
+  width: fit-content;
+}
+#resetPassConfirm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

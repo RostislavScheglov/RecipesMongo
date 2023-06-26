@@ -17,6 +17,7 @@ import { ErrorsList } from './components/ErrorsList'
 import { ForgotPassword } from './pages/ForgotPassowrd'
 import { AuthorRecipes } from './pages/AuthorRecipes'
 import { EditPersonalInfo } from './pages/EditPersonalInfo'
+import { ResetPassword } from './pages/ResetPassword'
 
 function App() {
   const dispatch = useDispatch()
@@ -50,6 +51,10 @@ function App() {
         <Route
           path="/forgotPassword"
           element={<ForgotPassword />}
+        />
+        <Route
+          path="/auth/resetPassword/:userId/:token"
+          element={<ResetPassword />}
         />
         <Route
           path="/auth/registration"

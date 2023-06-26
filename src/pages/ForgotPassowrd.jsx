@@ -1,26 +1,25 @@
 import axios from '../axios'
-import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
-import { isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
-import { Navigate } from 'react-router-dom'
-import { ErrorsList } from '../components/ErrorsList'
+import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 import { CustomTextField } from '../styles/customMuiStyles'
 
 export function ForgotPassword() {
-  const dispatch = useDispatch()
-  const isAuth = useSelector(isAuthUser)
   const [err, setErr] = useState()
+  const [isSent, setIsSent] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const fetchLogin = (params) => {
     axios
       .post('/auth/forgotPassword', params)
-      // .then((res) => {
-      //   dispatch(getLoginInfo(res.data))
-      // })
+      .then((res) => {
+        setIsSent(true)
+        setIsLoading(true)
+      })
       .catch((err) => {
-        const x = err.response.data.map((err) => err.msg)
-        setErr((e) => [...x])
+        setIsLoading(false)
+        setIsSent(false)
+        errorsSetter(err, setErr)
       })
   }
 
@@ -32,19 +31,22 @@ export function ForgotPassword() {
     mode: 'onChange',
   })
 
-  if (isAuth) {
-    return <Navigate to="/" />
-  }
-
   return (
     <>
       <div className="loginFormContainer">
-        <ErrorsList err={err} />
+        <ErrorsList
+          err={err}
+          isLoading={isLoading}
+        />
         <form
           id="loginForm"
           onSubmit={handleSubmit(fetchLogin)}
         >
-          <p id="loginHeader">send password to email</p>
+          {isSent ? (
+            <h2 id="sentLinkConfirm">Link was sent to your email!</h2>
+          ) : null}
+
+          <p id="loginHeader">Enter your email for recovery</p>
           <CustomTextField
             type="email"
             variant="outlined"

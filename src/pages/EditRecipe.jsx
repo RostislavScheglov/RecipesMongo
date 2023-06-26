@@ -21,26 +21,21 @@ export function EditRecipe() {
   const [img, setImg] = useState('')
 
   const editRecipe = async (params) => {
-    params.ingredients = ingredients
-    await axios
-      .patch(`/recipes/edit/${id}/${userInfo}`, params)
-      .then(() => {
-        if (img !== '') {
-          const formData = new FormData()
-          formData.append('img', img)
-          formData.append('id', id)
-          axios
-            .post('/recipes/uploads/recipesImgs', formData)
-            .then(() => setIsRedirect(true))
-        }
-      })
-      .then(() => setIsRedirect(true))
-      .catch((err) => {
-        errorsSetter(err, setErr)
-      })
+    try {
+      params.ingredients = ingredients
+      await axios.patch(`/recipes/edit/${id}/${userInfo}`, params)
+      if (img !== '') {
+        const formData = new FormData()
+        formData.append('img', img)
+        formData.append('id', id)
+        await axios.post('/recipes/uploads/recipesImgs', formData)
+      }
+      setIsRedirect(true)
+    } catch (err) {
+      errorsSetter(err, setErr)
+    }
   }
 
-  //try catch
   const getOneRecipe = async (id) => {
     axios
       .get(`/recipes/${id}`)

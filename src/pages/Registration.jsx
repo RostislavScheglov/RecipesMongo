@@ -1,7 +1,7 @@
 import axios from '../axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
-import { getRegistrInfo, isAuthUser } from '../redux/slices/users'
+import { getMyAvatar, getRegistrInfo, isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
 import { Button, IconButton } from '@mui/material'
@@ -20,23 +20,21 @@ export function Registration() {
   const [img, setImg] = useState('')
 
   const fetchRegistr = async (params) => {
-    axios
-      .post('/auth/registration', params)
-      .then((res) => {
-        if (img !== '') {
-          const formData = new FormData()
-          formData.append('img', img)
-          formData.append('id', res.data._id)
-          axios.post('auth/uploads/usersImgs', formData)
-        }
-      })
-      .then((res) => {
-        dispatch(getRegistrInfo(res.data))
-        window.sessionStorage.setItem('token', res.data.token)
-      })
-      .catch((err) => {
-        errorsSetter(err, setErr)
-      })
+    try {
+      const res = await axios.post('/auth/registration', params)
+      if (img !== '') {
+        const formData = new FormData()
+        formData.append('img', img)
+        formData.append('id', res.data._id)
+        axios
+          .post('auth/uploads/usersImgs', formData)
+          .then((res) => dispatch(getMyAvatar(res.data.imgUrl)))
+      }
+      dispatch(getRegistrInfo(res.data))
+      window.sessionStorage.setItem('token', res.data.token)
+    } catch (err) {
+      errorsSetter(err, setErr)
+    }
   }
 
   const {

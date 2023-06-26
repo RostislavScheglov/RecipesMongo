@@ -18,3 +18,8 @@ export const loginValidation = [
 export const forgotPasswordValidation = [
   body('userEmail', 'Bad email format').isEmail(),
 ]
+export const resetPasswordValidation = [
+  body('userPassword', 'Password length should be minimum 4 symbols').isLength({
+    min: 4,
+  }),
+]

@@ -3,15 +3,9 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { validationResult } from 'express-validator'
 import userModel from '../models/User.js'
-import nodemailer from 'nodemailer'
+
 import fs from 'fs'
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'rostislav7333@gmail.com',
-    pass: 'ziabooupfzvhruov',
-  },
-})
+import { domain, transporter } from '../config/config.js'
 
 export const registration = async (req, res) => {
   try {
@@ -37,6 +31,7 @@ export const registration = async (req, res) => {
       userEmail: req.body.userEmail,
       userName: req.body.userName,
       userPassword: passwordCrypt,
+      // token: '',
     })
     await user.save()
 
@@ -140,6 +135,7 @@ export const login = async (req, res) => {
     })
   }
 }
+
 export const forgotPassword = async (req, res) => {
   try {
     const errors = validationResult(req)
@@ -154,12 +150,50 @@ export const forgotPassword = async (req, res) => {
         },
       ])
     }
+    const payload = {
+      email: user.userEmail,
+      id: user._id,
+    }
+    const secret = user.userPassword + 'a1b2c'
+    const resetToken = jwt.sign(payload, secret, { expiresIn: '10m' })
+    const resetLink = `${domain}auth/resetPassword/${user._id}/${resetToken}`
+
     const mail_configs = {
       from: 'rostislav7333@gmail.com',
       to: req.body.userEmail,
       subject: 'No-reply pasword forget',
-      text: `I know its not secure but it will be in future, before take your PASS:+ ${user.userPassword}`,
+      html: `<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Pasword recovery procedure</title>
+  
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+  <div style="margin:50px auto;width:70%;padding:20px 0">
+    <div style="border-bottom:1px solid #eee">
+      <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Recipes.</a>
+    </div>
+    <p style="font-size:1.1em">Hi,</p>
+    <p>Use the following link to complete your Password Recovery Procedure. Link is valid for 10 minutes</p>
+    <h2 style="display:flex; width:50%; margin: 0 auto;padding: 0 10px;color: #fff;border-radius: 4px;">${resetLink}</h2>
+    <p style="font-size:0.9em;">Regards,<br />RS</p>
+    <hr style="border:none;border-top:1px solid #eee" />
+    <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+      <p></p>
+      <p></p>
+      <p></p>
+    </div>
+  </div>
+</div>
+<!-- partial -->
+  
+</body>
+</html>`,
     }
+
     transporter.sendMail(mail_configs, function (error, info) {
       if (error) {
         return res.status(500).json([
@@ -171,12 +205,57 @@ export const forgotPassword = async (req, res) => {
     })
     res
       .status(200)
-      .json({ msg: `reset password link was sent to ${req.body.userEmail}` })
+      .json([{ msg: `reset password link was sent to ${req.body.userEmail}` }])
   } catch (err) {
     console.log(err)
-    res.status(500).json({
-      message: 'Unable reset password',
-    })
+    res.status(500).json([
+      {
+        msg: 'Unable to reset password',
+      },
+    ])
+  }
+}
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { userId, token } = req.params
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors.errors)
+    }
+
+    const user = await userModel.findOne({ _id: userId })
+    if (!user) {
+      return res.status(404).json([
+        {
+          msg: 'User not found',
+        },
+      ])
+    }
+
+    const secret = user.userPassword + 'a1b2c'
+    const payload = jwt.verify(token, secret)
+
+    const passwordCrypt = await bcrypt.hash(
+      req.body.userPassword,
+      await bcrypt.genSalt(10)
+    )
+
+    await userModel.findOneAndUpdate(
+      { _id: payload.id, userEmail: payload.email },
+      {
+        userPassword: passwordCrypt,
+      }
+    )
+
+    res.status(200).json([{ msg: `password was reset` }])
+  } catch (err) {
+    console.log(err)
+    res.status(500).json([
+      {
+        msg: `Unable to reset password:${err}`,
+      },
+    ])
   }
 }
 
@@ -207,7 +286,6 @@ export const getMe = async (req, res) => {
 
 export const uploadUrl = async (req, res) => {
   const imgUrl = req.files.img[0].path.replaceAll('\\', '/')
-  console.log(imgUrl)
   userModel.findOneAndUpdate(
     { _id: req.body.id },
     {
