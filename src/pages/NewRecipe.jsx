@@ -28,7 +28,6 @@ export function NewRecipe() {
         }
       })
       .then(() => {
-        // setIngredient([])
         setIsCreated(true)
       })
       .catch((err) => {

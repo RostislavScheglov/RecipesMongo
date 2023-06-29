@@ -13,13 +13,13 @@ export function MyRecipes() {
   const [isLoading, setLoading] = useState(true)
   const [err, setErr] = useState([])
 
-  //try catch
   const fetchMyRecipes = async () => {
     try {
       const { data } = await axios.get('/recipes/my')
       setItem(data)
       setLoading(false)
     } catch (err) {
+      setLoading(false)
       errorsSetter(err, setErr)
     }
   }
@@ -28,9 +28,9 @@ export function MyRecipes() {
     fetchMyRecipes()
   }, [])
 
-  // if (!isAuth) {
-  //   return <Navigate to="/auth/login" />
-  // }
+  if (!isAuth) {
+    return <Navigate to="/auth/login" />
+  }
 
   return (
     <>

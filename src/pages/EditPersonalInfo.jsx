@@ -4,9 +4,6 @@ import { useEffect, useState } from 'react'
 import { getMeInfo, getMyAvatar, isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
-// import InputAdornment from '@mui/material/InputAdornment'
-// import VisibilityIcon from '@mui/icons-material/Visibility'
-// import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 import { CustomTextField } from '../styles/customMuiStyles'
 import { UploadImg } from '../components/UploadImg'
@@ -17,7 +14,6 @@ export function EditPersonalInfo() {
   const [err, setErr] = useState([])
   const [isEdited, setIsEdited] = useState(false)
   const [isLoading, setLoading] = useState(true)
-  // const [showPass, setShowPass] = useState(false)
   const [img, setImg] = useState('')
   const [imgUrl, setImgUrl] = useState('')
 
@@ -37,6 +33,7 @@ export function EditPersonalInfo() {
       })
       .then(() => setIsEdited(true))
       .catch((err) => {
+        setLoading(false)
         errorsSetter(err, setErr)
       })
   }
@@ -47,13 +44,12 @@ export function EditPersonalInfo() {
       .then((res) => {
         setValue('userName', res.data.userName)
         setValue('userEmail', res.data.userEmail)
-        // setValue('userPassword', res.data.userPassword)
         setImgUrl(res.data.userImage)
         setLoading(false)
       })
       .catch((err) => {
-        const x = err.response.data.map((err) => err.msg)
-        console.log(x)
+        setLoading(false)
+        errorsSetter(err, setErr)
       })
   }
   useEffect(() => {
@@ -64,13 +60,14 @@ export function EditPersonalInfo() {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({})
+
   const deleteImg = (imgUrl, setImgUrl) => {
     axios
       .delete(`auth/img/${imgUrl}`)
       .then(setImgUrl(''))
-      .catch((err) => console.log(err))
+      .catch((err) => errorsSetter(err, setErr))
   }
   if (!isAuth || isEdited) {
     return <Navigate to="/" />
@@ -113,23 +110,7 @@ export function EditPersonalInfo() {
             helperText={errors.userEmail?.message}
             {...register('userEmail', { required: 'Email required' })}
           />
-          {/* <CustomTextField
-            type={showPass ? 'text' : 'password'}
-            variant="outlined"
-            label="Password"
-            error={Boolean(errors.userPassword?.message)}
-            helperText={errors.userPassword?.message}
-            {...register('userPassword', { required: 'Password required' })}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPass(!showPass)}>
-                    {showPass ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          /> */}
+
           <button
             className="submitBtn"
             id="submitCancleBtn"

@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { validationResult } from 'express-validator'
 import userModel from '../models/User.js'
-
 import fs from 'fs'
 import { domain, transporter } from '../config/config.js'
 
@@ -31,7 +30,6 @@ export const registration = async (req, res) => {
       userEmail: req.body.userEmail,
       userName: req.body.userName,
       userPassword: passwordCrypt,
-      // token: '',
     })
     await user.save()
 
@@ -70,7 +68,6 @@ export const updateUserInfo = async (req, res) => {
       {
         userName: req.body.userName,
         userEmail: req.body.userEmail,
-        // userPassword: req.body.userPassword,
       },
       { new: true }
     )

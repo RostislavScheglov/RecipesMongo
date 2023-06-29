@@ -18,11 +18,11 @@ export function AuthorRecipes() {
       setRecipes(data)
       setLoading(false)
     } catch (err) {
+      setLoading(false)
       errorsSetter(err, setErr)
     }
   }
 
-  //Make custom hook for getting data from server (incapsulate useEffect)
   useEffect(() => {
     fetchAuthorRecipes(setItem, setLoading, id)
   }, [id])

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { getLoginInfo, isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
 import { Link, Navigate } from 'react-router-dom'
-import { Button, TextField, Alert, IconButton } from '@mui/material'
+import { IconButton } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
@@ -33,6 +33,7 @@ export function Login() {
         setLoading(false)
       })
       .catch((err) => {
+        setLoading(false)
         errorsSetter(err, setErr)
       })
   }
@@ -40,12 +41,8 @@ export function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
-    defaultValues: {
-      userEmail: '',
-      userPassword: '',
-    },
     mode: 'onChange',
   })
 

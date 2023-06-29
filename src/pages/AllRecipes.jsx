@@ -1,8 +1,7 @@
 import axios from '../axios'
 import { useEffect, useState } from 'react'
 import { ShortRecipesList } from '../components/ShortRecipesList'
-import { ErrorsList, errorsSetter } from '../components/ErrorsList'
-
+import { errorsSetter } from '../components/ErrorsList'
 import styles from '../styles/shortRecipeBigOne.module.css'
 import { useNavigate } from 'react-router-dom'
 
@@ -12,25 +11,23 @@ export function AllRecipes() {
   const [err, setErr] = useState([])
   const navigate = useNavigate()
 
-  //try catch
   const fetchAllRecipes = async () => {
     try {
       const { data } = await axios.get('/recipes/all')
       setItem(data)
       setLoading(false)
     } catch (err) {
+      setLoading(false)
       errorsSetter(err, setErr)
     }
   }
 
-  //rework with navigate or link
   const randomRecipe = (allitems) => {
     const allIds = allitems.map((item) => item._id)
     const randomId = allIds[Math.floor(Math.random() * items.length)]
     navigate(`/recipes/${randomId}`)
   }
 
-  //Make custom hook for getting data from server (incapsulate useEffect)
   useEffect(() => {
     fetchAllRecipes()
   }, [])

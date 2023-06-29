@@ -1,8 +1,6 @@
 import recipeModel from '../models/Recipe.js'
-import mongoose from 'mongoose'
 import { validationResult } from 'express-validator'
 import fs from 'fs'
-import multer from 'multer'
 
 // export const getBySearch = async (req, res) => {
 //   try {
@@ -124,7 +122,6 @@ export const findRecipes = (req, res) => {
   if (recipesFilter === 'author') getAuthorRecipes(req, res)
 }
 
-//populate(author) to see author on fullrecipe
 export const getOne = async (req, res) => {
   try {
     recipeModel
@@ -132,9 +129,7 @@ export const getOne = async (req, res) => {
         {
           _id: req.params.id,
         },
-        {
-          $inc: { viewsCount: 1 },
-        },
+        { $addToSet: { viewsCount: req.userId } },
         {
           returnDocument: 'after',
         },
@@ -284,7 +279,6 @@ export const update = async (req, res) => {
   }
 }
 
-//can make all in update ^
 export const likeDislike = async (req, res) => {
   try {
     if (req.body.liked) {

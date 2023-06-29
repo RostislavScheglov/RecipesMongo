@@ -23,11 +23,11 @@ export const RecipeMainFields = (props) => {
   } = useForm()
 
   const deleteIngredient = (ingredient) => {
-    const index = props.ingredients.indexOf(ingredient)
+    const ingredientIndex = props.ingredients.indexOf(ingredient)
     props.setIngredient((ingredients) => {
-      const x = [...ingredients]
-      x.splice(index, 1)
-      return x
+      const allIngredients = [...ingredients]
+      allIngredients.splice(ingredientIndex, 1)
+      return allIngredients
     })
   }
 
@@ -55,7 +55,6 @@ export const RecipeMainFields = (props) => {
   if (props.isLoading) {
     return (
       <div className="noUserInfo">
-        {/* <ErrorsList err={props.err} /> */}
         <h2>Loading...</h2>
       </div>
     )

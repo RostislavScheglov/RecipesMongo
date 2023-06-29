@@ -39,7 +39,7 @@ export function ResetPassword() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: 'onChange',
   })

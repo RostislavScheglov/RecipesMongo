@@ -2,7 +2,7 @@ import { Navigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios, { domain } from '../axios'
 import { useSelector } from 'react-redux'
-import { userId } from '../redux/slices/users'
+import { isAuthUser, userId } from '../redux/slices/users'
 import { Box, Modal } from '@mui/material'
 import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 import stockImg from '../styles/assets/stockRecipe.png'
@@ -26,16 +26,17 @@ export function FullRecipe() {
   const [isDelete, setIsDeleted] = useState(false)
   const [open, setOpen] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
-
+  const isAuth = useSelector(isAuthUser)
   const imgId = fileds?.recipeImage
-  // const authorInfo = fileds.author
 
   const getOneRecipe = async (id, setRecipeState) => {
     try {
       const data = await axios.get(`/recipes/${id}`)
       setRecipeState(data.data)
+      setLoading(false)
       return data.data
     } catch (err) {
+      setLoading(false)
       errorsSetter(err, setErr)
     }
   }
@@ -49,11 +50,11 @@ export function FullRecipe() {
       setRecipes(data.slice(0, 3))
       setLoading(false)
     } catch (err) {
+      setLoading(false)
       errorsSetter(err, setErr)
     }
   }
 
-  //Add remove recipe img after deleting recipe
   const fetchDeleteRecipe = async (id) => {
     axios
       .delete(`/recipes/${id}/${userInfo}`)
@@ -62,6 +63,7 @@ export function FullRecipe() {
       })
       .then(() => setIsDeleted(true))
       .catch((err) => {
+        setLoading(false)
         errorsSetter(err, setErr)
       })
       .finally(setOpen(false))
@@ -71,7 +73,6 @@ export function FullRecipe() {
     fetch3AuthorRecipes(setItem, setLoading, getOneRecipe(id, setFields))
   }, [id])
 
-  //Refactor
   if (isDelete) {
     return (
       <Navigate
@@ -85,6 +86,14 @@ export function FullRecipe() {
     return (
       <Navigate
         to={`/recipes/edit/${id}`}
+        replace={true}
+      />
+    )
+  }
+  if (!isAuth) {
+    return (
+      <Navigate
+        to={`/auth/login`}
         replace={true}
       />
     )

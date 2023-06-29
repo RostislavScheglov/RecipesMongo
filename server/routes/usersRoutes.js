@@ -4,7 +4,8 @@ import {
   loginValidation,
   registrValidation,
   resetPasswordValidation,
-} from '../validators/authValidator.js'
+  updateUserInfoValidation,
+} from '../validators/userInfoValidator.js'
 import {
   deleteImg,
   forgotPassword,
@@ -40,10 +41,9 @@ userRouter.post(
 userRouter.patch(
   '/me/edit',
   checkSession,
+  updateUserInfoValidation,
   uniqueName,
   uniqueEmail,
-  // registrValidation,
-  // uniquePersonalInfo,
   updateUserInfo
 )
 userRouter.post('/registration', registrValidation, registration)

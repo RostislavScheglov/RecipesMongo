@@ -3,18 +3,15 @@ import likesCountIcon from '../styles/assets/likesCountIcon.svg'
 import viewsCountIcon from '../styles/assets/viewsCountIcon.svg'
 import { domain } from '../axios'
 
-const checker = (el) =>
-  el !== undefined && el !== null && el !== '' && el.length > 0
-
 export function RecipeAuthorInfo(props) {
   const dateFormat = (date) => {
     const formattedDate = new Date(date).toISOString().substring(0, 10)
     return formattedDate
   }
+
   if (props.isLoading) {
     return (
       <div className="noUserInfo">
-        {/* <ErrorsList err={props.err} /> */}
         <h2>Loading...</h2>
       </div>
     )
@@ -43,7 +40,7 @@ export function RecipeAuthorInfo(props) {
             src={viewsCountIcon}
             alt="viewssIcon"
           />
-          <span>{props.fileds.viewsCount}</span>
+          <span>{props.fileds.viewsCount.length}</span>
         </div>
         <div id="likesCountContainer">
           <img

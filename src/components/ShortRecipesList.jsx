@@ -6,6 +6,9 @@ import { RecipeAuthorInfo } from './RecipeAuthorInfo'
 import { ErrorsList } from './ErrorsList'
 
 export function ShortRecipesList(props) {
+  const styles = props.styles
+  const checker = (el) => el !== undefined && el !== null && el !== ''
+
   if (props.isLoading) {
     return (
       <div className="noRecipesContainer">
@@ -28,8 +31,6 @@ export function ShortRecipesList(props) {
       </div>
     )
   }
-  const styles = props.styles
-  const checker = (el) => el !== undefined && el !== null && el !== ''
 
   return (
     <>
@@ -63,27 +64,7 @@ export function ShortRecipesList(props) {
 
               <div className={styles.textContainer}>
                 <p id={styles.title}> {item.title}</p>
-                <p id={styles.description}>
-                  {/* Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Aspernatur praesentium beatae culpa nesciunt assumenda, quae
-                adipisci ut veritatis quas debitis placeat, suscipit na Lorem
-                ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
-                praesentium beatae culpa nesciunt assumenda, quae adipisci ut
-                veritatis quas debitis placeat, suscipit na Lorem ipsum dolor
-                sit amet consectetur adipisicing elit. Aspernatur praesentium
-                beatae culpa nesciunt assumenda, quae adipisci ut veritatis quas
-                debitis placeat, suscipit na Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Aspernatur praesentium beatae
-                culpa nesciunt assumenda, quae adipisci ut veritatis quas
-                debitis placeat, suscipit na Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Aspernatur praesentium beatae
-                culpa nesciunt assumenda, quae adipisci ut veritatis quas
-                debitis placeat, suscipit na Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Aspernatur praesentium beatae
-                culpa nesciunt assumenda, quae adipisci ut veritatis quas
-                debitis placeat, suscipit na */}
-                  {item.description}
-                </p>
+                <p id={styles.description}>{item.description}</p>
                 <RecipeAuthorInfo
                   isLoading={props.isLoading}
                   fileds={item}

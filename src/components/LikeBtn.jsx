@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { isAuthUser, userId } from '../redux/slices/users'
 import likeBtnIcon from '../styles/assets/likeBtnIcon.svg'
 import dislikeBtnIcon from '../styles/assets/dislikeBtnIcon.svg'
+
 export const LikeBtn = (props) => {
   const isAuth = useSelector(isAuthUser)
   const user = useSelector(userId)
@@ -12,7 +13,6 @@ export const LikeBtn = (props) => {
   const fetchLike = async (id) => {
     const userObj = { userId: user, liked: true }
     await axios
-      // .patch(`/recipes/${id}`, userObj)
       .patch(`/recipes/likeDislike/${id}`, userObj)
       .then(setIsFavourite(true))
       .catch((err) => console.log(err))

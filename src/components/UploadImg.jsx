@@ -3,12 +3,11 @@ import { domain } from '../axios'
 import { useRef } from 'react'
 
 export function UploadImg(props) {
-  const checker = (el) => el !== undefined && el !== null && el !== ''
-  const [selectedImage, setSelectedImage] = useState('')
   const uploadImgRef = useRef()
+  const [selectedImage, setSelectedImage] = useState('')
+  const checker = (el) => el !== undefined && el !== null && el !== ''
 
   const imageChange = (e) => {
-    console.log(e.target.files)
     const file = e.target.files[0]
     if (e.target.files && e.target.files.length > 0) {
       props.setImg(file)

@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import recipeModel from '../models/Recipe.js'
 import userModel from '../models/User.js'
+import { validationResult } from 'express-validator'
 
 export function checkSession(req, res, next) {
   const recipesFilter = req.params.filter
@@ -41,6 +42,10 @@ export async function checkAuthor(req, res, next) {
 }
 
 export async function uniqueEmail(req, res, next) {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json(errors.errors)
+  }
   const myEmailExist = await userModel.findOne({
     _id: req.userId,
     userEmail: req.body.userEmail,
@@ -62,6 +67,10 @@ export async function uniqueEmail(req, res, next) {
 }
 
 export async function uniqueName(req, res, next) {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json(errors.errors)
+  }
   const myNameExist = await userModel.findOne({
     _id: req.userId,
     userName: req.body.userName,
@@ -82,8 +91,3 @@ export async function uniqueName(req, res, next) {
   }
   next()
 }
-// export async function uniquePersonalInfo(req, res, next) {
-//   uniqueName(req, res, next)
-//   uniqueEmail(req, res, next)
-//   next()
-// }

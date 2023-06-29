@@ -18,10 +18,10 @@ export function Favourites() {
   const fetchFavourites = async () => {
     try {
       const { data } = await axios.get('/recipes/favourite')
-      console.log(data)
       setItem(data)
       setLoading(false)
     } catch (err) {
+      setLoading(false)
       errorsSetter(err, setErr)
     }
   }
@@ -30,9 +30,9 @@ export function Favourites() {
     fetchFavourites()
   }, [])
 
-  // if (!isAuth) {
-  //   return <Navigate to="/auth/login" />
-  // }
+  if (!isAuth) {
+    return <Navigate to="/auth/login" />
+  }
 
   return (
     <>

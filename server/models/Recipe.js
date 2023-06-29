@@ -6,9 +6,8 @@ const RecipeSchema = new mongoose.Schema(
     recipeImage: { type: String },
     ingredients: { type: Array, required: true },
     description: { type: String, required: true },
-    viewsCount: { type: Number, default: 0 },
+    viewsCount: { type: Array, default: [] },
     likesCount: { type: Number, default: 0 },
-    // category: { type: String },
     likedBy: { type: Array, default: [] },
     author: {
       type: mongoose.Schema.Types.ObjectId,

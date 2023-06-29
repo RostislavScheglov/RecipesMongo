@@ -32,6 +32,7 @@ export function EditRecipe() {
       }
       setIsRedirect(true)
     } catch (err) {
+      setLoading(false)
       errorsSetter(err, setErr)
     }
   }
@@ -44,6 +45,7 @@ export function EditRecipe() {
         setLoading(false)
       })
       .catch((err) => {
+        setLoading(false)
         errorsSetter(err, setErr)
       })
   }
