@@ -56,17 +56,15 @@ export function FullRecipe() {
   }
 
   const fetchDeleteRecipe = async (id) => {
-    axios
-      .delete(`/recipes/${id}/${userInfo}`)
-      .then(() => {
-        axios.delete(`recipes/img/${imgId}`)
-      })
-      .then(() => setIsDeleted(true))
-      .catch((err) => {
-        setLoading(false)
-        errorsSetter(err, setErr)
-      })
-      .finally(setOpen(false))
+    try {
+      await axios.delete(`/recipes/${id}/${userInfo}`)
+      await axios.delete(`recipes/img/${imgId}`)
+      setIsDeleted(true)
+      setOpen(false)
+    } catch (err) {
+      setLoading(false)
+      errorsSetter(err, setErr)
+    }
   }
 
   useEffect(() => {
@@ -76,7 +74,7 @@ export function FullRecipe() {
   if (isDelete) {
     return (
       <Navigate
-        to="/recipes"
+        to="/"
         replace={true}
       />
     )

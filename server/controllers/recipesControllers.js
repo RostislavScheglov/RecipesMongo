@@ -70,37 +70,24 @@ const getAuthorRecipes = async (req, res) => {
 }
 
 export const deleteImg = async (req, res) => {
-  const param = req.params
   try {
+    const param = req.params
     const imgUrl = param.mainDirectory + '/' + param.path + '/' + param.imgId
     recipeModel.findOneAndUpdate(
       { recipeImage: imgUrl },
       {
         recipeImage: '',
-      },
-      (err, doc) => {
-        if (err) {
-          return res.status(400).json({
-            msg: 'Cant delete img url',
-          })
-        }
-        if (!doc) {
-          return res.status(404).json({
-            msg: 'Cant find recipe',
-          })
-        }
       }
     )
     fs.unlink(imgUrl, (err) => {
-      console.log(err)
       if (err) {
         return res.status(400).json({
-          msg: 'Cant delete img from fs',
+          msg: `Cant delete img from fs:${err}`,
         })
       }
     })
-    res.status(200).json({
-      url: 'Img deleted ',
+    return res.status(200).json({
+      msg: 'Img deleted ',
     })
   } catch (err) {
     console.log(err)

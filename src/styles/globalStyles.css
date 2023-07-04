@@ -472,9 +472,7 @@ nav a.active::after {
   /* flex-direction: column; */
   align-items: center;
 }
-/* .recipeStatsLink > * {
-  margin: 0;
-} */
+
 #recipeDateCreation {
   font-size: 12px;
   color: #828998;
@@ -502,3 +500,7 @@ nav a.active::after {
   flex-direction: column;
   align-items: center;
 }
+
+/* #titleInput {
+  border: 2px solid black;
+} */

@@ -4,12 +4,12 @@ import { useState } from 'react'
 import { getMyAvatar, getRegistrInfo, isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
-import { Button, IconButton } from '@mui/material'
+import { Button, IconButton, TextField } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { ErrorsList, errorsSetter } from '../components/ErrorsList'
-import { CustomTextField } from '../styles/customMuiStyles'
+import { inputSyles } from '../styles/customMuiStyles'
 import { UploadImg } from '../components/UploadImg'
 
 export function Registration() {
@@ -60,23 +60,29 @@ export function Registration() {
           onSubmit={handleSubmit(fetchRegistr)}
         >
           <UploadImg setImg={setImg} />
-          <CustomTextField
+          <TextField
             type="text"
             variant="outlined"
             label="Full Name"
             error={Boolean(errors.userName?.message)}
             helperText={errors.userName?.message}
             {...register('userName', { required: 'Full Name required' })}
+            sx={{
+              ...inputSyles,
+            }}
           />
-          <CustomTextField
+          <TextField
             type="email"
             variant="outlined"
             label="Email"
             error={Boolean(errors.userEmail?.message)}
             helperText={errors.userEmail?.message}
             {...register('userEmail', { required: 'Email required' })}
+            sx={{
+              ...inputSyles,
+            }}
           />
-          <CustomTextField
+          <TextField
             type={showPass ? 'text' : 'password'}
             variant="outlined"
             label="Password"
@@ -91,6 +97,9 @@ export function Registration() {
                   </IconButton>
                 </InputAdornment>
               ),
+            }}
+            sx={{
+              ...inputSyles,
             }}
           />
           <Button

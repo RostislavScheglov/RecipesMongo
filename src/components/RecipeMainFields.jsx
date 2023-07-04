@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form'
 import { ErrorsList } from './ErrorsList'
 import { UploadImg } from './UploadImg'
-import { CustomTextField } from '../styles/customMuiStyles'
-import { IconButton, InputAdornment } from '@mui/material'
+import { inputSyles } from '../styles/customMuiStyles'
+import { IconButton, InputAdornment, TextField } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import ClearSharpIcon from '@mui/icons-material/ClearSharp'
 import { useEffect, useState } from 'react'
@@ -76,17 +76,20 @@ export const RecipeMainFields = (props) => {
           setImg={props.setImg}
           deleteImg={props.deleteImg}
         />
-        <CustomTextField
+        <TextField
           type="text"
           variant="outlined"
           label="Title"
+          id="titleInput"
           focused={true}
           error={Boolean(errors.title?.message)}
           helperText={errors.title?.message}
           {...register('title', { required: 'Title required' })}
+          sx={{
+            ...inputSyles,
+          }}
         />
-        {console.log(errors)}
-        <CustomTextField
+        <TextField
           type="text"
           variant="outlined"
           label="Ingredient"
@@ -119,6 +122,9 @@ export const RecipeMainFields = (props) => {
               </InputAdornment>
             ),
           }}
+          sx={{
+            ...inputSyles,
+          }}
         />
         <ul className="ingredientsList">
           {props.ingredients.map((ingredient, index) => (
@@ -135,7 +141,7 @@ export const RecipeMainFields = (props) => {
             </li>
           ))}
         </ul>
-        <CustomTextField
+        <TextField
           id="recipeDescription"
           type="text"
           variant="outlined"
@@ -146,6 +152,9 @@ export const RecipeMainFields = (props) => {
           error={Boolean(errors.description?.message)}
           helperText={errors.description?.message}
           {...register('description', { required: 'Description required' })}
+          sx={{
+            ...inputSyles,
+          }}
         />
         <button
           className="submitBtn"

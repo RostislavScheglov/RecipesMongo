@@ -5,8 +5,9 @@ import { getMeInfo, getMyAvatar, isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
 import { ErrorsList, errorsSetter } from '../components/ErrorsList'
-import { CustomTextField } from '../styles/customMuiStyles'
+import { inputSyles } from '../styles/customMuiStyles'
 import { UploadImg } from '../components/UploadImg'
+import { TextField } from '@mui/material'
 
 export function EditPersonalInfo() {
   const dispatch = useDispatch()
@@ -92,7 +93,7 @@ export function EditPersonalInfo() {
             setImg={setImg}
             deleteImg={deleteImg}
           />
-          <CustomTextField
+          <TextField
             type="text"
             variant="outlined"
             label="Full Name"
@@ -100,8 +101,11 @@ export function EditPersonalInfo() {
             error={Boolean(errors.userName?.message)}
             helperText={errors.userName?.message}
             {...register('userName', { required: 'Full Name required' })}
+            sx={{
+              ...inputSyles,
+            }}
           />
-          <CustomTextField
+          <TextField
             type="email"
             variant="outlined"
             label="Email"
@@ -109,6 +113,9 @@ export function EditPersonalInfo() {
             error={Boolean(errors.userEmail?.message)}
             helperText={errors.userEmail?.message}
             {...register('userEmail', { required: 'Email required' })}
+            sx={{
+              ...inputSyles,
+            }}
           />
 
           <button

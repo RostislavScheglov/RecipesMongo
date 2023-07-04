@@ -15,24 +15,19 @@ export function NewRecipe() {
   const [img, setImg] = useState('')
 
   const createNewRecipe = async (params) => {
-    params.ingredients = ingredients
-
-    await axios
-      .post('/recipes', params)
-      .then((res) => {
-        if (img !== '') {
-          const formData = new FormData()
-          formData.append('img', img)
-          formData.append('id', res.data._id)
-          axios.post('/recipes/uploads/recipesImgs', formData)
-        }
-      })
-      .then(() => {
-        setIsCreated(true)
-      })
-      .catch((err) => {
-        errorsSetter(err, setErr)
-      })
+    try {
+      params.ingredients = ingredients
+      const res = await axios.post('/recipes', params)
+      if (img !== '') {
+        const formData = new FormData()
+        formData.append('img', img)
+        formData.append('id', res.data._id)
+        await axios.post('/recipes/uploads/recipesImgs', formData)
+      }
+      setIsCreated(true)
+    } catch (err) {
+      errorsSetter(err, setErr)
+    }
   }
 
   if (!isAuth) {

@@ -4,12 +4,12 @@ import { useState } from 'react'
 import { getLoginInfo, isAuthUser } from '../redux/slices/users'
 import { useForm } from 'react-hook-form'
 import { Link, Navigate } from 'react-router-dom'
-import { IconButton } from '@mui/material'
+import { IconButton, TextField } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { ErrorsList, errorsSetter } from '../components/ErrorsList'
-import { CustomTextField } from '../styles/customMuiStyles'
+import { inputSyles } from '../styles/customMuiStyles'
 
 export function Login() {
   const dispatch = useDispatch()
@@ -62,15 +62,18 @@ export function Login() {
           id="loginForm"
           onSubmit={handleSubmit(fetchLogin)}
         >
-          <CustomTextField
+          <TextField
             type="email"
             variant="outlined"
             label="Email"
             error={Boolean(errors.userEmail?.message)}
             helperText={errors.userEmail?.message}
             {...register('userEmail', { required: 'Email required' })}
+            sx={{
+              ...inputSyles,
+            }}
           />
-          <CustomTextField
+          <TextField
             type={showPass ? 'text' : 'password'}
             variant="outlined"
             label="Password"
@@ -85,6 +88,9 @@ export function Login() {
                   </IconButton>
                 </InputAdornment>
               ),
+            }}
+            sx={{
+              ...inputSyles,
             }}
           />
           <Link

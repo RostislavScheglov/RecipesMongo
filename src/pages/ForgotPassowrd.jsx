@@ -2,7 +2,8 @@ import axios from '../axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ErrorsList, errorsSetter } from '../components/ErrorsList'
-import { CustomTextField } from '../styles/customMuiStyles'
+import { inputSyles } from '../styles/customMuiStyles'
+import { TextField } from '@mui/material'
 
 export function ForgotPassword() {
   const [err, setErr] = useState()
@@ -47,13 +48,16 @@ export function ForgotPassword() {
           ) : null}
 
           <p id="loginHeader">Enter your email for recovery</p>
-          <CustomTextField
+          <TextField
             type="email"
             variant="outlined"
             label="Email"
             error={Boolean(errors.userEmail?.message)}
             helperText={errors.userEmail?.message}
             {...register('userEmail', { required: 'Email required' })}
+            sx={{
+              ...inputSyles,
+            }}
           />
           <button
             className="submitBtn"

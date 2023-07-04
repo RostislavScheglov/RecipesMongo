@@ -2,12 +2,12 @@ import axios from '../axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Navigate, useParams } from 'react-router-dom'
-import { IconButton } from '@mui/material'
+import { IconButton, TextField } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { ErrorsList, errorsSetter } from '../components/ErrorsList'
-import { CustomTextField } from '../styles/customMuiStyles'
+import { inputSyles } from '../styles/customMuiStyles'
 
 export function ResetPassword() {
   const [err, setErr] = useState()
@@ -66,7 +66,7 @@ export function ResetPassword() {
           id="loginForm"
           onSubmit={handleSubmit(resetPassword)}
         >
-          <CustomTextField
+          <TextField
             type={showPass ? 'text' : 'password'}
             variant="outlined"
             label="New password"
@@ -82,8 +82,11 @@ export function ResetPassword() {
                 </InputAdornment>
               ),
             }}
+            sx={{
+              ...inputSyles,
+            }}
           />
-          <CustomTextField
+          <TextField
             type={showPass ? 'text' : 'password'}
             variant="outlined"
             label="New passwrod"
@@ -98,6 +101,9 @@ export function ResetPassword() {
                   </IconButton>
                 </InputAdornment>
               ),
+            }}
+            sx={{
+              ...inputSyles,
             }}
           />
           <button
