@@ -1,7 +1,7 @@
 import { domain } from '../axios'
 import { Link } from 'react-router-dom'
 import { LikeBtn } from '../components/LikeBtn'
-import stockImg from '../styles/assets/stockRecipe.png'
+import stockImg from '../styles/assets/recipeImgPlaceholder.png'
 import { RecipeAuthorInfo } from './RecipeAuthorInfo'
 import { ErrorsList } from './ErrorsList'
 

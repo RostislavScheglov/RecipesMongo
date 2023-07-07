@@ -2,24 +2,6 @@ import recipeModel from '../models/Recipe.js'
 import { validationResult } from 'express-validator'
 import fs from 'fs'
 
-// export const getBySearch = async (req, res) => {
-//   try {
-//     const recipes = await recipeModel
-//       .find({ title: { $regex: req.body.search } })
-//       .populate('author')
-//       .exec()
-//     if (recipes !== null && recipes !== undefined) {
-//       return res.send(recipes)
-//     }
-//     res.send('No recipes was found')
-//   } catch (err) {
-//     console.log(err)
-//     res.status(400).json({
-//       msg: 'Cant get favourite recipes',
-//     })
-//   }
-// }
-
 // const multerFilter = (req, file, cb) => {
 //   const errors = validationResult(req)
 //   if (!errors.isEmpty()) {

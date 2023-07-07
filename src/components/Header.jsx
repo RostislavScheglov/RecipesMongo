@@ -6,6 +6,7 @@ import { isAuthUser, logout, userData } from '../redux/slices/users'
 import { Box } from '@mui/system'
 import { domain } from '../axios'
 import settings from '../styles/assets/settings.svg'
+import userAvatarPlaceholder from '../styles/assets/userAvatarPlaceholder.png'
 
 export function Header() {
   const [open, setOpen] = useState(false)
@@ -30,11 +31,19 @@ export function Header() {
 
         {isAuth ? (
           <div id="userInfoContainer">
-            <img
-              src={`${domain}${userInfo.userImage}`}
-              className="userAvatar"
-              alt="Avatar"
-            ></img>
+            {userInfo.userImage ? (
+              <img
+                src={`${domain}${userInfo.userImage}`}
+                className="userAvatar"
+                alt="Avatar"
+              ></img>
+            ) : (
+              <img
+                src={userAvatarPlaceholder}
+                className="userAvatar"
+                alt="Avatar"
+              ></img>
+            )}
             <div className="userInfoTextContainer">
               <span className="userName">{userInfo.userName}</span>
               <span id="userEmail">{userInfo.userEmail}</span>

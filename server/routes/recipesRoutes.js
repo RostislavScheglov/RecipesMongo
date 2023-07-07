@@ -28,7 +28,6 @@ recipesRouter.post(
 )
 
 recipesRouter.get('/:id', checkSession, getOne)
-// recipesRouter.get('/author/:id', getOne)
 
 recipesRouter.delete('/:id/:userId', checkSession, checkAuthor, remove)
 

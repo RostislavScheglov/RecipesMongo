@@ -137,10 +137,8 @@ nav a.active::after {
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 3em;
-  /* width: 400; */
   height: 13em;
   background-color: #f8f0e5;
-  /* border: 2px solid #000; */
   border-radius: 6px;
 }
 .modalTitle {
@@ -150,7 +148,6 @@ nav a.active::after {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* margin-top: 2em; */
 }
 
 .modalCancelBtn {
@@ -500,7 +497,3 @@ nav a.active::after {
   flex-direction: column;
   align-items: center;
 }
-
-/* #titleInput {
-  border: 2px solid black;
-} */

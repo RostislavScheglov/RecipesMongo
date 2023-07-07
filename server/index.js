@@ -1,13 +1,13 @@
 import express from 'express'
-import { config } from './config/config.js'
+import { serverConfig } from './config/config.js'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import recipesRouter from './routes/recipesRoutes.js'
 import userRouter from './routes/usersRoutes.js'
 
 const app = express()
-const port = config.serverPort
-const dbUrl = config.dbURL
+const port = serverConfig.serverPort
+const dbUrl = serverConfig.dbURL
 
 app.use(express.json())
 app.use(cors())

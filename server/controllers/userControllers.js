@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 import { validationResult } from 'express-validator'
 import userModel from '../models/User.js'
 import fs from 'fs'
-import { domain, transporter } from '../config/config.js'
+import { domain, mailConfig, secret, transporter } from '../config/config.js'
 
 export const registration = async (req, res) => {
   try {
@@ -37,7 +37,7 @@ export const registration = async (req, res) => {
       {
         _id: user._id,
       },
-      'a1b2c',
+      secret,
       {
         expiresIn: '20d',
       }
@@ -113,7 +113,7 @@ export const login = async (req, res) => {
       {
         _id: user._id,
       },
-      'a1b2c',
+      secret,
       {
         expiresIn: '20d',
       }
@@ -151,55 +151,22 @@ export const forgotPassword = async (req, res) => {
       email: user.userEmail,
       id: user._id,
     }
-    const secret = user.userPassword + 'a1b2c'
-    const resetToken = jwt.sign(payload, secret, { expiresIn: '10m' })
+    const userSecret = user.userPassword + secret
+    const resetToken = jwt.sign(payload, userSecret, { expiresIn: '10m' })
     const resetLink = `${domain}auth/resetPassword/${user._id}/${resetToken}`
 
-    const mail_configs = {
-      from: 'rostislav7333@gmail.com',
-      to: req.body.userEmail,
-      subject: 'No-reply pasword forget',
-      html: `<!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>Pasword recovery procedure</title>
-  
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
-  <div style="margin:50px auto;width:70%;padding:20px 0">
-    <div style="border-bottom:1px solid #eee">
-      <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Recipes.</a>
-    </div>
-    <p style="font-size:1.1em">Hi,</p>
-    <p>Use the following link to complete your Password Recovery Procedure. Link is valid for 10 minutes</p>
-    <h2 style="display:flex; width:50%; margin: 0 auto;padding: 0 10px;color: #fff;border-radius: 4px;">${resetLink}</h2>
-    <p style="font-size:0.9em;">Regards,<br />RS</p>
-    <hr style="border:none;border-top:1px solid #eee" />
-    <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
-      <p></p>
-      <p></p>
-      <p></p>
-    </div>
-  </div>
-</div>
-<!-- partial -->
-  
-</body>
-</html>`,
-    }
-
-    transporter.sendMail(mail_configs, function (error, info) {
-      if (error) {
-        return res.status(500).json([
-          {
-            msg: 'Unable to send reset password link',
-          },
-        ])
+    transporter.sendMail(
+      mailConfig(req.body.userEmail, resetLink),
+      function (error, info) {
+        if (error) {
+          return res.status(500).json([
+            {
+              msg: 'Unable to send reset password link',
+            },
+          ])
+        }
       }
-    })
+    )
     res
       .status(200)
       .json([{ msg: `reset password link was sent to ${req.body.userEmail}` }])
@@ -230,8 +197,8 @@ export const resetPassword = async (req, res) => {
       ])
     }
 
-    const secret = user.userPassword + 'a1b2c'
-    const payload = jwt.verify(token, secret)
+    const userSecret = user.userPassword + secret
+    const payload = jwt.verify(token, userSecret)
 
     const passwordCrypt = await bcrypt.hash(
       req.body.userPassword,

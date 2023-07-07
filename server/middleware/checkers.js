@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import recipeModel from '../models/Recipe.js'
 import userModel from '../models/User.js'
 import { validationResult } from 'express-validator'
+import { secret } from '../config/config.js'
 
 export function checkSession(req, res, next) {
   const recipesFilter = req.params.filter
@@ -11,7 +12,7 @@ export function checkSession(req, res, next) {
   try {
     const token = req.headers.session
     if (token) {
-      const decoded = jwt.verify(token, 'a1b2c')
+      const decoded = jwt.verify(token, secret)
       req.userId = decoded._id
       next()
     } else {

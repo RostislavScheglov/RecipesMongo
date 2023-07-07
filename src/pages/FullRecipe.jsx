@@ -5,12 +5,11 @@ import { useSelector } from 'react-redux'
 import { isAuthUser, userId } from '../redux/slices/users'
 import { Box, Modal } from '@mui/material'
 import { ErrorsList, errorsSetter } from '../components/ErrorsList'
-import stockImg from '../styles/assets/stockRecipe.png'
+import stockImg from '../styles/assets/recipeImgPlaceholder.png'
 import { checker } from './EditRecipe'
 import { ShortRecipesList } from '../components/ShortRecipesList'
 import EditIcon from '../styles/assets/Edit.svg'
 import DeleteIcon from '../styles/assets/Delete.svg'
-
 import styles from '../styles/shortRecipeList.module.css'
 import { RecipeAuthorInfo } from '../components/RecipeAuthorInfo'
 
@@ -58,7 +57,7 @@ export function FullRecipe() {
   const fetchDeleteRecipe = async (id) => {
     try {
       await axios.delete(`/recipes/${id}/${userInfo}`)
-      await axios.delete(`recipes/img/${imgId}`)
+      if (imgId) await axios.delete(`recipes/img/${imgId}`)
       setIsDeleted(true)
       setOpen(false)
     } catch (err) {

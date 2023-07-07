@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 import likesCountIcon from '../styles/assets/likesCountIcon.svg'
 import viewsCountIcon from '../styles/assets/viewsCountIcon.svg'
 import { domain } from '../axios'
-
+import userAvatarPlaceholder from '../styles/assets/userAvatarPlaceholder.png'
 export function RecipeAuthorInfo(props) {
   const dateFormat = (date) => {
     const formattedDate = new Date(date).toISOString().substring(0, 10)
@@ -16,19 +16,29 @@ export function RecipeAuthorInfo(props) {
       </div>
     )
   }
+  const authorInfo = props.fileds.author
   return (
     <div id="recipeStatsAuthorInfo">
       <NavLink
         className="recipeStatsLink"
-        to={`/recipes/author/${props.fileds.author._id}`}
+        to={`/recipes/author/${authorInfo._id}`}
       >
-        <img
-          src={`${domain}${props.fileds.author.userImage}`}
-          className="userAvatar"
-          alt="Avatar"
-        ></img>
+        {authorInfo.userImage ? (
+          <img
+            src={`${domain}${authorInfo.userImage}`}
+            className="userAvatar"
+            alt="Avatar"
+          ></img>
+        ) : (
+          <img
+            src={userAvatarPlaceholder}
+            className="userAvatar"
+            alt="Avatar"
+          ></img>
+        )}
+
         <div className="userInfoTextContainer">
-          <span className="userName">{props.fileds.author.userName}</span>
+          <span className="userName">{authorInfo.userName}</span>
           <span id="recipeDateCreation">
             Created {dateFormat(props.fileds.createdAt)}
           </span>

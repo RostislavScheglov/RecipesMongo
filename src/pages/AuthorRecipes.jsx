@@ -4,6 +4,7 @@ import { ShortRecipesList } from '../components/ShortRecipesList'
 import { errorsSetter } from '../components/ErrorsList'
 import { useParams } from 'react-router-dom'
 import styles from '../styles/shortRecipeList.module.css'
+import userAvatarPlaceholder from '../styles/assets/userAvatarPlaceholder.png'
 
 export function AuthorRecipes() {
   const [items, setItem] = useState([])
@@ -33,11 +34,19 @@ export function AuthorRecipes() {
         <h2>Loading...</h2>
       ) : (
         <div id="authorInfoContainer">
-          <img
-            src={`${domain}${items[0].author.userImage}`}
-            className="userAvatar"
-            alt="Avatar"
-          ></img>
+          {items[0].author.userImage ? (
+            <img
+              src={`${domain}${items[0].author.userImage}`}
+              className="userAvatar"
+              alt="Avatar"
+            ></img>
+          ) : (
+            <img
+              src={userAvatarPlaceholder}
+              className="userAvatar"
+              alt="Avatar"
+            ></img>
+          )}
           <span className="authorName">{items[0].author.userName}</span>
         </div>
       )}
