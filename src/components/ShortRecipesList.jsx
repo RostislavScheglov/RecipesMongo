@@ -1,4 +1,3 @@
-import { domain } from '../axios'
 import { Link } from 'react-router-dom'
 import { LikeBtn } from '../components/LikeBtn'
 import stockImg from '../styles/assets/recipeImgPlaceholder.png'
@@ -39,6 +38,7 @@ export function ShortRecipesList(props) {
         isLoading={props.isLoading}
       />
       <div className={styles.recipesPreview}>
+        {console.log(props.items)}
         {props.items.map((item) => (
           <div
             className={styles.recipe}
@@ -50,7 +50,7 @@ export function ShortRecipesList(props) {
             >
               {checker(item.recipeImage) ? (
                 <img
-                  src={`${domain}${item.recipeImage}`}
+                  src={`${item.recipeImage}`}
                   className={styles.shortRecipeImg}
                   alt="Img"
                 ></img>

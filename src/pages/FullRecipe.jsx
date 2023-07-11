@@ -1,6 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import axios, { domain } from '../axios'
+import axios from '../axios'
 import { useSelector } from 'react-redux'
 import { isAuthUser, userId } from '../redux/slices/users'
 import { Box, Modal } from '@mui/material'
@@ -26,7 +26,6 @@ export function FullRecipe() {
   const [open, setOpen] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const isAuth = useSelector(isAuthUser)
-  const imgId = fileds?.recipeImage
 
   const getOneRecipe = async (id, setRecipeState) => {
     try {
@@ -57,7 +56,6 @@ export function FullRecipe() {
   const fetchDeleteRecipe = async (id) => {
     try {
       await axios.delete(`/recipes/${id}/${userInfo}`)
-      if (imgId) await axios.delete(`recipes/img/${imgId}`)
       setIsDeleted(true)
       setOpen(false)
     } catch (err) {
@@ -116,7 +114,7 @@ export function FullRecipe() {
               <div id="Title">{fileds.title}</div>
               {checker(fileds.recipeImage) ? (
                 <img
-                  src={`${domain}${fileds.recipeImage}`}
+                  src={`${fileds.recipeImage}`}
                   className="uploadedImg"
                   alt="Img"
                 ></img>

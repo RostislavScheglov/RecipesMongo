@@ -23,11 +23,9 @@ export function Registration() {
     try {
       const res = await axios.post('/auth/registration', params)
       if (img !== '') {
-        const formData = new FormData()
-        formData.append('img', img)
-        formData.append('id', res.data._id)
+        const imgObject = { img: img, id: res.data._id }
         axios
-          .post('auth/uploads/usersImgs', formData)
+          .post('auth/upload', imgObject)
           .then((res) => dispatch(getMyAvatar(res.data.imgUrl)))
       }
       dispatch(getRegistrInfo(res.data))

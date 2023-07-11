@@ -7,16 +7,31 @@ export function UploadImg(props) {
   const [selectedImage, setSelectedImage] = useState('')
   const checker = (el) => el !== undefined && el !== null && el !== ''
 
-  const imageChange = (e) => {
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader()
+      fileReader.readAsDataURL(file)
+      fileReader.onload = () => {
+        resolve(fileReader.result)
+      }
+      fileReader.onerror = (error) => {
+        reject(error)
+      }
+    })
+  }
+  const imageChange = async (e) => {
     const file = e.target.files[0]
     if (e.target.files && e.target.files.length > 0) {
-      props.setImg(file)
+      const base64img = await convertToBase64(file)
+      console.log(base64img)
+      props.setImg(base64img)
       setSelectedImage(URL.createObjectURL(file))
     }
   }
   const clickUploadInput = () => {
     uploadImgRef.current.click()
   }
+
   return (
     <>
       <div className="imgActionContainer">
@@ -35,7 +50,7 @@ export function UploadImg(props) {
             </div>
             <img
               className="uploadedImg"
-              src={`${domain}${props.imgUrl}`}
+              src={`${props.imgUrl}`}
               alt="Img"
             />
           </div>
@@ -64,6 +79,7 @@ export function UploadImg(props) {
         className="uploadImgInput"
         ref={uploadImgRef}
         onChange={imageChange}
+        accept=".jpeg, .png, .jpg, .svg"
       />
     </>
   )

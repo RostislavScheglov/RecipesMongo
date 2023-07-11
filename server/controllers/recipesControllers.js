@@ -1,15 +1,5 @@
 import recipeModel from '../models/Recipe.js'
 import { validationResult } from 'express-validator'
-import fs from 'fs'
-
-// const multerFilter = (req, file, cb) => {
-//   const errors = validationResult(req)
-//   if (!errors.isEmpty()) {
-//     cb(new Error(errors), false)
-//   } else {
-//     cb(null, true)
-//   }
-// }
 
 const findByFilter = async (res, errMsg, search) => {
   try {
@@ -53,23 +43,23 @@ const getAuthorRecipes = async (req, res) => {
 
 export const deleteImg = async (req, res) => {
   try {
-    const param = req.params
-    const imgUrl = param.mainDirectory + '/' + param.path + '/' + param.imgId
     recipeModel.findOneAndUpdate(
-      { recipeImage: imgUrl },
+      { _id: req.params.id },
       {
         recipeImage: '',
+      },
+      (err, doc) => {
+        if (!doc) {
+          return res.status(404).json([
+            {
+              msg: 'Cant find recipe',
+            },
+          ])
+        }
       }
     )
-    fs.unlink(imgUrl, (err) => {
-      if (err) {
-        return res.status(400).json({
-          msg: `Cant delete img from fs:${err}`,
-        })
-      }
-    })
-    return res.status(200).json({
-      msg: 'Img deleted ',
+    res.status(200).json({
+      msg: 'Img deleted',
     })
   } catch (err) {
     console.log(err)
@@ -164,32 +154,21 @@ export const create = async (req, res) => {
 }
 
 export const uploadUrl = async (req, res) => {
-  const imgUrl = req.files.img[0].path.replaceAll('\\', '/')
-  console.log(imgUrl)
-  recipeModel.findOneAndUpdate(
-    { _id: req.body.id },
-    {
-      recipeImage: imgUrl,
-    },
-    (err, doc) => {
-      if (err) {
-        console.log(err)
-        return res.status(400).json([
-          {
-            msg: 'Cant update imgUrl',
-          },
-        ])
+  try {
+    await recipeModel.findOneAndUpdate(
+      { _id: req.body.id },
+      {
+        recipeImage: req.body.img,
       }
-      if (!doc) {
-        return res.status(404).json([
-          {
-            msg: 'Cant find recipe',
-          },
-        ])
-      }
-    }
-  )
-  res.send('Img Uploaded successfull')
+    )
+    res.send('Img Uploaded successfull')
+  } catch (err) {
+    res.status(400).json([
+      {
+        msg: 'Cant upload img',
+      },
+    ])
+  }
 }
 
 //refactore remove (we have c)

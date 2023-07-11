@@ -25,10 +25,8 @@ export function EditRecipe() {
       params.ingredients = ingredients
       await axios.patch(`/recipes/edit/${id}/${userInfo}`, params)
       if (img !== '') {
-        const formData = new FormData()
-        formData.append('img', img)
-        formData.append('id', id)
-        await axios.post('/recipes/uploads/recipesImgs', formData)
+        const imgObject = { img: img, id: id }
+        await axios.post('/recipes/upload', imgObject)
       }
       setIsRedirect(true)
     } catch (err) {
@@ -55,9 +53,8 @@ export function EditRecipe() {
   }, [id])
 
   const deleteImg = (imgUrl, setImgUrl) => {
-    console.log(imgUrl)
     axios
-      .delete(`recipes/img/${imgUrl}`)
+      .delete(`recipes/img/${id}`)
       .then(setImgUrl(''))
       .catch((err) => console.log(err))
   }

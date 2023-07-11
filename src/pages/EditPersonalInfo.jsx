@@ -23,12 +23,10 @@ export function EditPersonalInfo() {
       .patch('/auth/me/edit', params)
       .then((res) => {
         if (img !== '') {
-          const formData = new FormData()
-          formData.append('img', img)
-          formData.append('id', res.data._id)
-          axios.post('auth/uploads/usersImgs', formData).then((res) => {
-            dispatch(getMyAvatar(res.data.imgUrl))
-          })
+          const imgObject = { img: img, id: res.data._id }
+          axios
+            .post('auth/upload', imgObject)
+            .then((res) => dispatch(getMyAvatar(res.data.imgUrl)))
         }
         dispatch(getMeInfo(res.data))
       })
@@ -66,7 +64,7 @@ export function EditPersonalInfo() {
 
   const deleteImg = (imgUrl, setImgUrl) => {
     axios
-      .delete(`auth/img/${imgUrl}`)
+      .delete(`auth/img`)
       .then(setImgUrl(''))
       .catch((err) => errorsSetter(err, setErr))
   }

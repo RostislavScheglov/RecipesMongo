@@ -249,67 +249,44 @@ export const getMe = async (req, res) => {
 }
 
 export const uploadUrl = async (req, res) => {
-  const imgUrl = req.files.img[0].path.replaceAll('\\', '/')
-  userModel.findOneAndUpdate(
-    { _id: req.body.id },
-    {
-      userImage: imgUrl,
-    },
-    (err, doc) => {
-      if (err) {
-        console.log(err)
-        return res.status(400).json([
-          {
-            msg: 'Cant update imgUrl',
-          },
-        ])
+  try {
+    await userModel.findOneAndUpdate(
+      { _id: req.body.id },
+      {
+        userImage: req.body.img,
       }
-      if (!doc) {
-        return res.status(404).json([
-          {
-            msg: 'Cant find user',
-          },
-        ])
-      }
-    }
-  )
-  res.send({
-    imgUrl: imgUrl,
-    msg: 'Img Uploaded successfull',
-  })
+    )
+    res.send({
+      imgUrl: req.body.img,
+      msg: 'Img Uploaded successfull',
+    })
+  } catch (err) {
+    res.status(400).json([
+      {
+        msg: 'Cant upload img',
+      },
+    ])
+  }
 }
 export const deleteImg = async (req, res) => {
-  const param = req.params
   try {
-    const imgUrl = param.mainDirectory + '/' + param.path + '/' + param.imgId
     userModel.findOneAndUpdate(
-      { userImage: imgUrl },
+      { _id: req.userId },
       {
         userImage: '',
       },
       (err, doc) => {
-        if (err) {
-          return res.status(400).json({
-            msg: 'Cant delete img url',
-          })
-        }
         if (!doc) {
-          return res.status(404).json({
-            msg: 'Cant find recipe',
-          })
+          return res.status(404).json([
+            {
+              msg: 'Cant find user',
+            },
+          ])
         }
       }
     )
-    fs.unlink(imgUrl, (err) => {
-      console.log(err)
-      if (err) {
-        return res.status(400).json({
-          msg: 'Cant delete img from fs',
-        })
-      }
-    })
     res.status(200).json({
-      url: 'Img deleted ',
+      msg: 'Img deleted',
     })
   } catch (err) {
     console.log(err)

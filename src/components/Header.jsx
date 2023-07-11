@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isAuthUser, logout, userData } from '../redux/slices/users'
 import { Box } from '@mui/system'
-import { domain } from '../axios'
 import settings from '../styles/assets/settings.svg'
 import userAvatarPlaceholder from '../styles/assets/userAvatarPlaceholder.png'
 
@@ -33,7 +32,7 @@ export function Header() {
           <div id="userInfoContainer">
             {userInfo.userImage ? (
               <img
-                src={`${domain}${userInfo.userImage}`}
+                src={`${userInfo.userImage}`}
                 className="userAvatar"
                 alt="Avatar"
               ></img>

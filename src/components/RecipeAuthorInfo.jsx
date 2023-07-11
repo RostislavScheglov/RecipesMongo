@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom'
 import likesCountIcon from '../styles/assets/likesCountIcon.svg'
 import viewsCountIcon from '../styles/assets/viewsCountIcon.svg'
-import { domain } from '../axios'
 import userAvatarPlaceholder from '../styles/assets/userAvatarPlaceholder.png'
+
 export function RecipeAuthorInfo(props) {
   const dateFormat = (date) => {
     const formattedDate = new Date(date).toISOString().substring(0, 10)
@@ -25,7 +25,7 @@ export function RecipeAuthorInfo(props) {
       >
         {authorInfo.userImage ? (
           <img
-            src={`${domain}${authorInfo.userImage}`}
+            src={`${authorInfo.userImage}`}
             className="userAvatar"
             alt="Avatar"
           ></img>

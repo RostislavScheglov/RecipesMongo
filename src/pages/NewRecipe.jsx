@@ -19,10 +19,8 @@ export function NewRecipe() {
       params.ingredients = ingredients
       const res = await axios.post('/recipes', params)
       if (img !== '') {
-        const formData = new FormData()
-        formData.append('img', img)
-        formData.append('id', res.data._id)
-        await axios.post('/recipes/uploads/recipesImgs', formData)
+        const imgObject = { img: img, id: res.data._id }
+        await axios.post('/recipes/upload', imgObject)
       }
       setIsCreated(true)
     } catch (err) {

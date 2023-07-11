@@ -21,7 +21,6 @@ import {
   uniqueEmail,
   uniqueName,
 } from '../middleware/checkers.js'
-import { upload } from '../config/config.js'
 
 const userRouter = express.Router()
 
@@ -33,11 +32,7 @@ userRouter.post(
   resetPassword
 )
 
-userRouter.post(
-  '/uploads/:path',
-  upload.fields([{ name: 'img', maxCount: 1 }]),
-  uploadUrl
-)
+userRouter.post('/upload', uploadUrl)
 userRouter.patch(
   '/me/edit',
   checkSession,
@@ -47,7 +42,7 @@ userRouter.patch(
   updateUserInfo
 )
 userRouter.post('/registration', registrValidation, registration)
-userRouter.delete('/img/:mainDirectory/:path/:imgId', deleteImg)
+userRouter.delete('/img', checkSession, deleteImg)
 userRouter.post('/login', loginValidation, login)
 userRouter.get('/me', checkSession, getMe)
 
