@@ -9,7 +9,6 @@ import { errorsSetter } from '../components/ErrorsList'
 
 export function Favourites() {
   const isAuth = useSelector(isAuthUser)
-
   const [items, setItem] = useState([])
   const [isLoading, setLoading] = useState(true)
   const [err, setErr] = useState([])

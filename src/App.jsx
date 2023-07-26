@@ -7,41 +7,15 @@ import { Favourites } from './pages/Favourites'
 import { MyRecipes } from './pages/MyRecipes'
 import { NewRecipe } from './pages/NewRecipe'
 import { FullRecipe } from './pages/FullRecipe'
-import { useEffect } from 'react'
-import axios from './axios'
-import { useDispatch } from 'react-redux'
-import { getMeInfo } from './redux/slices/users'
 import { EditRecipe } from './pages/EditRecipe'
-
-import { ErrorsList } from './components/ErrorsList'
 import { ForgotPassword } from './pages/ForgotPassowrd'
 import { AuthorRecipes } from './pages/AuthorRecipes'
 import { EditPersonalInfo } from './pages/EditPersonalInfo'
 import { ResetPassword } from './pages/ResetPassword'
 
 function App() {
-  const dispatch = useDispatch()
-
-  const authMe = () => {
-    axios
-      .get('/auth/me')
-      .then((res) => {
-        dispatch(getMeInfo(res.data))
-      })
-      .catch((err) => {
-        const x = err.response.data.map((err) => err.msg)
-        console.log(x)
-        // console.log([err.response.data.message])
-      })
-  }
-
-  useEffect(() => {
-    authMe()
-  }, [])
-
   return (
     <div className="AppContainer">
-      {/* <ErrorsList /> */}
       <Header />
       <Routes>
         <Route

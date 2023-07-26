@@ -38,7 +38,6 @@ export function ShortRecipesList(props) {
         isLoading={props.isLoading}
       />
       <div className={styles.recipesPreview}>
-        {console.log(props.items)}
         {props.items.map((item) => (
           <div
             className={styles.recipe}

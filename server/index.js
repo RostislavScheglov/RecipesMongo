@@ -9,10 +9,8 @@ const app = express()
 const port = serverConfig.serverPort
 const dbUrl = serverConfig.dbURL
 
-app.use(express.json({ limit: '5mb', type: 'application/json' }))
-
 app.use(cors())
-
+app.use(express.json({ limit: '5mb', type: 'application/json' }))
 app.use('/uploads', express.static('uploads'))
 app.use('/recipes', recipesRouter)
 app.use('/auth', userRouter)

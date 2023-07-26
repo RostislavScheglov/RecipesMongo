@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
-import likesCountIcon from '../styles/assets/likesCountIcon.svg'
-import viewsCountIcon from '../styles/assets/viewsCountIcon.svg'
+import likesCountIcon from '../styles/assets/svgs/likesCountIcon.svg'
+import viewsCountIcon from '../styles/assets/svgs/viewsCountIcon.svg'
 import userAvatarPlaceholder from '../styles/assets/userAvatarPlaceholder.png'
 
 export function RecipeAuthorInfo(props) {

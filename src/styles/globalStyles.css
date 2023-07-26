@@ -41,13 +41,12 @@ nav a.active::after {
 }
 #personalInfoSettingsBtn {
   margin-left: 1.5em;
-  /* align-self: end; */
 }
 #personalInfoSettingsBtn::after {
   display: none;
 }
 #logo {
-  background-image: url('./assets/MainLogo.svg');
+  background-image: url('./assets/svgs/MainLogo.svg');
   width: 10em;
   height: 2.5em;
   background-repeat: no-repeat;
@@ -335,7 +334,7 @@ nav a.active::after {
   border: 2px dashed black;
   background-color: #fcf8f2;
   height: 15em;
-  background-image: url('./assets/uploadPhoto.svg');
+  background-image: url('./assets/svgs/uploadPhoto.svg');
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 6px;

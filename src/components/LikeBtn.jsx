@@ -2,8 +2,8 @@ import axios from '../axios'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { isAuthUser, userId } from '../redux/slices/users'
-import likeBtnIcon from '../styles/assets/likeBtnIcon.svg'
-import dislikeBtnIcon from '../styles/assets/dislikeBtnIcon.svg'
+import likeBtnIcon from '../styles/assets/svgs/likeBtnIcon.svg'
+import dislikeBtnIcon from '../styles/assets/svgs/dislikeBtnIcon.svg'
 
 export const LikeBtn = (props) => {
   const isAuth = useSelector(isAuthUser)

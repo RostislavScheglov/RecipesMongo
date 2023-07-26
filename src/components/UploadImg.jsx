@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { domain } from '../axios'
 import { useRef } from 'react'
 
 export function UploadImg(props) {
@@ -43,7 +42,7 @@ export function UploadImg(props) {
                 className="littleBtns"
                 variant="outlined"
                 type="button"
-                onClick={() => props.deleteImg(props.imgUrl, props.setImgUrl)}
+                onClick={() => props.deleteImg(props.setImgUrl)}
               >
                 Delete
               </button>

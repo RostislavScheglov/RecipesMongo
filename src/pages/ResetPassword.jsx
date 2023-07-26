@@ -20,6 +20,7 @@ export function ResetPassword() {
   function delay(t) {
     return new Promise((resolve) => setTimeout(resolve, t))
   }
+
   const resetPassword = (newPass) => {
     axios
       .post(`/auth/resetPassword/${params.userId}/${params.token}`, newPass)

@@ -1,7 +1,6 @@
 import axios from '../axios'
 import { useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
-import * as React from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { userId } from '../redux/slices/users'
@@ -52,7 +51,7 @@ export function EditRecipe() {
     getOneRecipe(id)
   }, [id])
 
-  const deleteImg = (imgUrl, setImgUrl) => {
+  const deleteImg = (setImgUrl) => {
     axios
       .delete(`recipes/img/${id}`)
       .then(setImgUrl(''))

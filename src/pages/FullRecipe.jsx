@@ -8,12 +8,10 @@ import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 import stockImg from '../styles/assets/recipeImgPlaceholder.png'
 import { checker } from './EditRecipe'
 import { ShortRecipesList } from '../components/ShortRecipesList'
-import EditIcon from '../styles/assets/Edit.svg'
-import DeleteIcon from '../styles/assets/Delete.svg'
+import EditIcon from '../styles/assets/svgs/Edit.svg'
+import DeleteIcon from '../styles/assets/svgs/Delete.svg'
 import styles from '../styles/shortRecipeList.module.css'
 import { RecipeAuthorInfo } from '../components/RecipeAuthorInfo'
-
-//Make checkBox near ingredient (to see what we have)
 
 export function FullRecipe() {
   const { id } = useParams()

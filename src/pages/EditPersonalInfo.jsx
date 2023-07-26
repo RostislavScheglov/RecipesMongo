@@ -62,7 +62,7 @@ export function EditPersonalInfo() {
     formState: { errors },
   } = useForm({})
 
-  const deleteImg = (imgUrl, setImgUrl) => {
+  const deleteImg = (setImgUrl) => {
     axios
       .delete(`auth/img`)
       .then(setImgUrl(''))

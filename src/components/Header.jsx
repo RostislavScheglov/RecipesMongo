@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isAuthUser, logout, userData } from '../redux/slices/users'
 import { Box } from '@mui/system'
-import settings from '../styles/assets/settings.svg'
+import settings from '../styles/assets/svgs/settings.svg'
 import userAvatarPlaceholder from '../styles/assets/userAvatarPlaceholder.png'
 
 export function Header() {
