@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const domain = 'https://recipesapii.vercel.app/'
+export const domain = 'http://34.205.129.34:4000/'
 
 const instance = axios.create({
   baseURL: domain,
