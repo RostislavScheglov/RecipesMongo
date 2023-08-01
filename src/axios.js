@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const domain = 'http://34.205.129.34:4000/'
+export const domain = 'https://44.210.111.114/'
 
 const instance = axios.create({
   baseURL: domain,
