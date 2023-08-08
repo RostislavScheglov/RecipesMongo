@@ -23,7 +23,10 @@ export function ResetPassword() {
 
   const resetPassword = (newPass) => {
     axios
-      .post(`/auth/resetPassword/${params.userId}/${params.token}`, newPass)
+      .post(
+        `/user/resetPassword?userId=${params.userId}&token=${params.token}`,
+        newPass
+      )
       .then((res) => {
         setIsReset(true)
         setLoading(true)
@@ -46,7 +49,7 @@ export function ResetPassword() {
   })
 
   if (isRedirect) {
-    return <Navigate to="/auth/login" />
+    return <Navigate to="/user/login" />
   }
 
   return (
@@ -74,26 +77,6 @@ export function ResetPassword() {
             error={Boolean(errors.userPassword?.message)}
             helperText={errors.userPassword?.message}
             {...register('userPassword', { required: 'Password required' })}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPass(!showPass)}>
-                    {showPass ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              ...inputSyles,
-            }}
-          />
-          <TextField
-            type={showPass ? 'text' : 'password'}
-            variant="outlined"
-            label="New passwrod"
-            error={Boolean(errors.userPassword?.message)}
-            helperText={errors.userPassword?.message}
-            {...register('userPassword2', { required: 'Password required' })}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">

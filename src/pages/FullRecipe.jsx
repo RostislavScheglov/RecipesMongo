@@ -53,7 +53,7 @@ export function FullRecipe() {
 
   const fetchDeleteRecipe = async (id) => {
     try {
-      await axios.delete(`/recipes/${id}/${userInfo}`)
+      await axios.delete(`/recipes?id=${id}&userId=${userInfo}`)
       setIsDeleted(true)
       setOpen(false)
     } catch (err) {
@@ -86,7 +86,7 @@ export function FullRecipe() {
   if (!isAuth) {
     return (
       <Navigate
-        to={`/auth/login`}
+        to={`/user/login`}
         replace={true}
       />
     )

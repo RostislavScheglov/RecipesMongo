@@ -28,7 +28,7 @@ export function NewRecipe() {
   }
 
   if (!isAuth) {
-    return <Navigate to="/auth/login" />
+    return <Navigate to="/user/login" />
   }
 
   if (isCreated) {

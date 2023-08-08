@@ -1,5 +1,5 @@
 import { body } from 'express-validator'
-//rename file
+
 export const registrValidation = [
   body('userEmail', 'Bad email format').isEmail(),
   body('userName', 'Username length should be minimum 2 symbols').isLength({

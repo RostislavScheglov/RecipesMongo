@@ -8,7 +8,6 @@ import fs from 'fs'
 import https from 'https'
 
 const app = express()
-const port = serverConfig.serverPort
 const dbUrl = serverConfig.dbURL
 const key = fs.readFileSync('private.key')
 const cert = fs.readFileSync('certificate.crt')
@@ -20,7 +19,7 @@ const cred = {
 app.use(cors())
 app.use(express.json({ limit: '5mb', type: 'application/json' }))
 app.use('/recipes', recipesRouter)
-app.use('/auth', userRouter)
+app.use('/user', userRouter)
 
 const start = async () => {
   const httpsServ = https.createServer(cred, app)
@@ -28,7 +27,7 @@ const start = async () => {
     if (err) {
       return console.log(err)
     }
-    console.log('Server running on port ' + port)
+    console.log('Server running on port 8443')
   })
   mongoose
     .connect(dbUrl)

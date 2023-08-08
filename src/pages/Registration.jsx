@@ -21,7 +21,7 @@ export function Registration() {
 
   const fetchRegistr = async (params) => {
     try {
-      const res = await axios.post('/auth/registration', params)
+      const res = await axios.post('/user/registration', params)
       if (img !== '') {
         const imgObject = { img: img, id: res.data._id }
         axios

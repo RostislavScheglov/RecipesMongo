@@ -14,7 +14,7 @@ import {
 
 const recipesRouter = express.Router()
 
-recipesRouter.get('/:filter([a-z]+)/:id?', checkSession, findRecipes)
+recipesRouter.get('/', checkSession, findRecipes)
 
 recipesRouter.delete('/img/:id', deleteImg)
 
@@ -24,16 +24,16 @@ recipesRouter.post('/upload', uploadUrl)
 
 recipesRouter.get('/:id', checkSession, getOne)
 
-recipesRouter.delete('/:id/:userId', checkSession, checkAuthor, remove)
+recipesRouter.delete('/', checkSession, checkAuthor, remove)
 
 recipesRouter.patch(
-  '/edit/:id/:userId',
+  '/edit',
   checkSession,
   checkAuthor,
   recipeValidation,
   update
 )
 
-recipesRouter.patch('/likeDislike/:id', checkSession, likeDislike)
+recipesRouter.patch('/like', checkSession, likeDislike)
 
 export default recipesRouter

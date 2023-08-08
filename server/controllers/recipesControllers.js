@@ -37,7 +37,7 @@ const getMyRecipes = async (req, res) => {
 }
 const getAuthorRecipes = async (req, res) => {
   const errMsg = 'Cant get author recipes'
-  const searchParam = { author: req.params.id }
+  const searchParam = { author: req.query.id }
   findByFilter(res, errMsg, searchParam)
 }
 
@@ -70,14 +70,11 @@ export const deleteImg = async (req, res) => {
 }
 
 export const findRecipes = (req, res) => {
-  const recipesFilter = req.params.filter
+  const recipesFilter = req.query.filter
 
   if (recipesFilter === 'all') getAll(req, res)
-
   if (recipesFilter === 'favourite') getFavourite(req, res)
-
   if (recipesFilter === 'my') getMyRecipes(req, res)
-
   if (recipesFilter === 'author') getAuthorRecipes(req, res)
 }
 
@@ -171,10 +168,9 @@ export const uploadUrl = async (req, res) => {
   }
 }
 
-//refactore remove (we have c)
 export const remove = async (req, res) => {
   try {
-    recipeModel.findOneAndDelete({ _id: req.params.id }, (err, doc) => {
+    recipeModel.findOneAndDelete({ _id: req.query.id }, (err, doc) => {
       if (!doc) {
         return res.status(404).json([
           {
@@ -200,7 +196,7 @@ export const update = async (req, res) => {
       return res.status(400).json(errors.errors)
     }
     recipeModel.findOneAndUpdate(
-      { _id: req.params.id },
+      { _id: req.query.id },
       {
         title: req.body.title,
         ingredients: req.body.ingredients,
@@ -229,11 +225,11 @@ export const update = async (req, res) => {
 
 export const likeDislike = async (req, res) => {
   try {
-    if (req.body.liked) {
+    if (req.query.liked === 'true') {
       recipeModel.updateOne(
-        { _id: req.params.id },
+        { _id: req.query.id },
         {
-          $push: { likedBy: req.body.userId },
+          $push: { likedBy: req.query.userId },
         },
         (err, doc) => {
           if (!doc) {
@@ -252,9 +248,9 @@ export const likeDislike = async (req, res) => {
       ])
     } else {
       recipeModel.updateOne(
-        { _id: req.params.id },
+        { _id: req.query.id },
         {
-          $pull: { likedBy: req.body.userId },
+          $pull: { likedBy: req.query.userId },
         },
         (err, doc) => {
           if (!doc) {

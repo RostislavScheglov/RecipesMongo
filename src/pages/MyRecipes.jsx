@@ -15,7 +15,7 @@ export function MyRecipes() {
 
   const fetchMyRecipes = async () => {
     try {
-      const { data } = await axios.get('/recipes/my')
+      const { data } = await axios.get('/recipes?filter=my')
       setItem(data)
       setLoading(false)
     } catch (err) {
@@ -29,7 +29,7 @@ export function MyRecipes() {
   }, [])
 
   if (!isAuth) {
-    return <Navigate to="/auth/login" />
+    return <Navigate to="/user/login" />
   }
 
   return (

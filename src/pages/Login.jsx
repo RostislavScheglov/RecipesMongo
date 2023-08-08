@@ -26,7 +26,7 @@ export function Login() {
 
   const fetchLogin = (params) => {
     axios
-      .post('/auth/login', params)
+      .post('/user/login', params)
       .then((res) => {
         dispatch(getLoginInfo(res.data))
         setTokenLocal(res.data)

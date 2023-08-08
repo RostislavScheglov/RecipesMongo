@@ -22,7 +22,7 @@ export function EditRecipe() {
   const editRecipe = async (params) => {
     try {
       params.ingredients = ingredients
-      await axios.patch(`/recipes/edit/${id}/${userInfo}`, params)
+      await axios.patch(`/recipes/edit?id=${id}&userId=${userInfo}`, params)
       if (img !== '') {
         const imgObject = { img: img, id: id }
         await axios.post('/recipes/upload', imgObject)

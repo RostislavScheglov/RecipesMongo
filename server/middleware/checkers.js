@@ -5,10 +5,8 @@ import { validationResult } from 'express-validator'
 import { secret } from '../config/config.js'
 
 export function checkSession(req, res, next) {
-  const recipesFilter = req.params.filter
-  if (recipesFilter === 'all' || recipesFilter === 'author') {
-    return next()
-  }
+  const recipesFilter = req.query.filter
+  if (recipesFilter === 'all' || recipesFilter === 'author') return next()
   try {
     const token = req.headers.session
     if (token) {
@@ -26,8 +24,8 @@ export function checkSession(req, res, next) {
 export async function checkAuthor(req, res, next) {
   try {
     const checkedAuthor = await recipeModel.findOne({
-      _id: req.params.id,
-      author: req.params.userId,
+      _id: req.query.id,
+      author: req.query.userId,
     })
     if (checkedAuthor === null || checkedAuthor === undefined) {
       return res.status(404).json([

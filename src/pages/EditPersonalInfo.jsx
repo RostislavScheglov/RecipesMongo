@@ -20,7 +20,7 @@ export function EditPersonalInfo() {
 
   const editPersonalInfo = async (params) => {
     axios
-      .patch('/auth/me/edit', params)
+      .patch('/user/me/edit', params)
       .then((res) => {
         if (img !== '') {
           const imgObject = { img: img, id: res.data._id }
@@ -39,7 +39,7 @@ export function EditPersonalInfo() {
 
   const getMe = () => {
     axios
-      .get('/auth/me')
+      .get('/user/me')
       .then((res) => {
         setValue('userName', res.data.userName)
         setValue('userEmail', res.data.userEmail)

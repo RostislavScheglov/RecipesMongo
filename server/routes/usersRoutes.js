@@ -26,11 +26,7 @@ const userRouter = express.Router()
 
 userRouter.post('/forgotPassword', forgotPasswordValidation, forgotPassword)
 
-userRouter.post(
-  '/resetPassword/:userId/:token',
-  resetPasswordValidation,
-  resetPassword
-)
+userRouter.post('/resetPassword', resetPasswordValidation, resetPassword)
 
 userRouter.post('/upload', uploadUrl)
 userRouter.patch(

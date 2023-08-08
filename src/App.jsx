@@ -12,8 +12,25 @@ import { ForgotPassword } from './pages/ForgotPassowrd'
 import { AuthorRecipes } from './pages/AuthorRecipes'
 import { EditPersonalInfo } from './pages/EditPersonalInfo'
 import { ResetPassword } from './pages/ResetPassword'
+import { useEffect } from 'react'
+import axios from './axios'
+import { useDispatch } from 'react-redux'
+import { getMeInfo } from './redux/slices/users'
 
 function App() {
+  const dispatch = useDispatch()
+  const getMe = () => {
+    axios
+      .get('/user/me')
+      .then((res) => dispatch(getMeInfo(res.data)))
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+  useEffect(() => {
+    getMe()
+  }, [])
+
   return (
     <div className="AppContainer">
       <Header />
@@ -27,19 +44,19 @@ function App() {
           element={<ForgotPassword />}
         />
         <Route
-          path="/auth/resetPassword/:userId/:token"
+          path="/user/resetPassword/:userId/:token"
           element={<ResetPassword />}
         />
         <Route
-          path="/auth/registration"
+          path="/user/registration"
           element={<Registration />}
         />
         <Route
-          path="/auth/editPersonalInfo"
+          path="/user/editPersonalInfo"
           element={<EditPersonalInfo />}
         />
         <Route
-          path="/auth/login"
+          path="/user/login"
           element={<Login />}
         />
         <Route

@@ -12,7 +12,7 @@ export function ForgotPassword() {
 
   const fetchLogin = (params) => {
     axios
-      .post('/auth/forgotPassword', params)
+      .post('/user/forgotPassword', params)
       .then(() => {
         setIsSent(true)
         setIsLoading(true)

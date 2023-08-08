@@ -49,7 +49,7 @@ export function Header() {
             </div>
             <NavLink
               id="personalInfoSettingsBtn"
-              to="/auth/editPersonalInfo"
+              to="/user/editPersonalInfo"
             >
               <img
                 src={settings}
@@ -66,12 +66,12 @@ export function Header() {
             Log out
           </button>
         ) : (
-          <NavLink to="/auth/login">Login</NavLink>
+          <NavLink to="/user/login">Login</NavLink>
         )}
         {isAuth ? null : (
           <Link
             id="registrBtn"
-            to="/auth/registration"
+            to="/user/registration"
           >
             Registration
           </Link>

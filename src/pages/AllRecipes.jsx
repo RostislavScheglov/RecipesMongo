@@ -13,7 +13,7 @@ export function AllRecipes() {
 
   const fetchAllRecipes = async () => {
     try {
-      const { data } = await axios.get('/recipes/all')
+      const { data } = await axios.get('/recipes?filter=all')
       setItem(data)
       setLoading(false)
     } catch (err) {

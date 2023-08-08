@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { validationResult } from 'express-validator'
 import userModel from '../models/User.js'
-import fs from 'fs'
 import { domain, mailConfig, secret, transporter } from '../config/config.js'
 
 export const registration = async (req, res) => {
@@ -182,7 +181,7 @@ export const forgotPassword = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    const { userId, token } = req.params
+    const { userId, token } = req.query
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(400).json(errors.errors)

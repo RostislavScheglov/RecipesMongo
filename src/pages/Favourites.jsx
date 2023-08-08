@@ -15,7 +15,7 @@ export function Favourites() {
 
   const fetchFavourites = async () => {
     try {
-      const { data } = await axios.get('/recipes/favourite')
+      const { data } = await axios.get('/recipes?filter=favourite')
       setItem(data)
       setLoading(false)
     } catch (err) {
@@ -29,7 +29,7 @@ export function Favourites() {
   }, [])
 
   if (!isAuth) {
-    return <Navigate to="/auth/login" />
+    return <Navigate to="/user/login" />
   }
 
   return (

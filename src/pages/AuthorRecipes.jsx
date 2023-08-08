@@ -14,8 +14,10 @@ export function AuthorRecipes() {
 
   const fetchAuthorRecipes = async (setRecipes, setLoading, getAuthorInfo) => {
     try {
-      const resolvedAthorInfo = await getAuthorInfo
-      const { data } = await axios.get(`/recipes/author/${resolvedAthorInfo}`)
+      const resolvedAuthorId = await getAuthorInfo
+      const { data } = await axios.get(
+        `/recipes?filter=author&id=${resolvedAuthorId}`
+      )
       setRecipes(data)
       setLoading(false)
     } catch (err) {
