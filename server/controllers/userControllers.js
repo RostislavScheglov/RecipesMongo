@@ -152,7 +152,7 @@ export const forgotPassword = async (req, res) => {
     }
     const userSecret = user.userPassword + secret
     const resetToken = jwt.sign(payload, userSecret, { expiresIn: '10m' })
-    const resetLink = `${domain}auth/resetPassword/${user._id}/${resetToken}`
+    const resetLink = `${domain}user/resetPassword/${user._id}/${resetToken}`
 
     transporter.sendMail(
       mailConfig(req.body.userEmail, resetLink),
