@@ -25,7 +25,7 @@ export function EditPersonalInfo() {
         if (img !== '') {
           const imgObject = { img: img, id: res.data._id }
           axios
-            .post('auth/upload', imgObject)
+            .post('/user/upload', imgObject)
             .then((res) => dispatch(getMyAvatar(res.data.imgUrl)))
         }
         dispatch(getMeInfo(res.data))
@@ -64,7 +64,7 @@ export function EditPersonalInfo() {
 
   const deleteImg = (setImgUrl) => {
     axios
-      .delete(`auth/img`)
+      .delete(`/user/img`)
       .then(setImgUrl(''))
       .catch((err) => errorsSetter(err, setErr))
   }
