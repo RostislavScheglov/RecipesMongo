@@ -6,6 +6,8 @@ import { isAuthUser, logout, userData } from '../redux/slices/users'
 import { Box } from '@mui/system'
 import settings from '../styles/assets/svgs/settings.svg'
 import userAvatarPlaceholder from '../styles/assets/userAvatarPlaceholder.png'
+import MainLogo from '../styles/assets/svgs/MainLogo.svg'
+import '../styles/componentsStyles/MainHeader.css'
 
 export function Header() {
   const [open, setOpen] = useState(false)
@@ -21,7 +23,11 @@ export function Header() {
 
   return (
     <div className="HeaderContainer">
-      <div id="logo"></div>
+      <img
+        className="mainLogo"
+        src={MainLogo}
+        alt="MainLogo"
+      />
       <nav id="headerLinkContainer">
         <NavLink to="/">Feed</NavLink>
         <NavLink to="/recipes/favourites">Favourites</NavLink>
@@ -29,7 +35,7 @@ export function Header() {
         <NavLink to="/recipes/newrecipe">New Recipe</NavLink>
 
         {isAuth ? (
-          <div id="userInfoContainer">
+          <div className="userInfoContainer">
             {userInfo.userImage ? (
               <img
                 src={`${userInfo.userImage}`}
@@ -48,10 +54,11 @@ export function Header() {
               <span id="userEmail">{userInfo.userEmail}</span>
             </div>
             <NavLink
-              id="personalInfoSettingsBtn"
+              className="personalInfoSettingsBtn"
               to="/user/editPersonalInfo"
             >
               <img
+                className="personalInfoSettingsIcon"
                 src={settings}
                 alt="settings"
               />
@@ -60,7 +67,7 @@ export function Header() {
         ) : null}
         {isAuth ? (
           <button
-            id="logOutBtn"
+            className="logOutBtn"
             onClick={() => setOpen(true)}
           >
             Log out

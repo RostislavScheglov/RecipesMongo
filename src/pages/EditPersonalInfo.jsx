@@ -73,16 +73,15 @@ export function EditPersonalInfo() {
   }
 
   return (
-    <div id="loginContainer">
+    <div className="EditPersonalInfoContainer">
       <h1 className="pageTitle">Edit Personal Info</h1>
-
-      <div className="loginFormContainer">
+      <div className="formContainer">
         <ErrorsList
           err={err}
           isLoading={isLoading}
         />
         <form
-          id="loginForm"
+          id="userDataForm"
           onSubmit={handleSubmit(editPersonalInfo)}
         >
           <UploadImg

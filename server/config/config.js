@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
 import * as dotenv from 'dotenv'
 
-export const domain = 'https://recipesrs.vercel.app/'
+export const domain = 'http://localhost:3000/'
 
 dotenv.config({ path: './config/.env' })
 const envr = process.env

@@ -1,0 +1,81 @@
+.fullRecipeContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 0px 0 6em;
+}
+.mainRecipeInfoContainer {
+  width: 70%;
+}
+.recipeAuthorInfoContainer {
+  width: fit-content;
+}
+.fullRecipeImg {
+  width: 100%;
+  height: 23.1em;
+  border-radius: 6px;
+  object-fit: cover;
+  object-position: center top;
+}
+.description {
+  font-size: 14px;
+  margin: 2em 0;
+  word-wrap: break-word;
+}
+.recipeActionsContainer {
+  display: flex;
+  margin-top: 5em;
+}
+.deleteRecipeBtn {
+  background-color: #9ba5b4;
+  display: flex;
+  color: #fcf8f2;
+  align-items: center;
+  border-radius: 6px;
+  border: none;
+  justify-content: center;
+  height: 4em;
+  width: 50%;
+  text-align: center;
+  margin-right: 0.5em;
+}
+.editRecipeBtn {
+  background-color: #121418;
+  display: flex;
+  color: #fcf8f2;
+  align-items: center;
+  border-radius: 6px;
+  border: none;
+  justify-content: center;
+  height: 4em;
+  width: 50%;
+  text-align: center;
+  margin-left: 0.5em;
+}
+.svgIcon {
+  margin-right: 0.5em;
+}
+.ingredients {
+  width: 34%;
+  height: 23em;
+  background-color: #fcf8f2;
+  border: 1px solid black;
+  border-radius: 6px;
+  padding: 0 1.5em 2em 3.5em;
+  margin: 9.3em 0 0 1em;
+  overflow: auto;
+}
+.ingredientsTittle {
+  font-size: 24;
+  font-weight: bold;
+  margin-left: -1.5em;
+}
+@media screen and (max-width: 1500px) {
+  .ingredients {
+    margin: 8.6em 0 0 1em;
+  }
+}
+.ingredient {
+  word-wrap: break-word;
+  margin: 0.5em 0;
+}

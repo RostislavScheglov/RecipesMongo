@@ -1,0 +1,46 @@
+.imgActionContainer {
+  display: flex;
+  flex-direction: column;
+}
+.imgActionContainer > * {
+  margin: 1em 0 1em 0;
+}
+.bigImgContainer {
+  display: contents;
+  height: 15em;
+}
+#imgActionTitle {
+  display: inline;
+}
+#imgTitleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 1em 0;
+  align-items: center;
+}
+.uploadImgContainer {
+  border: 2px dashed black;
+  background-color: #fcf8f2;
+  height: 15em;
+  background-image: url('../assets/svgs/uploadPhoto.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.uploadedImg {
+  width: 100%;
+  height: 23.1em;
+  border-radius: 6px;
+  object-fit: cover;
+  object-position: center;
+}
+@media screen and (max-width: 1300px) {
+  .uploadedImg {
+    height: 15em;
+  }
+}
+.uploadImgInput {
+  display: none;
+}

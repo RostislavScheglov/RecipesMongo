@@ -14,118 +14,94 @@ a {
 button {
   cursor: pointer;
 }
-nav a.active {
-  font-weight: 800;
-}
-nav a.active::after {
-  content: '';
-  height: 3px;
-  width: 15px;
-  background: #d4aeff;
-  position: absolute;
-  left: 35%;
-  bottom: -5px;
-  border-radius: 6px;
-}
+
 .AppContainer {
   width: 70vw;
   margin: 3em auto;
   display: flex;
   flex-direction: column;
-}
-.HeaderContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 5em;
-}
-#personalInfoSettingsBtn {
-  margin-left: 1.5em;
-}
-#personalInfoSettingsBtn::after {
-  display: none;
-}
-#logo {
-  background-image: url('./assets/svgs/MainLogo.svg');
-  width: 10em;
-  height: 2.5em;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
-#registrBtn {
-  padding: 1em;
-  background-color: #d4aeff;
-  border-radius: 6px;
+  overflow-wrap: break-word;
 }
 
-#logOutBtn {
-  padding: 1em;
-  background-color: #9ba5b4;
-  border-radius: 6px;
-  border: none;
-  color: white;
+.noRecipesContainer {
+  width: fit-content;
 }
 
-#userInfoContainer {
-  display: flex;
-  border-left: 2px solid black;
-  padding-left: 0.5em;
-  font-size: 12px;
-  align-items: center;
+.pageTitle {
+  text-align: center;
+  margin-bottom: 1em;
 }
-/* #userInfoContainer > * {
-  margin-right: 1em;
-} */
-.userInfoTextContainer {
+.recipesContainer {
+  width: 100%;
+}
+
+.linkContainer {
+  display: flex;
+  position: relative;
+  height: 95%;
+  border-radius: 8px;
+}
+
+.formContainer {
+  width: 35%;
+  margin: 0 auto;
+  border-radius: 30px;
+  padding: 1em 2em;
+}
+
+#userDataForm {
   display: flex;
   flex-direction: column;
-  /* align-self: end; */
-  justify-content: space-between;
-  height: 100%;
-  margin-left: 1em;
+  margin: 0 auto;
 }
-.userAvatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50px;
-}
-.userName {
-  font-size: 14px;
-  font-weight: bold;
-}
-#userEmail {
-  /* font-size: 12px; */
-}
-/* #userInfoContainer > * {
-  margin: 0 0.5em;
-} */
-#personalInfoSettingsBtn {
-  /* border-bottom: 2px solid #d4aeff; */
-  font-size: 12px;
-  font-weight: bold;
-  width: fit-content;
-  height: fit-content;
-  position: relative;
-  margin-left: 1.5em;
-}
-#headerLinkContainer {
-  justify-content: space-between;
-  display: flex;
-  align-items: center;
-  width: 60%;
-}
-#headerLinkContainer > a {
-  margin: 0 0.5em;
-  position: relative;
+#userDataForm > * {
+  margin-bottom: 1em;
 }
 
-.errorContainer {
-  /* width: 24%; */
-  width: 100%;
-  margin: 0 0 3em auto;
-  border: 1px solid black;
+.submitBtn {
+  background-color: #121418;
+  color: #fcf8f2;
   border-radius: 6px;
+  border: none;
+  height: 4em;
+}
+#submitCancleBtn {
+  opacity: 70%;
+}
+
+.editRecipeForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  align-self: center;
+  text-align: left;
+  word-wrap: break-word;
+  text-transform: uppercase;
+  margin: 0.5em 0;
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.editRecipeForm {
+  width: 40%;
+  align-self: center;
+}
+.editRecipeForm > * {
+  margin: 1em 0 1em 0;
+}
+
+.littleBtns {
+  border: none;
+  color: #d4aeff;
+  width: fit-content;
+  background-color: #f8f0e5;
+  text-decoration: none;
+  border-bottom: 2px solid #d4aeff;
+  font-size: 15px;
+  font-weight: bold;
+  align-self: end;
 }
 #modalWindow {
   position: absolute;
@@ -141,7 +117,7 @@ nav a.active::after {
   border-radius: 6px;
 }
 .modalTitle {
-  font-size: 25;
+  font-size: 24;
 }
 #btnContainer {
   display: flex;
@@ -165,210 +141,6 @@ nav a.active::after {
   border: none;
   border-radius: 6px;
 }
-.noRecipesContainer {
-  width: fit-content;
-}
-.randomRecip {
-  width: 100%;
-  height: 23em;
-  margin-bottom: 2.5em;
-  padding: 3em;
-  background-image: url('./assets/RandomRecipBack.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  border-radius: 6px;
-}
-#randomRecipeTitle {
-  font-size: 42px;
-  font-weight: 700;
-  width: 50%;
-}
-.randomRecipeBtn {
-  width: 10em;
-  height: 3em;
-  font-weight: 500;
-  font-size: 14px;
-  border-radius: 6px;
-  color: #121418;
-  background-color: #d4aeff;
-  border: none;
-}
-.pageTitle {
-  text-align: center;
-  margin-bottom: 1em;
-}
-.recipesContainer {
-  width: 100%;
-}
-
-.linkContainer {
-  display: flex;
-  position: relative;
-  height: 95%;
-  border-radius: 8px;
-}
-
-.loginFormContainer {
-  width: 35%;
-  margin: 0 auto;
-  border-radius: 30px;
-  padding: 1em 2em;
-}
-
-#loginForm {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-}
-#loginForm > * {
-  margin-bottom: 1em;
-}
-
-#loginHeader {
-  text-align: center;
-  font-size: 25px;
-  font-weight: 600;
-  text-transform: uppercase;
-  margin-bottom: 1.5em;
-}
-
-.recipeFormContainer {
-  margin: 2em auto;
-  width: 40%;
-}
-
-#recipeForm {
-  display: flex;
-  flex-direction: column;
-}
-#recipeForm > * {
-  margin-bottom: 1em;
-}
-.submitBtn {
-  background-color: #121418;
-  color: #fcf8f2;
-  border-radius: 6px;
-  border: none;
-  height: 4em;
-}
-#submitCancleBtn {
-  opacity: 70%;
-}
-.ingredientsList {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-.ingredientContainer {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 6px;
-  border: none;
-  background-color: #d4aeff;
-  color: #121418;
-  margin: 0.5em;
-  padding: 0.5em;
-}
-
-.editRecipeForm {
-  display: flex;
-  flex-direction: column;
-}
-#imgActionTitle {
-  display: inline;
-}
-#imgTitleContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 1em 0;
-  align-items: center;
-}
-
-#Title {
-  align-self: center;
-  text-align: left;
-  word-wrap: break-word;
-  text-transform: uppercase;
-  margin: 0.5em 0;
-  font-size: 48px;
-  font-weight: 700;
-}
-.svgContainer {
-  position: absolute;
-  background-color: rgba(252, 248, 242, 0.6);
-  border-radius: 6px;
-  padding: 0.2em;
-  margin: 0.5em 0 0 0.5em;
-}
-
-/* Edit */
-.editRecipeForm {
-  width: 40%;
-  align-self: center;
-}
-.editRecipeForm > * {
-  margin: 1em 0 1em 0;
-}
-
-.imgActionContainer {
-  display: flex;
-  flex-direction: column;
-}
-.imgActionContainer > * {
-  margin: 1em 0 1em 0;
-}
-.littleBtns {
-  border: none;
-  color: #d4aeff;
-  width: fit-content;
-  background-color: #f8f0e5;
-  text-decoration: none;
-  border-bottom: 2px solid #d4aeff;
-  font-size: 15px;
-  font-weight: bold;
-  align-self: end;
-}
-.uploadImgContainer {
-  border: 2px dashed black;
-  background-color: #fcf8f2;
-  height: 15em;
-  background-image: url('./assets/svgs/uploadPhoto.svg');
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.uploadedImg {
-  width: 100%;
-  height: 23.1em;
-  border-radius: 6px;
-}
-.uploadImgInput {
-  display: none;
-}
-
-.bigImgContainer {
-  display: contents;
-  height: 15em;
-}
-#recipeDescription {
-  /* height: 8em; */
-  /* text-align: end; */
-}
-
-/* FullRecipe */
-.fullRecipeContainer {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  margin: 0px 0 6em;
-}
-.recipeAuthorInfoContainer {
-  width: fit-content;
-}
 .statsContainer {
   display: flex;
   flex-direction: row;
@@ -378,121 +150,4 @@ nav a.active::after {
 
 .statsContainer > * {
   margin: 0 0.3em;
-}
-.recipeActionsContainer {
-  display: flex;
-  margin-top: 5em;
-}
-#ingredientsTittle {
-  font-size: 24;
-  font-weight: bold;
-  margin-left: -1.5em;
-}
-#Ingredients {
-  width: 34%;
-  height: 23em;
-  background-color: #fcf8f2;
-  border: 1px solid black;
-  border-radius: 6px;
-  padding: 0 1.5em 2em 3.5em;
-  margin: 9.3em 0 0 1em;
-  overflow: auto;
-}
-.ingredient {
-  word-wrap: break-word;
-  margin: 0.5em 0;
-}
-
-.mainRecipeInfoContainer {
-  width: 70%;
-}
-#Description {
-  font-size: 14px;
-  margin: 2em 0;
-  word-wrap: break-word;
-}
-.editRecipeBtn {
-  background-color: #121418;
-  display: flex;
-  color: #fcf8f2;
-  align-items: center;
-  border-radius: 6px;
-  border: none;
-  justify-content: center;
-  height: 4em;
-  width: 50%;
-  text-align: center;
-  margin-left: 0.5em;
-}
-.deleteRecipeBtn {
-  background-color: #9ba5b4;
-  display: flex;
-  color: #fcf8f2;
-  align-items: center;
-  border-radius: 6px;
-  border: none;
-  justify-content: center;
-  height: 4em;
-  width: 50%;
-  text-align: center;
-  margin-right: 0.5em;
-}
-.svgIcon {
-  margin-right: 0.5em;
-}
-
-#likesCountContainer {
-  display: flex;
-  align-items: flex-end;
-}
-#viewsCountContainer {
-  display: flex;
-  align-items: flex-end;
-}
-#viewsCountContainer > * {
-  margin: 0 0.1em;
-}
-#likesCountContainer > * {
-  margin: 0 0.1em;
-}
-#recipeStatsAuthorInfo {
-  display: flex;
-  flex-direction: row;
-  /* margin-bottom: 2em; */
-  justify-content: space-between;
-}
-.recipeStatsLink {
-  margin-right: 1em;
-  font-size: 14px;
-  display: flex;
-  /* flex-direction: column; */
-  align-items: center;
-}
-
-#recipeDateCreation {
-  font-size: 12px;
-  color: #828998;
-}
-
-/* authorsRecipesrpage */
-
-#authorInfoContainer {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 2em;
-}
-.authorName {
-  font-size: 48px;
-  font-weight: 700;
-}
-
-#sentLinkConfirm {
-  align-self: center;
-  border-bottom: 2px solid #d4aeff;
-  width: fit-content;
-}
-#resetPassConfirm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }

@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import likesCountIcon from '../styles/assets/svgs/likesCountIcon.svg'
 import viewsCountIcon from '../styles/assets/svgs/viewsCountIcon.svg'
 import userAvatarPlaceholder from '../styles/assets/userAvatarPlaceholder.png'
+import '../styles/componentsStyles/RecipeAuthorInfo.css'
 
 export function RecipeAuthorInfo(props) {
   const dateFormat = (date) => {
@@ -47,6 +48,7 @@ export function RecipeAuthorInfo(props) {
       <div className="statsContainer">
         <div id="viewsCountContainer">
           <img
+            id="viewsCount"
             src={viewsCountIcon}
             alt="viewssIcon"
           />
@@ -54,6 +56,7 @@ export function RecipeAuthorInfo(props) {
         </div>
         <div id="likesCountContainer">
           <img
+            id="likesCount"
             src={likesCountIcon}
             alt="likesIcon"
           />

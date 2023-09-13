@@ -1,0 +1,9 @@
+.authorInfoContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2em;
+}
+.authorName {
+  font-size: 48px;
+  font-weight: 700;
+}

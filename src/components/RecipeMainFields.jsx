@@ -7,6 +7,7 @@ import { Add } from '@mui/icons-material'
 import ClearSharpIcon from '@mui/icons-material/ClearSharp'
 import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
+import '../styles/componentsStyles/RecipeMainFields.css'
 
 export const RecipeMainFields = (props) => {
   const [isRedirect, setIsRedirect] = useState(false)

@@ -51,15 +51,15 @@ export function Login() {
   }
 
   return (
-    <div id="loginContainer">
-      <div className="loginFormContainer">
+    <div>
+      <div className="formContainer">
         <h1 className="pageTitle">Login</h1>
         <ErrorsList
           err={err}
           isLoading={isLoading}
         />
         <form
-          id="loginForm"
+          id="userDataForm"
           onSubmit={handleSubmit(fetchLogin)}
         >
           <TextField

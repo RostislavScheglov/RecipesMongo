@@ -10,8 +10,8 @@ import { checker } from './EditRecipe'
 import { ShortRecipesList } from '../components/ShortRecipesList'
 import EditIcon from '../styles/assets/svgs/Edit.svg'
 import DeleteIcon from '../styles/assets/svgs/Delete.svg'
-import styles from '../styles/shortRecipeList.module.css'
 import { RecipeAuthorInfo } from '../components/RecipeAuthorInfo'
+import '../styles/pagesStyles/FullRecipe.css'
 
 export function FullRecipe() {
   const { id } = useParams()
@@ -41,7 +41,7 @@ export function FullRecipe() {
     try {
       const resolvedAthorInfo = await getAuthorInfo
       const { data } = await axios.get(
-        `/recipes/author/${resolvedAthorInfo.author._id}`
+        `/recipes?filter=author&id=${resolvedAthorInfo.author._id}`
       )
       setRecipes(data.slice(0, 3))
       setLoading(false)
@@ -109,21 +109,21 @@ export function FullRecipe() {
                   fileds={fileds}
                 />
               </div>
-              <div id="Title">{fileds.title}</div>
+              <div className="title">{fileds.title}</div>
               {checker(fileds.recipeImage) ? (
                 <img
                   src={`${fileds.recipeImage}`}
-                  className="uploadedImg"
+                  className="fullRecipeImg"
                   alt="Img"
                 ></img>
               ) : (
                 <img
-                  className="uploadedImg"
+                  className="fullRecipeImg"
                   src={stockImg}
                   alt="StockImg"
                 ></img>
               )}
-              <div id="Description">{fileds.description}</div>
+              <div className="description">{fileds.description}</div>
               {userInfo === fileds.author._id ? (
                 <div className="recipeActionsContainer">
                   <button
@@ -151,8 +151,8 @@ export function FullRecipe() {
                 </div>
               ) : null}
             </div>
-            <ul id="Ingredients">
-              <p id="ingredientsTittle">Ingredients:</p>
+            <ul className="ingredients">
+              <p className="ingredientsTittle">Ingredients:</p>
               {fileds.ingredients.map((ingredient, index) => (
                 <li
                   className="ingredient"
@@ -170,7 +170,6 @@ export function FullRecipe() {
       <ShortRecipesList
         items={items}
         isLoading={isLoading}
-        styles={styles}
         err={err}
       />
       <Modal

@@ -3,9 +3,10 @@ import { LikeBtn } from '../components/LikeBtn'
 import stockImg from '../styles/assets/recipeImgPlaceholder.png'
 import { RecipeAuthorInfo } from './RecipeAuthorInfo'
 import { ErrorsList } from './ErrorsList'
+import '../styles/componentsStyles/ShortRecipesList.css'
 
 export function ShortRecipesList(props) {
-  const styles = props.styles
+  const isAllRecipes = props.isAllRecipes
   const checker = (el) => el !== undefined && el !== null && el !== ''
 
   if (props.isLoading) {
@@ -37,33 +38,33 @@ export function ShortRecipesList(props) {
         err={props.err}
         isLoading={props.isLoading}
       />
-      <div className={styles.recipesPreview}>
+      <div className={isAllRecipes ? 'recipesPreviewFeed' : 'recipesPreview'}>
         {props.items.map((item) => (
           <div
-            className={styles.recipe}
+            className="recipe"
             key={item._id}
           >
             <Link
-              className={styles.linkContainer}
+              className="linkContainer"
               to={`/recipes/${item._id}`}
             >
               {checker(item.recipeImage) ? (
                 <img
-                  src={`${item.recipeImage}`}
-                  className={styles.shortRecipeImg}
-                  alt="Img"
+                  className="recipeImg"
+                  src={item.recipeImage}
+                  alt="img"
                 ></img>
               ) : (
                 <img
-                  className={styles.shortRecipeImg}
                   src={stockImg}
-                  alt="StockImg"
+                  className="recipeImg"
+                  alt="img"
                 ></img>
               )}
 
-              <div className={styles.textContainer}>
-                <p id={styles.title}> {item.title}</p>
-                <p id={styles.description}>{item.description}</p>
+              <div className="textContainer">
+                <p id="title"> {item.title}</p>
+                <p id="description">{item.description}</p>
                 <RecipeAuthorInfo
                   isLoading={props.isLoading}
                   fileds={item}

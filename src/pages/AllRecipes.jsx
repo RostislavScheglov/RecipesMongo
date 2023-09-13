@@ -2,8 +2,8 @@ import axios from '../axios'
 import { useEffect, useState } from 'react'
 import { ShortRecipesList } from '../components/ShortRecipesList'
 import { errorsSetter } from '../components/ErrorsList'
-import styles from '../styles/shortRecipeBigOne.module.css'
 import { useNavigate } from 'react-router-dom'
+import '../styles/pagesStyles/AllRecipes.css'
 
 export function AllRecipes() {
   const [items, setItem] = useState([])
@@ -46,7 +46,7 @@ export function AllRecipes() {
       <ShortRecipesList
         items={items}
         isLoading={isLoading}
-        styles={styles}
+        isAllRecipes={true}
         err={err}
       />
     </div>

@@ -8,6 +8,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { ErrorsList, errorsSetter } from '../components/ErrorsList'
 import { inputSyles } from '../styles/customMuiStyles'
+import '../styles/pagesStyles/ResetPassword.css'
 
 export function ResetPassword() {
   const [err, setErr] = useState()
@@ -53,12 +54,12 @@ export function ResetPassword() {
   }
 
   return (
-    <div id="loginContainer">
-      <div className="loginFormContainer">
+    <div>
+      <div className="formContainer">
         {isReset ? (
-          <div id="resetPassConfirm">
-            <h2 id="sentLinkConfirm">Your password has been reset!</h2>
-            <span id="sentLinkConfirm">Ridirecting to login page....</span>
+          <div id="resetPassConfirmation">
+            <h2>Your password has been reset!</h2>
+            <span>Ridirecting to login page....</span>
           </div>
         ) : null}
         <h1 className="pageTitle">Reset Password</h1>
@@ -67,7 +68,7 @@ export function ResetPassword() {
           isLoading={isLoading}
         />
         <form
-          id="loginForm"
+          id="userDataForm"
           onSubmit={handleSubmit(resetPassword)}
         >
           <TextField

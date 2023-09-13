@@ -48,13 +48,12 @@ export function Registration() {
   }
 
   return (
-    <div id="loginContainer">
+    <div>
       <h1 className="pageTitle">Registartion</h1>
-
-      <div className="loginFormContainer">
+      <div className="formContainer">
         <ErrorsList err={err} />
         <form
-          id="loginForm"
+          id="userDataForm"
           onSubmit={handleSubmit(fetchRegistr)}
         >
           <UploadImg setImg={setImg} />

@@ -1,0 +1,31 @@
+.randomRecip {
+  width: 100%;
+  height: 23em;
+  margin-bottom: 2.5em;
+  padding: 3em;
+  background-image: url('../assets/RandomRecipBack.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 6px;
+}
+#randomRecipeTitle {
+  font-size: 42px;
+  font-weight: 700;
+  width: 50%;
+}
+@media screen and (max-width: 1300px) {
+  #randomRecipeTitle {
+    font-size: 37px;
+  }
+}
+.randomRecipeBtn {
+  width: 10em;
+  height: 3em;
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 6px;
+  color: #121418;
+  background-color: #d4aeff;
+  border: none;
+}

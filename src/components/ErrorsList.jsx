@@ -1,4 +1,5 @@
 import { Alert } from '@mui/material'
+import '../styles/componentsStyles/ErrorsList.css'
 
 export const errorsSetter = (err, setErr) => {
   const errors = err.response.data.map((err) => err.msg)

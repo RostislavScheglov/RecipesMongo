@@ -1,0 +1,141 @@
+nav a.active {
+  font-weight: 800;
+}
+nav a.active::after {
+  content: '';
+  height: 3px;
+  width: 15px;
+  background: #d4aeff;
+  position: absolute;
+  left: 35%;
+  bottom: -5px;
+  border-radius: 6px;
+}
+@media screen and (max-width: 1500px) {
+  nav a.active::after {
+    height: 3px;
+    width: 10px;
+    left: 35%;
+  }
+}
+
+.HeaderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5em;
+}
+.mainLogo {
+  width: 10em;
+}
+@media screen and (max-width: 1300px) {
+  .mainLogo {
+    width: 8em;
+  }
+}
+@media screen and (max-width: 1140px) {
+  .mainLogo {
+    width: 7em;
+  }
+}
+
+#headerLinkContainer {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  width: 65%;
+}
+#headerLinkContainer > a {
+  margin: 0 0.5em;
+  position: relative;
+}
+@media screen and (max-width: 1610px) {
+  #headerLinkContainer {
+    width: 70%;
+  }
+}
+@media screen and (max-width: 1500px) {
+  #headerLinkContainer {
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 1200px) {
+  #headerLinkContainer {
+    font-size: 10px;
+  }
+}
+@media screen and (max-width: 1120px) {
+  #headerLinkContainer {
+    width: 76%;
+    font-size: 9px;
+  }
+}
+.userInfoContainer {
+  display: flex;
+  border-left: 2px solid black;
+  padding-left: 0.5em;
+  font-size: 12px;
+  align-items: center;
+  margin-right: 2em;
+}
+.userInfoTextContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 95%;
+  margin-left: 1em;
+  align-self: end;
+}
+
+.userAvatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50px;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: bold;
+}
+@media screen and (max-width: 1500px) {
+  .userAvatar {
+    width: 32px;
+    height: 32px;
+  }
+  .userName {
+    font-size: 12px;
+  }
+  #userEmail {
+    font-size: 10px;
+  }
+}
+.personalInfoSettingsBtn {
+  display: flex;
+  margin-left: 1.5em;
+}
+.personalInfoSettingsBtn::after {
+  display: none;
+}
+@media screen and (max-width: 1500px) {
+  .personalInfoSettingsIcon {
+    width: 15px;
+  }
+}
+
+.logOutBtn {
+  padding: 1em;
+  background-color: #9ba5b4;
+  border-radius: 6px;
+  border: none;
+  color: white;
+}
+@media screen and (max-width: 1500px) {
+  .logOutBtn {
+    font-size: 12;
+  }
+}
+#registrBtn {
+  padding: 1em;
+  background-color: #d4aeff;
+  border-radius: 6px;
+}

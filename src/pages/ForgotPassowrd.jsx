@@ -34,20 +34,22 @@ export function ForgotPassword() {
 
   return (
     <>
-      <div className="loginFormContainer">
+      <div className="formContainer">
         <ErrorsList
           err={err}
           isLoading={isLoading}
         />
         <form
-          id="loginForm"
+          id="userDataForm"
           onSubmit={handleSubmit(fetchLogin)}
         >
           {isSent ? (
-            <h2 id="sentLinkConfirm">Link was sent to your email!</h2>
+            <h2 className="forgotPassConfirmation">
+              Link was sent to your email!
+            </h2>
           ) : null}
 
-          <p id="loginHeader">Enter your email for recovery</p>
+          <p className="forgotPassEmailTitle">Enter your email for recovery</p>
           <TextField
             type="email"
             variant="outlined"
