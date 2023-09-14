@@ -14,13 +14,13 @@
 .textContainer {
   align-self: end;
   padding: 1em 1em;
-  height: 47%;
+  height: 50%;
   width: 100%;
   overflow-wrap: break-word;
 }
 @media screen and (max-width: 1500px) {
   .textContainer {
-    height: 45%;
+    height: 49%;
   }
 }
 .recipesPreviewFeed > *:first-child {

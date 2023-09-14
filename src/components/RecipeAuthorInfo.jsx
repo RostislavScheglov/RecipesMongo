@@ -19,7 +19,7 @@ export function RecipeAuthorInfo(props) {
   }
   const authorInfo = props.fileds.author
   return (
-    <div id="recipeStatsAuthorInfo">
+    <div className="recipeStatsAuthorInfo">
       <NavLink
         className="recipeStatsLink"
         to={`/recipes/author/${authorInfo._id}`}
@@ -40,23 +40,23 @@ export function RecipeAuthorInfo(props) {
 
         <div className="userInfoTextContainer">
           <span className="userName">{authorInfo.userName}</span>
-          <span id="recipeDateCreation">
+          <span className="recipeDateCreation">
             Created {dateFormat(props.fileds.createdAt)}
           </span>
         </div>
       </NavLink>
       <div className="statsContainer">
-        <div id="viewsCountContainer">
+        <div className="viewsCountContainer">
           <img
-            id="viewsCount"
+            className="viewsCount"
             src={viewsCountIcon}
             alt="viewssIcon"
           />
           <span>{props.fileds.viewsCount.length}</span>
         </div>
-        <div id="likesCountContainer">
+        <div className="likesCountContainer">
           <img
-            id="likesCount"
+            className="likesCount"
             src={likesCountIcon}
             alt="likesIcon"
           />

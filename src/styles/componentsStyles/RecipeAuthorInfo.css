@@ -1,4 +1,4 @@
-#recipeStatsAuthorInfo {
+.recipeStatsAuthorInfo {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -9,12 +9,12 @@
   display: flex;
   align-items: center;
 }
-#recipeDateCreation {
+.recipeDateCreation {
   font-size: 12px;
   color: #828998;
 }
 @media screen and (max-width: 1500px) {
-  #recipeDateCreation {
+  .recipeDateCreation {
     font-size: 10px;
   }
 }
@@ -28,33 +28,33 @@
 .statsContainer > * {
   margin: 0 0.3em;
 }
-#viewsCountContainer {
+.viewsCountContainer {
   display: flex;
   align-items: flex-end;
 }
-#likesCountContainer {
+.likesCountContainer {
   display: flex;
   align-items: flex-end;
 }
-#viewsCountContainer > * {
+.viewsCountContainer > * {
   margin: 0 0.1em;
 }
-#likesCountContainer > * {
+.likesCountContainer > * {
   margin: 0 0.1em;
 }
 @media screen and (max-width: 1500px) {
-  #likesCount {
+  .likesCount {
     width: 13px;
     height: 13px;
   }
-  #viewsCount {
+  .viewsCount {
     width: 13px;
     height: 13px;
   }
-  #likesCountContainer {
+  .likesCountContainer {
     font-size: 12px;
   }
-  #viewsCountContainer {
+  .viewsCountContainer {
     font-size: 12px;
   }
 }

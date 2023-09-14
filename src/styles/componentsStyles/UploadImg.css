@@ -9,10 +9,10 @@
   display: contents;
   height: 15em;
 }
-#imgActionTitle {
+.imgActionTitle {
   display: inline;
 }
-#imgTitleContainer {
+.imgTitleContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

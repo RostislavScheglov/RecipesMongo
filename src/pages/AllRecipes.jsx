@@ -35,7 +35,9 @@ export function AllRecipes() {
   return (
     <div className="feedContainer">
       <div className="randomRecip">
-        <h2 id="randomRecipeTitle">Feel coky today, try random recipe!</h2>
+        <h2 className="randomRecipeTitle">
+          Feel coky today, try random recipe!
+        </h2>
         <button
           className="randomRecipeBtn"
           onClick={() => randomRecipe(items)}

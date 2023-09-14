@@ -39,33 +39,33 @@ nav a.active::after {
   }
 }
 
-#headerLinkContainer {
+.headerLinkContainer {
   justify-content: space-between;
   display: flex;
   align-items: center;
   width: 65%;
 }
-#headerLinkContainer > a {
+.headerLinkContainer > a {
   margin: 0 0.5em;
   position: relative;
 }
 @media screen and (max-width: 1610px) {
-  #headerLinkContainer {
+  .headerLinkContainer {
     width: 70%;
   }
 }
 @media screen and (max-width: 1500px) {
-  #headerLinkContainer {
+  .headerLinkContainer {
     font-size: 12px;
   }
 }
 @media screen and (max-width: 1200px) {
-  #headerLinkContainer {
+  .headerLinkContainer {
     font-size: 10px;
   }
 }
 @media screen and (max-width: 1120px) {
-  #headerLinkContainer {
+  .headerLinkContainer {
     width: 76%;
     font-size: 9px;
   }
@@ -105,7 +105,7 @@ nav a.active::after {
   .userName {
     font-size: 12px;
   }
-  #userEmail {
+  .userEmail {
     font-size: 10px;
   }
 }
@@ -134,7 +134,7 @@ nav a.active::after {
     font-size: 12;
   }
 }
-#registrBtn {
+.registrBtn {
   padding: 1em;
   background-color: #d4aeff;
   border-radius: 6px;

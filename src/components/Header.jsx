@@ -28,7 +28,7 @@ export function Header() {
         src={MainLogo}
         alt="MainLogo"
       />
-      <nav id="headerLinkContainer">
+      <nav className="headerLinkContainer">
         <NavLink to="/">Feed</NavLink>
         <NavLink to="/recipes/favourites">Favourites</NavLink>
         <NavLink to="/recipes/myrecipes">My recipes</NavLink>
@@ -51,7 +51,7 @@ export function Header() {
             )}
             <div className="userInfoTextContainer">
               <span className="userName">{userInfo.userName}</span>
-              <span id="userEmail">{userInfo.userEmail}</span>
+              <span className="userEmail">{userInfo.userEmail}</span>
             </div>
             <NavLink
               className="personalInfoSettingsBtn"
@@ -77,7 +77,7 @@ export function Header() {
         )}
         {isAuth ? null : (
           <Link
-            id="registrBtn"
+            className="registrBtn"
             to="/user/registration"
           >
             Registration
@@ -88,9 +88,9 @@ export function Header() {
         open={open}
         onClose={() => setOpen(false)}
       >
-        <Box id="modalWindow">
+        <Box className="modalWindow">
           <span className="modalTitle">Are u sure you want to log out?</span>
-          <div id="btnContainer">
+          <div className="btnContainer">
             <button
               className="modalCancelBtn"
               onClick={() => setOpen(false)}

@@ -176,11 +176,11 @@ export function FullRecipe() {
         open={open}
         onClose={() => setOpen(false)}
       >
-        <Box id="modalWindow">
+        <Box className="modalWindow">
           <span className="modalTitle">
             Are u sure you want to DELETE recipe?
           </span>
-          <div id="btnContainer">
+          <div className="btnContainer">
             <button
               className="modalCancelBtn"
               onClick={() => setOpen(false)}

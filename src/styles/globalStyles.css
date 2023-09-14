@@ -38,7 +38,7 @@ button {
 .linkContainer {
   display: flex;
   position: relative;
-  height: 95%;
+  height: 100%;
   border-radius: 8px;
 }
 
@@ -103,7 +103,7 @@ button {
   font-weight: bold;
   align-self: end;
 }
-#modalWindow {
+.modalWindow {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -119,7 +119,7 @@ button {
 .modalTitle {
   font-size: 24;
 }
-#btnContainer {
+.btnContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

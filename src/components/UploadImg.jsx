@@ -37,8 +37,8 @@ export function UploadImg(props) {
       <div className="imgActionContainer">
         {checker(props.imgUrl) ? (
           <div className="bigImgContainer">
-            <div id="imgTitleContainer">
-              <span id="imgActionTitle">Add image</span>
+            <div className="imgTitleContainer">
+              <span className="imgActionTitle">Add image</span>
               <button
                 className="littleBtns"
                 variant="outlined"
