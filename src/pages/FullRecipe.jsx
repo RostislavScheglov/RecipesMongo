@@ -12,6 +12,7 @@ import EditIcon from '../styles/assets/svgs/Edit.svg'
 import DeleteIcon from '../styles/assets/svgs/Delete.svg'
 import { RecipeAuthorInfo } from '../components/RecipeAuthorInfo'
 import '../styles/pagesStyles/FullRecipe.css'
+import { LikeBtn } from '../components/LikeBtn'
 
 export function FullRecipe() {
   const { id } = useParams()
@@ -123,7 +124,27 @@ export function FullRecipe() {
                   alt="StockImg"
                 ></img>
               )}
-              <div className="description">{fileds.description}</div>
+              <LikeBtn
+                id={id}
+                likedBy={fileds.likedBy}
+                isFullRecipe={true}
+              />
+              <pre className="description">{fileds.description}</pre>
+              <pre className="directions">
+                <p className="directionsTittle">Directions:</p>
+                {fileds.directions}
+              </pre>
+              <ul className="ingredients">
+                <p className="ingredientsTittle">Ingredients:</p>
+                {fileds.ingredients.map((ingredient, index) => (
+                  <li
+                    className="ingredient"
+                    key={index}
+                  >
+                    {ingredient}
+                  </li>
+                ))}
+              </ul>
               {userInfo === fileds.author._id ? (
                 <div className="recipeActionsContainer">
                   <button
@@ -151,17 +172,6 @@ export function FullRecipe() {
                 </div>
               ) : null}
             </div>
-            <ul className="ingredients">
-              <p className="ingredientsTittle">Ingredients:</p>
-              {fileds.ingredients.map((ingredient, index) => (
-                <li
-                  className="ingredient"
-                  key={index}
-                >
-                  {ingredient}
-                </li>
-              ))}
-            </ul>
           </div>
           <p>More of {fileds.author.userName}:</p>
         </>

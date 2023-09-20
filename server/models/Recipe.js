@@ -5,6 +5,7 @@ const RecipeSchema = new mongoose.Schema(
     title: { type: String, required: true, unique: true },
     recipeImage: { type: String },
     ingredients: { type: Array, required: true },
+    directions: { type: String, required: true },
     description: { type: String, required: true },
     viewsCount: { type: Array, default: [] },
     likesCount: { type: Number, default: 0 },

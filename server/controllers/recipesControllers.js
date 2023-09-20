@@ -136,6 +136,7 @@ export const create = async (req, res) => {
       recipeImage: '',
       ingredients: req.body.ingredients,
       description: req.body.description,
+      directions: req.body.directions,
       author: req.userId,
     })
     const post = await doc.save()
@@ -201,6 +202,7 @@ export const update = async (req, res) => {
         title: req.body.title,
         ingredients: req.body.ingredients,
         description: req.body.description,
+        directions: req.body.directions,
         $push: { likedBy: req.body.userId },
       },
       (err, doc) => {

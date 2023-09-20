@@ -28,7 +28,10 @@ export function Header() {
         src={MainLogo}
         alt="MainLogo"
       />
-      <nav className="headerLinkContainer">
+      <nav
+        className="headerLinkContainer"
+        style={isAuth ? {} : { width: '56%' }}
+      >
         <NavLink to="/">Feed</NavLink>
         <NavLink to="/recipes/favourites">Favourites</NavLink>
         <NavLink to="/recipes/myrecipes">My recipes</NavLink>

@@ -4,4 +4,8 @@
   border-radius: 6px;
   padding: 0.2em;
   margin: 0.5em 0 0 0.5em;
+  cursor: pointer;
+}
+.likeBtnSvg {
+  height: inherit;
 }

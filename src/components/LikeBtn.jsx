@@ -25,24 +25,81 @@ export const LikeBtn = (props) => {
       .catch((err) => console.log(err))
   }
 
+  const likeBtnFullRecipeStyles = {
+    svgContainer: {
+      gridRowStart: 1,
+      gridColumnStart: 2,
+      height: 'fit-content',
+      width: 'fit-content',
+      position: 'static',
+      padding: '0',
+      margin: '0 0 0 1em',
+      alignSelf: 'end',
+      justifySelf: 'end',
+      backgroundColor: 'transparent',
+      color: '#B78DE7',
+      borderBottom: '1px solid #B78DE7',
+      borderRadius: '0px',
+    },
+    noneStyle: {
+      display: 'none',
+    },
+  }
+
   return (
     <>
       {!isFavourite && isAuth ? (
-        <div className="svgContainer">
+        <div
+          className="svgContainer"
+          style={
+            props.isFullRecipe
+              ? { ...likeBtnFullRecipeStyles.svgContainer }
+              : {}
+          }
+          onClick={() => fetchLike(props.id)}
+        >
+          <span
+            style={
+              props.isFullRecipe ? {} : { ...likeBtnFullRecipeStyles.noneStyle }
+            }
+          >
+            Add to favourite
+          </span>
           <img
             src={likeBtnIcon}
-            onClick={() => fetchLike(props.id)}
+            className="likeBtnSvg"
             alt="like Btn icon"
+            style={
+              props.isFullRecipe ? { ...likeBtnFullRecipeStyles.noneStyle } : {}
+            }
           />
         </div>
       ) : null}
 
       {isFavourite && isAuth ? (
-        <div className="svgContainer">
+        <div
+          className="svgContainer"
+          style={
+            props.isFullRecipe
+              ? { ...likeBtnFullRecipeStyles.svgContainer }
+              : {}
+          }
+          onClick={() => fetchDisLike(props.id)}
+        >
+          <span
+            style={
+              props.isFullRecipe ? {} : { ...likeBtnFullRecipeStyles.noneStyle }
+            }
+          >
+            Delete from favourite
+          </span>
           <img
             src={dislikeBtnIcon}
-            onClick={() => fetchDisLike(props.id)}
+            className="likeBtnSvg"
             alt="disLike btn Icon"
+            style={
+              props.isFullRecipe ? { ...likeBtnFullRecipeStyles.noneStyle } : {}
+            }
           />
         </div>
       ) : null}

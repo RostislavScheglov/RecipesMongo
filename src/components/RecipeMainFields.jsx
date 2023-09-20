@@ -36,6 +36,7 @@ export const RecipeMainFields = (props) => {
     if (data.length === 0) return
     setValue('title', data.title)
     setValue('description', data.description)
+    setValue('directions', data.directions)
     setImgUrl(data.recipeImage)
     props.setIngredient(data.ingredients)
   }
@@ -148,11 +149,26 @@ export const RecipeMainFields = (props) => {
           variant="outlined"
           label="Description"
           multiline={true}
-          rows={4}
+          rows={5}
           focused={true}
           error={Boolean(errors.description?.message)}
           helperText={errors.description?.message}
           {...register('description', { required: 'Description required' })}
+          sx={{
+            ...inputSyles,
+          }}
+        />
+        <TextField
+          id="recipeDescription"
+          type="text"
+          variant="outlined"
+          label="Directions"
+          multiline={true}
+          rows={8}
+          focused={true}
+          error={Boolean(errors.description?.message)}
+          helperText={errors.description?.message}
+          {...register('directions', { required: 'Directions required' })}
           sx={{
             ...inputSyles,
           }}

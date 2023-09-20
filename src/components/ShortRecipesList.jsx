@@ -64,7 +64,7 @@ export function ShortRecipesList(props) {
 
               <div className="textContainer">
                 <p id="title"> {item.title}</p>
-                <p id="description">{item.description}</p>
+                <p id="description">{item.description}...</p>
                 <RecipeAuthorInfo
                   isLoading={props.isLoading}
                   fileds={item}

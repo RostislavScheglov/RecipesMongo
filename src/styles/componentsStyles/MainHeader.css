@@ -33,7 +33,7 @@ nav a.active::after {
     width: 8em;
   }
 }
-@media screen and (max-width: 1140px) {
+@media screen and (max-width: 1200px) {
   .mainLogo {
     width: 7em;
   }
@@ -82,15 +82,20 @@ nav a.active::after {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 95%;
+  height: 3em;
   margin-left: 1em;
-  align-self: end;
+}
+@media screen and (max-width: 1500px) {
+  .userInfoTextContainer {
+    height: 2.5em;
+  }
 }
 
 .userAvatar {
   width: 42px;
   height: 42px;
   border-radius: 50px;
+  object-fit: cover;
 }
 
 .userName {
