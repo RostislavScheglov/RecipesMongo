@@ -2,6 +2,16 @@
   margin: 2em auto;
   width: 40%;
 }
+@media screen and (max-width: 980px) {
+  .recipeFormContainer {
+    width: 70%;
+  }
+}
+@media screen and (max-width: 550px) {
+  .recipeFormContainer {
+    width: 100%;
+  }
+}
 #recipeForm {
   display: flex;
   flex-direction: column;

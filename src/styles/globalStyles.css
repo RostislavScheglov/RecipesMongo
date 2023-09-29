@@ -22,7 +22,12 @@ button {
   flex-direction: column;
   overflow-wrap: break-word;
 }
-
+@media screen and (max-width: 980px) {
+  .AppContainer {
+    width: 100%;
+    margin: 1.5em auto;
+  }
+}
 .noRecipesContainer {
   width: fit-content;
 }
@@ -48,7 +53,21 @@ button {
   border-radius: 30px;
   padding: 1em 2em;
 }
-
+@media screen and (max-width: 1200px) {
+  .formContainer {
+    width: 50%;
+  }
+}
+@media screen and (max-width: 980px) {
+  .formContainer {
+    width: 60%;
+  }
+}
+@media screen and (max-width: 550px) {
+  .formContainer {
+    width: 90%;
+  }
+}
 #userDataForm {
   display: flex;
   flex-direction: column;
@@ -115,6 +134,11 @@ button {
   height: 13em;
   background-color: #f8f0e5;
   border-radius: 6px;
+}
+@media screen and (max-width: 550px) {
+  .modalWindow {
+    width: 100%;
+  }
 }
 .modalTitle {
   font-size: 24;

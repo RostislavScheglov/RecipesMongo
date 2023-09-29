@@ -8,6 +8,7 @@ import settings from '../styles/assets/svgs/settings.svg'
 import userAvatarPlaceholder from '../styles/assets/userAvatarPlaceholder.png'
 import MainLogo from '../styles/assets/svgs/MainLogo.svg'
 import '../styles/componentsStyles/MainHeader.css'
+import { BurgerNavigation } from './BurgerNavigation'
 
 export function Header() {
   const [open, setOpen] = useState(false)
@@ -23,11 +24,13 @@ export function Header() {
 
   return (
     <div className="HeaderContainer">
-      <img
-        className="mainLogo"
-        src={MainLogo}
-        alt="MainLogo"
-      />
+      <NavLink to="/">
+        <img
+          className="mainLogo"
+          src={MainLogo}
+          alt="MainLogo"
+        />
+      </NavLink>
       <nav
         className="headerLinkContainer"
         style={isAuth ? {} : { width: '56%' }}
@@ -87,6 +90,10 @@ export function Header() {
           </Link>
         )}
       </nav>
+      <BurgerNavigation
+        isAuth={isAuth}
+        setOpen={setOpen}
+      />
       <Modal
         open={open}
         onClose={() => setOpen(false)}

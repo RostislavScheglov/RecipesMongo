@@ -1,6 +1,14 @@
 nav a.active {
   font-weight: 800;
 }
+
+@media screen and (max-width: 980px) {
+  .hamburger-menu a.active {
+    font-weight: 900;
+    background-color: #d4aeff;
+  }
+}
+
 nav a.active::after {
   content: '';
   height: 3px;
@@ -11,6 +19,7 @@ nav a.active::after {
   bottom: -5px;
   border-radius: 6px;
 }
+
 @media screen and (max-width: 1500px) {
   nav a.active::after {
     height: 3px;
@@ -24,6 +33,7 @@ nav a.active::after {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 5em;
+  width: 100%;
 }
 .mainLogo {
   width: 10em;
@@ -36,6 +46,17 @@ nav a.active::after {
 @media screen and (max-width: 1200px) {
   .mainLogo {
     width: 7em;
+  }
+}
+@media screen and (max-width: 980px) {
+  .mainLogo {
+    width: 9em;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .HeaderContainer {
+    margin-bottom: 2em;
   }
 }
 
@@ -68,6 +89,11 @@ nav a.active::after {
   .headerLinkContainer {
     width: 76%;
     font-size: 9px;
+  }
+}
+@media screen and (max-width: 980px) {
+  .headerLinkContainer {
+    display: none;
   }
 }
 .userInfoContainer {
@@ -143,4 +169,12 @@ nav a.active::after {
   padding: 1em;
   background-color: #d4aeff;
   border-radius: 6px;
+}
+@media screen and (max-width: 980px) {
+  .registrBtn {
+    padding: 0.5em;
+    background-color: #d4aeff;
+    display: block;
+    width: fit-content;
+  }
 }

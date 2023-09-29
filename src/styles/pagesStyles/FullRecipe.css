@@ -12,8 +12,18 @@
 .mainRecipeInfoContainer > * {
   grid-column-start: 1;
 }
+@media screen and (max-width: 980px) {
+  .mainRecipeInfoContainer > * {
+    grid-column-end: 3;
+  }
+}
 .recipeAuthorInfoContainer {
   width: fit-content;
+}
+@media screen and (max-width: 980px) {
+  .recipeAuthorInfoContainer {
+    grid-row-start: 1;
+  }
 }
 .fullRecipeImg {
   width: 100%;
@@ -22,6 +32,7 @@
   object-fit: cover;
   object-position: center top;
 }
+
 .directionsTittle {
   font-size: 24;
   font-weight: bold;
@@ -84,16 +95,20 @@
   grid-row-start: 3;
   grid-row-end: 5;
 }
+@media screen and (max-width: 980px) {
+  .ingredients {
+    grid-column-start: 1;
+    grid-row-start: 5;
+    grid-row-end: 7;
+    margin: 2em 0 0 0;
+  }
+}
 .ingredientsTittle {
   font-size: 24;
   font-weight: bold;
   margin-left: -1.5em;
 }
-@media screen and (max-width: 1500px) {
-  .ingredients {
-    margin: 8.6em 0 0 1em;
-  }
-}
+
 .ingredient {
   word-wrap: break-word;
   margin: 0.5em 0;
