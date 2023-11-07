@@ -9,7 +9,16 @@ import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import '../styles/componentsStyles/RecipeMainFields.css'
 
-export const RecipeMainFields = (props) => {
+export const RecipeMainFields = ({
+  err,
+  data,
+  submitForm,
+  ingredients,
+  setIngredient,
+  setImg,
+  deleteImg,
+  isLoading,
+}) => {
   const [isRedirect, setIsRedirect] = useState(false)
   const [imgUrl, setImgUrl] = useState('')
 
@@ -24,8 +33,8 @@ export const RecipeMainFields = (props) => {
   } = useForm()
 
   const deleteIngredient = (ingredient) => {
-    const ingredientIndex = props.ingredients.indexOf(ingredient)
-    props.setIngredient((ingredients) => {
+    const ingredientIndex = ingredients.indexOf(ingredient)
+    setIngredient((ingredients) => {
       const allIngredients = [...ingredients]
       allIngredients.splice(ingredientIndex, 1)
       return allIngredients
@@ -38,12 +47,12 @@ export const RecipeMainFields = (props) => {
     setValue('description', data.description)
     setValue('directions', data.directions)
     setImgUrl(data.recipeImage)
-    props.setIngredient(data.ingredients)
+    setIngredient(data.ingredients)
   }
 
   useEffect(() => {
-    if (props.data !== undefined) setValues(props.data)
-  }, [props.isLoading])
+    if (data !== undefined) setValues(data)
+  }, [isLoading])
 
   if (isRedirect) {
     return (
@@ -54,7 +63,7 @@ export const RecipeMainFields = (props) => {
     )
   }
 
-  if (props.isLoading) {
+  if (isLoading) {
     return (
       <div className="noUserInfo">
         <h2>Loading...</h2>
@@ -65,18 +74,18 @@ export const RecipeMainFields = (props) => {
   return (
     <div className="recipeFormContainer">
       <ErrorsList
-        err={props.err}
-        isLoading={props.isLoading}
+        err={err}
+        isLoading={isLoading}
       />
       <form
         id="recipeForm"
-        onSubmit={handleSubmit(props.submitForm)}
+        onSubmit={handleSubmit(submitForm)}
       >
         <UploadImg
           imgUrl={imgUrl}
           setImgUrl={setImgUrl}
-          setImg={props.setImg}
-          deleteImg={props.deleteImg}
+          setImg={setImg}
+          deleteImg={deleteImg}
         />
         <TextField
           type="text"
@@ -106,7 +115,7 @@ export const RecipeMainFields = (props) => {
                   <Add
                     onClick={() => {
                       if (getValues('ingredients').length >= 3) {
-                        props.setIngredient((ingredient) => [
+                        setIngredient((ingredient) => [
                           ...ingredient,
                           getValues('ingredients'),
                         ])
@@ -129,7 +138,7 @@ export const RecipeMainFields = (props) => {
           }}
         />
         <ul className="ingredientsList">
-          {props.ingredients.map((ingredient, index) => (
+          {ingredients.map((ingredient, index) => (
             <li
               className="ingredientContainer"
               key={index}

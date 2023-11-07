@@ -93,6 +93,7 @@ export function Header() {
       <BurgerNavigation
         isAuth={isAuth}
         setOpen={setOpen}
+        userInfo={userInfo}
       />
       <Modal
         open={open}

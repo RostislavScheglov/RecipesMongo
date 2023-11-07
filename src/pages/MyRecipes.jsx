@@ -8,14 +8,14 @@ import { errorsSetter } from '../components/ErrorsList'
 
 export function MyRecipes() {
   const isAuth = useSelector(isAuthUser)
-  const [items, setItem] = useState()
+  const [myRecipes, setMyRecipes] = useState()
   const [isLoading, setLoading] = useState(true)
   const [err, setErr] = useState([])
 
   const fetchMyRecipes = async () => {
     try {
       const { data } = await axios.get('/recipes?filter=my')
-      setItem(data)
+      setMyRecipes(data)
       setLoading(false)
     } catch (err) {
       setLoading(false)
@@ -34,7 +34,7 @@ export function MyRecipes() {
   return (
     <>
       <ShortRecipesList
-        items={items}
+        recipes={myRecipes}
         isLoading={isLoading}
         err={err}
       />

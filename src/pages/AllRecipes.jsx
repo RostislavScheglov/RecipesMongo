@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import '../styles/pagesStyles/AllRecipes.css'
 
 export function AllRecipes() {
-  const [items, setItem] = useState([])
+  const [allRecipes, setAllRecipes] = useState([])
   const [isLoading, setLoading] = useState(true)
   const [err, setErr] = useState([])
   const navigate = useNavigate()
@@ -14,7 +14,7 @@ export function AllRecipes() {
   const fetchAllRecipes = async () => {
     try {
       const { data } = await axios.get('/recipes?filter=all')
-      setItem(data)
+      setAllRecipes(data)
       setLoading(false)
     } catch (err) {
       setLoading(false)
@@ -22,9 +22,9 @@ export function AllRecipes() {
     }
   }
 
-  const randomRecipe = (allitems) => {
-    const allIds = allitems.map((item) => item._id)
-    const randomId = allIds[Math.floor(Math.random() * items.length)]
+  const randomRecipe = (allRecipes) => {
+    const allIds = allRecipes.map((item) => item._id)
+    const randomId = allIds[Math.floor(Math.random() * allRecipes.length)]
     navigate(`/recipes/${randomId}`)
   }
 
@@ -40,13 +40,13 @@ export function AllRecipes() {
         </h2>
         <button
           className="randomRecipeBtn"
-          onClick={() => randomRecipe(items)}
+          onClick={() => randomRecipe(allRecipes)}
         >
           Go crazy
         </button>
       </div>
       <ShortRecipesList
-        items={items}
+        recipes={allRecipes}
         isLoading={isLoading}
         isAllRecipes={true}
         err={err}

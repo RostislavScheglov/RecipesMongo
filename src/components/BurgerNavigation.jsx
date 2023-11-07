@@ -1,7 +1,8 @@
 import { Link, NavLink } from 'react-router-dom'
 import '../styles/componentsStyles/BurgerNavigation.css'
-
-export function BurgerNavigation(props) {
+import settings from '../styles/assets/svgs/settings.svg'
+import userAvatarPlaceholder from '../styles/assets/userAvatarPlaceholder.png'
+export function BurgerNavigation({ userInfo, isAuth, setOpen }) {
   return (
     <div className="hamburger-menu">
       <input
@@ -16,6 +17,37 @@ export function BurgerNavigation(props) {
       </label>
 
       <ul className="menu__box">
+        <li>
+          {isAuth ? (
+            <NavLink
+              className="personalInfoSettingsBtn"
+              to="/user/editPersonalInfo"
+            >
+              <div
+                className="userInfoContainer"
+                style={{ border: 'none', padding: 0, marginBottom: '0.5em' }}
+              >
+                {userInfo.userImage ? (
+                  <img
+                    src={`${userInfo.userImage}`}
+                    className="userAvatar"
+                    alt="Avatar"
+                  ></img>
+                ) : (
+                  <img
+                    src={userAvatarPlaceholder}
+                    className="userAvatar"
+                    alt="Avatar"
+                  ></img>
+                )}
+                <div className="userInfoTextContainer">
+                  <span className="userName">{userInfo.userName}</span>
+                  <span className="userEmail">{userInfo.userEmail}</span>
+                </div>
+              </div>
+            </NavLink>
+          ) : null}
+        </li>
         <li>
           <NavLink
             className="menu__item"
@@ -49,11 +81,11 @@ export function BurgerNavigation(props) {
           </NavLink>
         </li>
         <li>
-          {props.isAuth ? (
+          {isAuth ? (
             <div className="menu__item">
               <button
                 className="logOutBtn"
-                onClick={() => props.setOpen(true)}
+                onClick={() => setOpen(true)}
               >
                 Log out
               </button>
@@ -68,7 +100,7 @@ export function BurgerNavigation(props) {
           )}
         </li>
         <li>
-          {props.isAuth ? null : (
+          {isAuth ? null : (
             <div className="menu__item">
               <Link
                 className="registrBtn"

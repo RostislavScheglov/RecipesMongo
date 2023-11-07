@@ -22,14 +22,13 @@ app.use('/recipes', recipesRouter)
 app.use('/user', userRouter)
 
 const start = async () => {
-  // const httpsServ = https.createServer(cred, app)
-  // httpsServ.listen(8443, (err) => {
-  //   if (err) {
-  //     return console.log(err)
-  //   }
-  //   console.log('Server running on port 8443')
-  // })
-  app.listen(4000)
+  const httpsServ = https.createServer(cred, app)
+  httpsServ.listen(serverConfig.serverPort, (err) => {
+    if (err) {
+      return console.log(err)
+    }
+    console.log(`Server running on port ${serverConfig.serverPort}`)
+  })
   mongoose
     .connect(dbUrl)
     .then(() => {

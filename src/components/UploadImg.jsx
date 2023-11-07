@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useRef } from 'react'
 import '../styles/componentsStyles/UploadImg.css'
 
-export function UploadImg(props) {
+export function UploadImg({ imgUrl, setImgUrl, setImg, deleteImg }) {
   const uploadImgRef = useRef()
   const [selectedImage, setSelectedImage] = useState('')
   const checker = (el) => el !== undefined && el !== null && el !== ''
@@ -24,7 +24,7 @@ export function UploadImg(props) {
     if (e.target.files && e.target.files.length > 0) {
       const base64img = await convertToBase64(file)
       console.log(base64img)
-      props.setImg(base64img)
+      setImg(base64img)
       setSelectedImage(URL.createObjectURL(file))
     }
   }
@@ -35,7 +35,7 @@ export function UploadImg(props) {
   return (
     <>
       <div className="imgActionContainer">
-        {checker(props.imgUrl) ? (
+        {checker(imgUrl) ? (
           <div className="bigImgContainer">
             <div className="imgTitleContainer">
               <span className="imgActionTitle">Add image</span>
@@ -43,14 +43,14 @@ export function UploadImg(props) {
                 className="littleBtns"
                 variant="outlined"
                 type="button"
-                onClick={() => props.deleteImg(props.setImgUrl)}
+                onClick={() => deleteImg(setImgUrl)}
               >
                 Delete
               </button>
             </div>
             <img
               className="uploadedImg"
-              src={`${props.imgUrl}`}
+              src={`${imgUrl}`}
               alt="Img"
             />
           </div>

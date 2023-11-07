@@ -5,27 +5,26 @@ import { RecipeAuthorInfo } from './RecipeAuthorInfo'
 import { ErrorsList } from './ErrorsList'
 import '../styles/componentsStyles/ShortRecipesList.css'
 
-export function ShortRecipesList(props) {
-  const isAllRecipes = props.isAllRecipes
+export function ShortRecipesList({ recipes, isAllRecipes, isLoading, err }) {
   const checker = (el) => el !== undefined && el !== null && el !== ''
 
-  if (props.isLoading) {
+  if (isLoading) {
     return (
       <div className="noRecipesContainer">
         <ErrorsList
-          err={props.err}
-          isLoading={props.isLoading}
+          err={err}
+          isLoading={isLoading}
         />
         <h2>Loading...</h2>
       </div>
     )
   }
-  if (props.items.length === 0) {
+  if (recipes.length === 0) {
     return (
       <div className="noRecipesContainer">
         <ErrorsList
-          err={props.err}
-          isLoading={props.isLoading}
+          err={err}
+          isLoading={isLoading}
         />
         <h2>No recipes yet</h2>
       </div>
@@ -35,23 +34,23 @@ export function ShortRecipesList(props) {
   return (
     <>
       <ErrorsList
-        err={props.err}
-        isLoading={props.isLoading}
+        err={err}
+        isLoading={isLoading}
       />
       <div className={isAllRecipes ? 'recipesPreviewFeed' : 'recipesPreview'}>
-        {props.items.map((item) => (
+        {recipes.map((recipe) => (
           <div
             className="recipe"
-            key={item._id}
+            key={recipe._id}
           >
             <Link
               className="linkContainer"
-              to={`/recipes/${item._id}`}
+              to={`/recipes/${recipe._id}`}
             >
-              {checker(item.recipeImage) ? (
+              {checker(recipe.recipeImage) ? (
                 <img
                   className="recipeImg"
-                  src={item.recipeImage}
+                  src={recipe.recipeImage}
                   alt="img"
                 ></img>
               ) : (
@@ -63,17 +62,17 @@ export function ShortRecipesList(props) {
               )}
 
               <div className="textContainer">
-                <p id="title"> {item.title}</p>
-                <p id="description">{item.description}...</p>
+                <p id="title"> {recipe.title}</p>
+                <p id="description">{recipe.description}...</p>
                 <RecipeAuthorInfo
-                  isLoading={props.isLoading}
-                  fileds={item}
+                  isLoading={isLoading}
+                  recipe={recipe}
                 />
               </div>
             </Link>
             <LikeBtn
-              likedBy={item.likedBy}
-              id={item._id}
+              likedBy={recipe.likedBy}
+              id={recipe._id}
             />
           </div>
         ))}

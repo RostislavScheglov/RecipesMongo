@@ -8,14 +8,14 @@ import { errorsSetter } from '../components/ErrorsList'
 
 export function Favourites() {
   const isAuth = useSelector(isAuthUser)
-  const [items, setItem] = useState([])
+  const [favRecipes, setFavRecipes] = useState([])
   const [isLoading, setLoading] = useState(true)
   const [err, setErr] = useState([])
 
   const fetchFavourites = async () => {
     try {
       const { data } = await axios.get('/recipes?filter=favourite')
-      setItem(data)
+      setFavRecipes(data)
       setLoading(false)
     } catch (err) {
       setLoading(false)
@@ -34,7 +34,7 @@ export function Favourites() {
   return (
     <>
       <ShortRecipesList
-        items={items}
+        recipes={favRecipes}
         isLoading={isLoading}
         err={err}
       />

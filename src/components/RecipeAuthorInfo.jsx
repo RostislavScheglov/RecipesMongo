@@ -4,20 +4,20 @@ import viewsCountIcon from '../styles/assets/svgs/viewsCountIcon.svg'
 import userAvatarPlaceholder from '../styles/assets/userAvatarPlaceholder.png'
 import '../styles/componentsStyles/RecipeAuthorInfo.css'
 
-export function RecipeAuthorInfo(props) {
+export function RecipeAuthorInfo({ recipe, isLoading }) {
   const dateFormat = (date) => {
     const formattedDate = new Date(date).toISOString().substring(0, 10)
     return formattedDate
   }
 
-  if (props.isLoading) {
+  if (isLoading) {
     return (
       <div className="noUserInfo">
         <h2>Loading...</h2>
       </div>
     )
   }
-  const authorInfo = props.fileds.author
+  const authorInfo = recipe.author
   return (
     <div className="recipeStatsAuthorInfo">
       <NavLink
@@ -41,7 +41,7 @@ export function RecipeAuthorInfo(props) {
         <div className="userInfoTextContainer">
           <span className="userName">{authorInfo.userName}</span>
           <span className="recipeDateCreation">
-            Created {dateFormat(props.fileds.createdAt)}
+            Created {dateFormat(recipe.createdAt)}
           </span>
         </div>
       </NavLink>
@@ -52,7 +52,7 @@ export function RecipeAuthorInfo(props) {
             src={viewsCountIcon}
             alt="viewssIcon"
           />
-          <span>{props.fileds.viewsCount.length}</span>
+          <span>{recipe.viewsCount.length}</span>
         </div>
         <div className="likesCountContainer">
           <img
@@ -60,7 +60,7 @@ export function RecipeAuthorInfo(props) {
             src={likesCountIcon}
             alt="likesIcon"
           />
-          <span>{props.fileds.likedBy.length}</span>
+          <span>{recipe.likedBy.length}</span>
         </div>
       </div>
     </div>

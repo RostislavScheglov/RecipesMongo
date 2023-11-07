@@ -18,8 +18,8 @@ export function FullRecipe() {
   const { id } = useParams()
   const userInfo = useSelector(userId)
   const [err, setErr] = useState([])
-  const [fileds, setFields] = useState([])
-  const [items, setItem] = useState([])
+  const [recipe, setRecipe] = useState([])
+  const [recipes, setRecipes] = useState([])
   const [isLoading, setLoading] = useState(true)
   const [isDelete, setIsDeleted] = useState(false)
   const [open, setOpen] = useState(false)
@@ -64,7 +64,7 @@ export function FullRecipe() {
   }
 
   useEffect(() => {
-    fetch3AuthorRecipes(setItem, setLoading, getOneRecipe(id, setFields))
+    fetch3AuthorRecipes(setRecipes, setLoading, getOneRecipe(id, setRecipe))
   }, [id])
 
   if (isDelete) {
@@ -107,13 +107,13 @@ export function FullRecipe() {
               <div className="recipeAuthorInfoContainer">
                 <RecipeAuthorInfo
                   isLoading={isLoading}
-                  fileds={fileds}
+                  recipe={recipe}
                 />
               </div>
-              <div className="title">{fileds.title}</div>
-              {checker(fileds.recipeImage) ? (
+              <div className="title">{recipe.title}</div>
+              {checker(recipe.recipeImage) ? (
                 <img
-                  src={`${fileds.recipeImage}`}
+                  src={`${recipe.recipeImage}`}
                   className="fullRecipeImg"
                   alt="Img"
                 ></img>
@@ -126,17 +126,17 @@ export function FullRecipe() {
               )}
               <LikeBtn
                 id={id}
-                likedBy={fileds.likedBy}
+                likedBy={recipe.likedBy}
                 isFullRecipe={true}
               />
-              <pre className="description">{fileds.description}</pre>
+              <pre className="description">{recipe.description}</pre>
               <pre className="directions">
                 <p className="directionsTittle">Directions:</p>
-                {fileds.directions}
+                {recipe.directions}
               </pre>
               <ul className="ingredients">
                 <p className="ingredientsTittle">Ingredients:</p>
-                {fileds.ingredients.map((ingredient, index) => (
+                {recipe.ingredients.map((ingredient, index) => (
                   <li
                     className="ingredient"
                     key={index}
@@ -145,7 +145,7 @@ export function FullRecipe() {
                   </li>
                 ))}
               </ul>
-              {userInfo === fileds.author._id ? (
+              {userInfo === recipe.author._id ? (
                 <div className="recipeActionsContainer">
                   <button
                     className="deleteRecipeBtn"
@@ -173,12 +173,12 @@ export function FullRecipe() {
               ) : null}
             </div>
           </div>
-          <p>More of {fileds.author.userName}:</p>
+          <p>More of {recipe.author.userName}:</p>
         </>
       )}
 
       <ShortRecipesList
-        items={items}
+        recipes={recipes}
         isLoading={isLoading}
         err={err}
       />

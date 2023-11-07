@@ -5,7 +5,7 @@ export const errorsSetter = (err, setErr) => {
   const errors = err.response.data.map((err) => err.msg)
   setErr(errors)
 }
-export function ErrorsList(props) {
+export function ErrorsList({ err, isLoading }) {
   const scrollTop = () => {
     window.scrollTo({
       top: 0,
@@ -13,16 +13,16 @@ export function ErrorsList(props) {
       behavior: 'smooth',
     })
   }
-  if (props.isLoading) {
+  if (isLoading) {
     return null
   }
   return (
     <>
-      {props.err.length > 0
+      {err.length > 0
         ? (scrollTop(),
           (
             <div className="errorContainer">
-              {props.err.map((err, index) => (
+              {err.map((err, index) => (
                 <Alert
                   key={index}
                   severity="error"

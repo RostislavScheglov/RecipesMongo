@@ -6,10 +6,10 @@ import likeBtnIcon from '../styles/assets/svgs/likeBtnIcon.svg'
 import dislikeBtnIcon from '../styles/assets/svgs/dislikeBtnIcon.svg'
 import '../styles/componentsStyles/LikeBtn.css'
 
-export const LikeBtn = (props) => {
+export const LikeBtn = ({ likedBy, id, isFullRecipe }) => {
   const isAuth = useSelector(isAuthUser)
   const user = useSelector(userId)
-  const [isFavourite, setIsFavourite] = useState(props.likedBy.includes(user))
+  const [isFavourite, setIsFavourite] = useState(likedBy.includes(user))
 
   const fetchLike = async (id) => {
     await axios
@@ -52,16 +52,12 @@ export const LikeBtn = (props) => {
         <div
           className="svgContainer"
           style={
-            props.isFullRecipe
-              ? { ...likeBtnFullRecipeStyles.svgContainer }
-              : {}
+            isFullRecipe ? { ...likeBtnFullRecipeStyles.svgContainer } : {}
           }
-          onClick={() => fetchLike(props.id)}
+          onClick={() => fetchLike(id)}
         >
           <span
-            style={
-              props.isFullRecipe ? {} : { ...likeBtnFullRecipeStyles.noneStyle }
-            }
+            style={isFullRecipe ? {} : { ...likeBtnFullRecipeStyles.noneStyle }}
           >
             Add to favourite
           </span>
@@ -69,9 +65,7 @@ export const LikeBtn = (props) => {
             src={likeBtnIcon}
             className="likeBtnSvg"
             alt="like Btn icon"
-            style={
-              props.isFullRecipe ? { ...likeBtnFullRecipeStyles.noneStyle } : {}
-            }
+            style={isFullRecipe ? { ...likeBtnFullRecipeStyles.noneStyle } : {}}
           />
         </div>
       ) : null}
@@ -80,16 +74,12 @@ export const LikeBtn = (props) => {
         <div
           className="svgContainer"
           style={
-            props.isFullRecipe
-              ? { ...likeBtnFullRecipeStyles.svgContainer }
-              : {}
+            isFullRecipe ? { ...likeBtnFullRecipeStyles.svgContainer } : {}
           }
-          onClick={() => fetchDisLike(props.id)}
+          onClick={() => fetchDisLike(id)}
         >
           <span
-            style={
-              props.isFullRecipe ? {} : { ...likeBtnFullRecipeStyles.noneStyle }
-            }
+            style={isFullRecipe ? {} : { ...likeBtnFullRecipeStyles.noneStyle }}
           >
             Delete from favourite
           </span>
@@ -97,9 +87,7 @@ export const LikeBtn = (props) => {
             src={dislikeBtnIcon}
             className="likeBtnSvg"
             alt="disLike btn Icon"
-            style={
-              props.isFullRecipe ? { ...likeBtnFullRecipeStyles.noneStyle } : {}
-            }
+            style={isFullRecipe ? { ...likeBtnFullRecipeStyles.noneStyle } : {}}
           />
         </div>
       ) : null}
